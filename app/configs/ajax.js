@@ -1,6 +1,7 @@
 
 import axios from 'axios'
-import { hashHistory } from 'react-router'
+import qs from 'qs'
+import { browserHistory } from 'react-router'
 import { timeout, baseURL } from '@config'
 import { message } from 'antd'
 import { parseQueryString } from './common'
@@ -12,7 +13,7 @@ let flag = true
 function logOut(text) {
   if (flag) {
     message.warning(text || '用户登录过期或从其他浏览器登录')
-    hashHistory.replace('/login')
+    browserHistory.replace('/login')
     flag = false
     setTimeout(() => flag = true, 0)
   }
@@ -34,12 +35,12 @@ let baseConfig = {
   // the server This is only applicable for request methods 'PUT', 'POST', and
   // 'PATCH' The last function in the array must return a string or an instance of
   // Buffer, ArrayBuffer, FormData or Stream
-  // transformRequest: [
-  //   function transformRequest(data) {
-  //     // Do whatever you want to transform the data
-  //     return data;
-  //   },
-  // ],
+  transformRequest: [
+    function transformRequest(data) {
+      // Do whatever you want to transform the data
+      return qs.stringify(data);
+    },
+  ],
 
   // `transformResponse` allows changes to the response data to be made before it
   // is passed to then/catch
@@ -52,7 +53,8 @@ let baseConfig = {
 
   // `headers` are custom headers to be sent
   headers: {
-    'Content-Type': 'text/plain',
+    //    'Content-Type': 'text/plain',
+    'Content-Type': 'application/x-www-form-urlencoded',
     // 'X-Requested-With': 'XMLHttpRequest',
   },
 
@@ -156,18 +158,24 @@ export const oftenFetchByPost = (api, options) => {
 
     const cancelToken = new CancelToken((c) => { hooks.abort = c })
     // 如果是用的30上的mock的服务，那么就默认不带cookie到服务器
-    if (options && (options.baseURL.indexOf('12602') !== -1)) {
-      baseConfig.withCredentials = false
-    } else {
-      baseConfig.withCredentials = true
-    }
+    baseConfig.withCredentials = false
+    //    if (options && (options.baseURL.indexOf('12602') !== -1)) {
+    //    } else {
+    //      baseConfig.withCredentials = false
+    //    }
     axios({
       ...baseConfig, ...options, ...config, url: api, data, cancelToken,
     })
       .then(response => response.data)
       .then((response) => {
+        console.log(response);
         switch (response.status) {
-          case 1: { success && success(response); break }
+          case 1:
+          case 'ok': {
+            success && success(response);
+            break;
+          }
+          case 'error':
           case 0: {
             // message.warning(response.msg)
             // failure && failure(response)
@@ -175,7 +183,7 @@ export const oftenFetchByPost = (api, options) => {
               failure(response)
             } else {
               // eslint-disable-next-line
-              if (response.msg === '系统内部错误!') {
+                if (response.msg === '系统内部错误!') {
                 message.error(response.msg)
               } else {
                 message.warning(response.msg)

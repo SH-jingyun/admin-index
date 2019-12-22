@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { hashHistory/* , Link */ } from 'react-router'
+import { browserHistory/* , Link */ } from 'react-router'
 import { Spin, Form, Icon, Input, Button, Row, Col, message } from 'antd'
 import { regExpConfig } from '@reg'
 import { brandName } from '@config'
@@ -63,6 +63,7 @@ export default class Login extends Component {
           sessionStorage.setItem('ticket', res.data.ticket)
           menu({}, (response) => {
             const nav = response.data.list || []
+            console.log(response)
             if (nav && nav[0]) {
               sessionStorage.setItem('gMenuList', JSON.stringify(nav))
               sessionStorage.setItem('topMenuReskey', nav[0].resKey)
@@ -70,7 +71,7 @@ export default class Login extends Component {
 
               staff({ usercode: query.username }, (resp) => {
                 sessionStorage.setItem('userinfo', JSON.stringify(resp.data))
-                hashHistory.push('/')
+                browserHistory.push('/')
               }, (r) => {
                 message.warning(r.msg)
                 this.setState({
@@ -142,9 +143,8 @@ export default class Login extends Component {
                                 {getFieldDecorator('password', {
                                   rules: [
                                     {
-                                      required: true, min: 6, max: 16, message: '密码为6-16个字符',
+                                      required: true, min: 6, max: 16,
                                     },
-                                    { pattern: regExpConfig.pwd, message: '密码由6-16位数字或者字母组成' },
                                   ],
                                 })(<Input addonBefore={<Icon type="lock" />} placeholder="请输入密码" type="password" />)}
                               </FormItem>
@@ -165,14 +165,6 @@ export default class Login extends Component {
               }
             </QueuiAnim>
           </div>
-          <QueuiAnim component="div" className="login-footer" delay={600} type="bottom" key="footer">
-            {
-              this.state.show ? [
-                <p key="0"> 浙江七巧板信息科技股份有限公司 </p>,
-              ] : null
-            }
-
-          </QueuiAnim>
         </div>
       </div>
     )

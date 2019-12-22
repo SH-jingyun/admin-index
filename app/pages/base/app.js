@@ -2,8 +2,8 @@
 import React, { Component } from 'react'
 // import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { hashHistory } from 'react-router'
-import { message, LocaleProvider } from 'antd'
+import { browserHistory } from 'react-router'
+import { message, ConfigProvider } from 'antd'
 import { validateTickit/* , parseQueryString */ } from '@configs/common'
 import { loginByKey } from '@apis/common'
 import zhCN from 'antd/lib/locale-provider/zh_CN'
@@ -169,14 +169,14 @@ export default class App extends Component {
         }
       })
       if (hasIndex) {
-        hashHistory.push(item.children[0].resKey)
+        browserHistory.push(item.children[0].resKey)
       } else {
-        hashHistory.push('mission$/my$')
+        browserHistory.push('mission$/my$')
       }
     } else if (item.children[0] && item.children[0] && item.children[0].children && item.children[0].children[0]) {
-      hashHistory.push(item.children[0].children[0].resKey)
+      browserHistory.push(item.children[0].children[0].resKey)
     } else {
-      hashHistory.push(item.children[0].resKey)
+      browserHistory.push(item.children[0].resKey)
     }
   }
 
@@ -186,7 +186,7 @@ export default class App extends Component {
       gMenuList, idRenderChild, isIframe, topMenuReskey, leftNav, menuStyle,
     } = this.state
     return (
-      <LocaleProvider locale={zhCN}>
+      <ConfigProvider locale={zhCN}>
         <div id="container">
           {
             /* 注释socket
@@ -221,7 +221,7 @@ export default class App extends Component {
             }
           </div>
         </div>
-      </LocaleProvider>
+      </ConfigProvider>
     )
   }
 }

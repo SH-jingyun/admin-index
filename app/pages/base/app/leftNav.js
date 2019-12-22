@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { hashHistory/* , Link  */ } from 'react-router'
+import { browserHistory/* , Link  */ } from 'react-router'
 // import { routerActions } from 'react-router-redux'
-import { Menu, Spin } from 'antd'
+import { Menu, Icon, Spin } from 'antd'
 // import { updateTabList } from '@actions/tabList'
 import { clearGformCache2 } from '@actions/common'
 
@@ -89,7 +89,7 @@ export default class LeftNav extends Component {
   // 菜单点击事件
   _handleClick = (e) => {
     this.props.dispatch(clearGformCache2({}))
-    hashHistory.push(`/${e.key}`)
+    browserHistory.push(`/${e.key}`)
   }
 
   onOpenChange = (openKeys) => {
