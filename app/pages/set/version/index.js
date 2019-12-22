@@ -177,7 +177,7 @@ export default class app extends Component {
     const uploadApp = {
       accept: '.apk',
       name: 'file',
-      action: 'http://api.demo/admin-base/test',
+      action: 'http://121.41.71.1/admin-base/test',
       //        headers: {
       //          authorization: 'authorization-text',
       //        },
