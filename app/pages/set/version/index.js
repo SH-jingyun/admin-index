@@ -8,6 +8,7 @@ import {
   fetchVersion,
   fetchVersionDetail,
 } from '@apis/manage';
+import { mockURL } from '@config';
 
 const FormItem = Form.Item
 
@@ -132,7 +133,7 @@ export default class app extends Component {
         title: 'apk地址',
         dataIndex: 'version_url',
         key: 'version_url',
-        render: (text, record, index) => <a href={`http://121.41.71.1/app/${text}`} target="__blank">下载</a>,
+        render: (text, record, index) => <a href={`${mockURL}/${text}`} target="__blank">下载</a>,
       },
       {
         title: '更新日志',
@@ -177,7 +178,7 @@ export default class app extends Component {
     const uploadApp = {
       accept: '.apk',
       name: 'file',
-      action: 'http://121.41.71.1/admin-base/test',
+      action: `${mockURL}/admin-base/test`,
       //        headers: {
       //          authorization: 'authorization-text',
       //        },

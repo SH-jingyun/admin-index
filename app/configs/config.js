@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === 'production') {
   _serverIp = 'http://121.41.71.1'
   _port = '8010'
   _baseURL = `${_serverIp}:${_port}`
-  _mockURL = 'http://121.41.71.1'
+  _mockURL = 'http://121.41.71.1:8020'
 }
 
 export const serverIp = _serverIp
