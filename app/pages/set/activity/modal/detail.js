@@ -120,6 +120,15 @@ export default class Index extends Component {
                 ],
               })(<Input placeholder="请输入活动最大次数" />)}
             </FormItem>
+            <FormItem {...formItemLayout} label="活动间隔时间（分钟）" hasFeedback>
+              {getFieldDecorator('activity_duration', {
+                initialValue: values.activity_duration || '',
+                rules: [
+                  { required: true, message: '请输入活动间隔时间' },
+                  { pattern: /^\d+$/, message: '请输入整数' },
+                ],
+              })(<Input placeholder="请输入活动间隔时间" />)}
+            </FormItem>
             {values.activity_type == 'sign' ?
               <Button
                 type="primary"

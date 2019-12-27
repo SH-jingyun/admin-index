@@ -208,6 +208,12 @@ export default class app extends Component {
         width: '15%',
       },
       {
+        title: '活动间隔时间（分钟）',
+        dataIndex: 'activity_duration',
+        key: 'activity_duration',
+        width: '15%',
+      },
+      {
         title: '创建时间',
         dataIndex: 'create_time',
         key: 'create_time',
