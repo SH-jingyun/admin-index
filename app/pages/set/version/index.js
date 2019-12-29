@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {
-  Button, Form, Layout, Input, message, Select, Upload, Icon,
+  Button, Form, Layout, Input, message, Select, Upload, Icon, Popconfirm
 } from 'antd';
 import TableList from '@tableList';
 import Drawer from '@components/draw/draw'
 import {
   fetchVersion,
-  fetchVersionDetail,
+  fetchVersionDetail
 } from '@apis/manage';
 import { mockURL } from '@config';
 
@@ -109,6 +109,13 @@ export default class app extends Component {
     this.state.searchKey.pageSize = pageSize;
     this.getData();
   };
+  
+  deleteButton = (id) => {
+    fetchVersionDetail({ version_id: id, action: 'delete'}, () => {
+      message.success('删除成功')
+        this.getData();
+    })
+  }
 
   // 生成表格头部信息
   renderColumn() {
@@ -153,6 +160,9 @@ export default class app extends Component {
             <span>
               <a onClick={() => this.handleInfo(record.version_id)}>详情</a>
             </span>
+            <Popconfirm title="删除?" onConfirm={() => this.deleteButton(record.version_id)}>
+              <a>删除</a>
+            </Popconfirm>
           </span>
         ),
       },

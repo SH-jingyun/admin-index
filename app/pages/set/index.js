@@ -6,5 +6,6 @@ import moduleManage from './moduleManage'
 import user from './user'
 import activity from './activity'
 import version from './version'
+import ad from './ad'
 
-export { userManage, roleManage, moduleManage, user, activity, version }
+export { userManage, roleManage, moduleManage, user, activity, version, ad }
