@@ -18,4 +18,7 @@ export const fetchActivityDetailUpdate = createApi(`${mockURL}/admin-activity/de
 // 版本管理
 export const fetchVersion = createApi(`${mockURL}/admin-version/list`) // 获取版本列表
 export const fetchVersionDetail = createApi(`${mockURL}/admin-version/detail`) // 获取版本列表
+// 版本管理
+export const fetchAd = createApi(`${mockURL}/admin-ad/list`)
+export const fetchAdDetail = createApi(`${mockURL}/admin-ad/detail`) 
 

@@ -5,8 +5,8 @@ import {
 import TableList from '@tableList';
 import Drawer from '@components/draw/draw'
 import {
-  fetchVersion,
-  fetchVersionDetail,
+  fetchAd,
+  fetchAdDetail,
 } from '@apis/manage';
 import { mockURL } from '@config';
 
@@ -31,7 +31,7 @@ export default class app extends Component {
       detail: {},
       showDetail: false,
       detailId: 0,
-      forceUpdateSelect: [{ key: 1, value: '是' }, { key: 0, value: '否' }],
+      forceUpdateSelect: [{ key: 1, value: '上线' }, { key: 0, value: '下线' }],
       //      fileList:[]
     };
   }
@@ -50,7 +50,7 @@ export default class app extends Component {
 
   // 获取活动列表数据
   getData(callback) {
-    fetchVersion({ ...this.state.searchKey }, (res) => {
+    fetchAd({ ...this.state.searchKey }, (res) => {
       this.setState({
         listResult: res.data,
       });
@@ -59,7 +59,7 @@ export default class app extends Component {
   }
 
   handleInfo(id) {
-    fetchVersionDetail({ version_id: id }, (res) => {
+    fetchAdDetail({ id: id }, (res) => {
       this.setState({
         detail: res.data,
         showDetail: true,
@@ -75,7 +75,7 @@ export default class app extends Component {
   handleSubmit() {
     this.props.form.validateFields((error, value) => {
       if (error) { return false; }
-      fetchVersionDetail({ ...value, version_id: this.state.detailId, action: 'edit' }, () => {
+      fetchAdDetail({ ...value, id: this.state.detailId, action: 'edit' }, () => {
         message.success('操作成功');
         // 新增成功
         let curpage = this.state.searchKey.pageNo;
@@ -130,13 +130,13 @@ export default class app extends Component {
         title: '图片',
         dataIndex: 'advertise_image',
         key: 'advertise_image',
-        render: (text) => (text ? "<img src={`${mockURL}/${text}`}/>" : ""),
+        render: (text) => (text ? <img class="auto_img" src={mockURL + "/" + text} /> : ""),
       },
       {
         title: '跳转链接',
         dataIndex: 'advertise_url',
         key: 'advertise_url',
-        render: (text) => (text =='http' ? "<a href={`${text}`} target='__blank'>${text}</a>" : ""),
+        render: (text, record) => (record.advertise_type == 'web' ? <a href={text} target='__blank'>{text}</a> : ""),
       },
       {
         title: '显示位置',
@@ -160,7 +160,7 @@ export default class app extends Component {
         render: (text, record, index) => (
           <span>
             <span>
-              <a onClick={() => this.handleInfo(record.version_id)}>详情</a>
+              <a onClick={() => this.handleInfo(record.advertise_id)}>详情</a>
             </span>
           </span>
         ),
@@ -185,7 +185,7 @@ export default class app extends Component {
       wrapperCol: { span: 12 },
     };
     const uploadImg = {
-      accept: '.apk',
+      accept: '.jpg,.png,.gif',
       name: 'file',
       action: `${mockURL}/admin-base/test`,
       //        headers: {
@@ -230,7 +230,7 @@ export default class app extends Component {
                     onClick={() => this.add()}
                   >
                     {' '}
-                      添加版本
+                      添加运营位
                   </Button>
                 </div>
               </div>
@@ -259,14 +259,14 @@ export default class app extends Component {
               <FormItem {...formItemLayout} label="类型" hasFeedback>
                 {getFieldDecorator('advertise_type', {
                   initialValue: `${this.state.detail.advertise_type || ''}`,
-                  rules: [{ required: true, message: '请选择类型' }],
-                })(<Select placeholder="请选择类型" size="large" >
-                  {forceUpdateSelect.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.value}</Option>)}
-                </Select>)}
+                  rules: [{ required: true, message: '请输入类型' }],
+                })(<Input placeholder="请输入类型" />)}
               </FormItem>
               <FormItem {...formItemLayout} label="图片" hasFeedback>
                 {getFieldDecorator(
-                  'advertise_image'
+                  'advertise_image', {
+//                  rules: [{ required: true, message: '请上传图片' }],
+                }
                 )(<Upload {...uploadImg}>
                   <Button>
                     <Icon type="upload" /> Click to Upload
@@ -283,9 +283,7 @@ export default class app extends Component {
                 {getFieldDecorator('advertise_location', {
                   initialValue: `${this.state.detail.advertise_location || ''}`,
                   rules: [{ required: true, message: '请选择显示位置' }],
-                })(<Select placeholder="请选择显示位置" size="large" >
-                  {forceUpdateSelect.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.value}</Option>)}
-                </Select>)}
+                })(<Input placeholder="请输入链接" />)}
               </FormItem>
               <FormItem {...formItemLayout} label="状态" hasFeedback>
                 {getFieldDecorator('advertise_status', {
