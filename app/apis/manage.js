@@ -22,6 +22,6 @@ export const fetchVersionDetail = createApi(`${mockURL}/admin-version/detail`) /
 export const fetchAd = createApi(`${mockURL}/admin-ad/list`)
 export const fetchAdDetail = createApi(`${mockURL}/admin-ad/detail`) 
 //提现管理
-export const fetchAd = createApi(`${mockURL}/admin-withdraw/list`)
-export const fetchAdDetail = createApi(`${mockURL}/admin-withdraw/detail`) 
+export const fetchWithdraw = createApi(`${mockURL}/admin-withdraw/list`)
+export const fetchWithdrawDetail = createApi(`${mockURL}/admin-withdraw/detail`) 
 
