@@ -187,7 +187,7 @@ export default class app extends Component {
     const uploadImg = {
       accept: '.jpg,.png,.gif',
       name: 'file',
-      action: `${mockURL}/admin-base/test`,
+      action: `${mockURL}/admin-base/upload`,
       //        headers: {
       //          authorization: 'authorization-text',
       //        },

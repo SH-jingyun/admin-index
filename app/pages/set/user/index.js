@@ -1,33 +1,19 @@
 import React, { Component } from 'react';
 import {
-  Spin,
-  notification,
-  Button,
-  Popconfirm,
-  Form,
-  Input,
-  message,
-  Layout,
+  Button, Form, Layout, Input, message, Select, Upload, Icon, Popconfirm
 } from 'antd';
 import TableList from '@tableList';
-import { synUser } from '@apis/common';
+import Drawer from '@components/draw/draw'
 import {
-
-  fetchUserDepttList,
-  fetchUserList,
-  fetchUserDetail,
-  fetchUserDelete,
-  fetchRoleList,
-  fetchChangeUserStatus,
+  fetchVersion,
+  fetchVersionDetail
 } from '@apis/manage';
-import TreeList from './treeList';
-import AddPolice from './modal/addPolice';
-import SelectRole from './modal/selectRole';
+import { mockURL } from '@config';
 
-const FormItem = Form.Item;
-const { Content, Sider } = Layout;
-const { fetchBtns } = require('@configs/common');
+const FormItem = Form.Item
 
+const { Content } = Layout;
+const { Option } = Select
 @Form.create({})
 // 声明组件  并对外输出
 export default class app extends Component {
@@ -35,33 +21,16 @@ export default class app extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // activeTab: 'list',
-      searchtitle: '',
-      PoliceAddVisible: false,
-      synchronizeLoading: false,
-      RoleVisible: false,
-      spinloading: true,
-      moduletitle: '',
-      moduletype: '',
-      currPeopleId: '',
-      // hasList: false,
       searchKey: {
-        keyword: '',
         pageSize: 10,
         pageNo: 1,
-        deptCode: '',
       },
-      btnRights: {
-        view: true,
-        freeze: true,
-        delete: true,
-        edit: true,
-        add: true,
-      }, // 按钮权限的数组
-      userDeptResult: { list: [], loading: false },
-      userListResult: { list: [], loading: false },
-      userDetailResult: { list: [], loading: false },
-      userRoleSetResult: { list: [], loading: false },
+      listResult: {},
+      detail: {},
+      showDetail: false,
+      detailId: 0,
+      forceUpdateSelect: [{ key: 1, value: '是' }, { key: 0, value: '否' }],
+      //      fileList:[]
     };
   }
 
@@ -70,256 +39,63 @@ export default class app extends Component {
     this.setState(() => {
       this.getData();
     });
-    //    // this.getBtnRights()
-    //    fetchRoleList({}, (res) => {
-    //      this.setState({ userRoleSetResult: res.data });
-    //    });
-    //    fetchUserDepttList({}, (res) => {
-    //      if (res.data.list.length > 0) {
-    //        this.setState(
-    //          {
-    //            userDeptResult: res.data,
-    //            spinloading: false,
-    //            searchKey: {
-    //              ...this.state.searchKey,
-    //              deptCode: res.data.list[0].deptCode,
-    //            },
-    //          },
-    //          () => {
-    //            this.getData(() => {
-    //              this.setState({
-    //                searchtitle: '杭州市',
-    //                // hasList: true,
-    //              });
-    //            });
-    //          },
-    //        );
-    //      } else {
-    //        this.setState({ spinloading: false });
-    //      }
-    //    });
   }
 
   // 组件已经加载到dom中
-  componentDidMount() {
-    this.props.form.setFieldsValue({ key: '' });
-  }
+  //  componentDidMount() {
+  //    this.props.form.setFieldsValue({ key: '' });
+  //  }
 
-  // #region 收缩业务代码功能
-
-  // 发送获取当前菜单的按钮权限
-  // getBtnRights() {
-  //   fetchBtns(this, btnRights => this.setState({ btnRights }));
-  // }
-
-  // 获取用户列表数据
+  // 获取活动列表数据
   getData(callback) {
-    fetchUserList({ ...this.state.searchKey }, (res) => {
+    fetchVersion({ ...this.state.searchKey }, (res) => {
       this.setState({
-        userListResult: res.data,
+        listResult: res.data,
       });
       callback && callback();
     });
   }
 
-  // 删除用户
-  // handleDelete(id) {
-  //   if (sessionStorage.getItem("userid") === id) {
-  //     message.warning("自己不能删除自己");
-  //     return;
-  //   }
-  //   const curUserListResult = this.state.userListResult;
-  //   let curpage = this.state.searchKey.pageNo;
-  //   fetchUserDelete(
-  //     { deptcode: this.state.searchKey.deptCode, id: id },
-  //     res => {
-  //       message.success(res.msg);
-  //       if (
-  //         curUserListResult.totalPage > 1 &&
-  //         curUserListResult.totalCount % 10 === 1
-  //       ) {
-  //         curpage -= 1;
-  //       }
-  //       this.setState(
-  //         {
-  //           searchKey: {
-  //             ...this.state.searchKey,
-  //             pageNo: curpage
-  //           }
-  //         },
-  //         () => {
-  //           this.getData();
-  //         }
-  //       );
-  //     }
-  //   );
-  // }
-
-  // 冻结、解冻用户
-  handleChangeStatus(id, status) {
-    fetchChangeUserStatus({ id: id, status: status }, (res) => {
-      message.success(res.msg);
-      this.getData();
+  handleInfo(id) {
+    fetchVersionDetail({ version_id: id }, (res) => {
+      this.setState({
+        detail: res.data,
+        showDetail: true,
+        detailId: id,
+      });
     });
   }
 
-  // 点击人员详情
-  handleUserInfo = (id) => {
-    fetchUserDetail({ id: id }, (res) => {
-      this.setState({
-        userDetailResult: res.data,
-        PoliceAddVisible: true,
-        moduletype: 'edit',
-        moduletitle: '详情',
-        currPeopleId: id,
-      });
-    });
-  };
+  add() {
+    this.setState({ detail: {}, showDetail: true, detailId: 0 });
+  }
 
-  // 点击人员角色
-  // handleUserRole(id) {
-  //   fetchUserDetail({ id: id }, res => {
-  //     this.setState({
-  //       userDetailResult: res.data,
-  //       RoleVisible: true,
-  //       currPeopleId: id
-  //     });
-  //   });
-  // }
-
-  // 搜索
-  handleSearch = (e) => {
-    e.preventDefault();
-    const keyword = this.props.form.getFieldValue('key');
-    this.setState(
-      {
-        spinloading: true,
-        searchKey: {
-          ...this.state.searchKey,
-          keyword: keyword,
-          pageNo: 1,
-        },
-      },
-      () => {
-        this.getData(() => {
-          this.setState({ spinloading: false });
-        });
-      },
-    );
-  };
-
-  // 点击树节点的时候获取 当前部门 deptid
-  onSelect = (info, title) => {
-    if (info && info.length > 0) {
-      this.setState(
-        {
-          spinloading: true,
-          searchtitle: title,
+  handleSubmit() {
+    this.props.form.validateFields((error, value) => {
+      if (error) { return false; }
+      fetchVersionDetail({ ...value, version_id: this.state.detailId, action: 'edit' }, () => {
+        message.success('操作成功');
+        // 新增成功
+        let curpage = this.state.searchKey.pageNo;
+        if (this.state.detailId == 0 && this.state.listResult && this.state.listResult.totalCount > 0) {
+          curpage = Math.floor(this.state.listResult.totalCount / this.state.searchKey.pageSize) + 1;
+        }
+        this.setState({
+          showDetail: false,
           searchKey: {
             ...this.state.searchKey,
-            deptCode: info[0],
-            pageNo: 1,
-            keyword: '',
+            pageNo: curpage,
           },
-        },
-        () => {
-          this.getData(() => {
-            this.setState({
-              spinloading: false,
-              // hasList: true,
-            });
-          });
-        },
-      );
-      this.props.form.setFieldsValue({ key: '' });
-    }
-  };
-
-  // 点击新增人员的时候判断部门 deptid  是否存在，有则弹窗新增
-  policeAdd() {
-    if (this.state.searchKey.deptCode) {
-      this.setState({
-        PoliceAddVisible: true,
-        moduletype: 'add',
-        moduletitle: '新增',
+          detailId: 0,
+          detail: {},
+        }, () => {
+          this.getData();
+        });
+      }, (res) => {
+        message.warning(res.msg)
       });
-    } else {
-      notification.error({
-        message: '错误',
-        description: '请先选择部门',
-      });
-    }
+    })
   }
-
-  synchronize() {
-    message.info('用户数据同步中');
-    this.setState(
-      {
-        synchronizeLoading: true,
-      },
-      () => {
-        synUser(
-          {},
-          () => {
-            message.success('用户数据同步完成');
-            this.setState({
-              synchronizeLoading: false,
-            });
-            this.getData();
-          },
-          (res) => {
-            message.warning(res.msg);
-            this.setState({
-              synchronizeLoading: false,
-            });
-          },
-        );
-      },
-    );
-  }
-
-  // 新增或编辑用户保存
-  handleOk = () => {
-    const curUserListResult = this.state.userListResult;
-    let curpage = this.state.searchKey.pageNo;
-    if (
-      this.state.moduletype === 'add' &&
-      curUserListResult &&
-      curUserListResult.totalCount > 0 &&
-      curUserListResult.totalCount % 10 === 0
-    ) {
-      curpage += 1;
-    }
-    this.setState(
-      {
-        PoliceAddVisible: false,
-        searchKey: {
-          ...this.state.searchKey,
-          pageNo: curpage,
-        },
-      },
-      () => {
-        this.getData();
-      },
-    );
-  };
-
-  // 新增用户modal取消
-  handleCancel = () => {
-    this.setState({ PoliceAddVisible: false });
-  };
-
-  // 角色弹窗确认事件
-  // handleOkRole() {
-  //   this.setState({ RoleVisible: false }, () => {
-  //     this.getData();
-  //   });
-  // }
-
-  // 角色弹窗取消事件
-  // handleCancelRole() {
-  //   this.setState({ RoleVisible: false });
-  // }
 
   // 页数改变事件
   pageChange = (newPage) => {
@@ -333,84 +109,62 @@ export default class app extends Component {
     this.state.searchKey.pageSize = pageSize;
     this.getData();
   };
+  
+  deleteButton = (id) => {
+    fetchVersionDetail({ version_id: id, action: 'delete'}, () => {
+      message.success('删除成功')
+        this.getData();
+    })
+  }
 
   // 生成表格头部信息
   renderColumn() {
     return [
       {
-        title: '姓名',
-        dataIndex: 'chineseName',
-        key: 'chineseName',
-        width: '15%',
+        title: '版本号',
+        dataIndex: 'version_id',
+        key: 'version_id',
       },
       {
-        title: '职务',
-        dataIndex: 'post',
-        key: 'post',
-        width: '15%',
+        title: '版本名称',
+        dataIndex: 'version_name',
+        key: 'version_name',
       },
       {
-        title: '帐号',
-        dataIndex: 'username',
-        key: 'username',
-        width: '15%',
+        title: '强制更新',
+        dataIndex: 'is_force_update',
+        key: 'force_update',
+        render: (text, record, index) => (text == 1 ? '是' : '否'),
       },
       {
-        title: '帐号状态',
-        dataIndex: 'statusLabel',
-        key: 'statusLabel',
-        width: '15%',
-        render: (text, record, index) => (
-          <span>{record.status ? '已冻结' : '正常'}</span>
-        ),
+        title: 'apk地址',
+        dataIndex: 'version_url',
+        key: 'version_url',
+        render: (text, record, index) => <a href={`${mockURL}/${text}`} target="__blank">下载</a>,
       },
       {
-        title: '角色',
-        dataIndex: 'roles',
-        key: 'roles',
-        width: '20%',
-        render: (text, record, index) => {
-          const roleNames = [];
-          (text || []).map((item) => {
-            roleNames.push(item.roleName);
-          });
-          return roleNames.length === 0 ? '' : roleNames.join(',');
-        },
+        title: '更新日志',
+        dataIndex: 'version_log',
+        key: 'version_log',
+      },
+      {
+        title: '创建时间',
+        dataIndex: 'create_time',
+        key: 'create_time',
       },
       {
         title: '操作',
         key: 'operate',
-        render: (text, record, index) => {
-          const { btnRights } = this.state;
-          return (
+        render: (text, record, index) => (
+          <span>
             <span>
-              {btnRights.view ? (
-                <span>
-                  <a onClick={() => this.handleUserInfo(record.id)}>详情</a>
-                  <span className="ant-divider" />
-                </span>
-              ) : null}
-              {btnRights.freeze ? (
-                <span>
-                  <Popconfirm
-                    title={`确认${record.status ? '解冻' : '冻结'}账户?`}
-                    placement="left"
-                    onConfirm={() => this.handleChangeStatus(record.id, `${record.status}`)}
-                  >
-                    <a>{record.status ? '解冻账户' : '冻结账户'}</a>
-                  </Popconfirm>
-                </span>
-              ) : null}
-              {/*
-                <span className="ant-divider" />
-                btnRights.delete ?
-                  <Popconfirm title="删除?" placement="left" onConfirm={() => this.handleDelete(record.id)}>
-                    <a>删除</a>
-                  </Popconfirm> : null
-              */}
+              <a onClick={() => this.handleInfo(record.version_id)}>详情</a>
             </span>
-          );
-        },
+            <Popconfirm title="删除?" onConfirm={() => this.deleteButton(record.version_id)}>
+              <a>删除</a>
+            </Popconfirm>
+          </span>
+        ),
       },
     ];
   }
@@ -420,13 +174,37 @@ export default class app extends Component {
   render() {
     const {
       userDeptResult,
-      userListResult,
-      userDetailResult,
-      userRoleSetResult,
+      listResult,
+      detailResult,
+      forceUpdateSelect,
+      //      userRoleSetResult,
     } = this.state;
-    const { btnRights } = this.state;
-    const { getFieldDecorator } = this.props.form;
-    const thevalue = this.state.moduletype === 'add' ? '' : userDetailResult;
+    // for detail
+    const { getFieldDecorator } = this.props.form
+    const formItemLayout = {
+      labelCol: { span: 10 },
+      wrapperCol: { span: 12 },
+    };
+    const uploadApp = {
+      accept: '.apk',
+      name: 'file',
+      action: `${mockURL}/admin-base/test`,
+      //        headers: {
+      //          authorization: 'authorization-text',
+      //        },
+      onChange(info) {
+        console.log(info);
+        if (info.file.status !== 'uploading') {
+          console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} file uploaded successfully`);
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    };
+    //    let {fileList} = this.state;
 
     return (
       <div className="page page-scrollfix page-usermanage">
@@ -435,22 +213,88 @@ export default class app extends Component {
             <Content>
               <div className="page-content has-pagination table-flex table-scrollfix">
                 <TableList
-                  rowKey="id"
+                  rowKey="version_id"
                   columns={this.renderColumn()}
-                  dataSource={userListResult.list}
+                  dataSource={listResult.list}
                   currentPage={this.state.searchKey.pageNo}
                   pageSize={this.state.searchKey.pageSize}
-                  loading={userListResult.loading}
-                  scroll={{ y: true }}
                   onChange={this.pageChange}
                   onShowSizeChange={this.pageSizeChange}
-                  totalCount={userListResult.totalCount}
+                  totalCount={listResult.totalCount}
                 />
+              </div>
+              <div className="page-footer">
+                <div className="page-footer-buttons">
+                  <Button
+                    type="primary"
+                    style={{ marginRight: '10px' }}
+                    onClick={() => this.add()}
+                  >
+                    {' '}
+                      添加版本
+                  </Button>
+                </div>
               </div>
             </Content>
           </Layout>
         </Layout>
+        {this.state.showDetail ? (<Drawer
+          visible
+          title={this.state.detailId ? '详情' : '新增'}
+          onCancel={() => { this.setState({ showDetail: false }) }}
+          footer={
+            <div>
+              <Button type="primary" onClick={this.handleSubmit.bind(this)}>确定</Button>
+              <Button onClick={() => { this.setState({ showDetail: false }) }}>取消</Button>
+            </div>}
+          className="modal-header modal-body"
+        >
+          <div className="modalcontent">
+            <Form layout="horizontal">
+              <FormItem {...formItemLayout} label="版本名称" hasFeedback>
+                {getFieldDecorator('version_name', {
+                  initialValue: this.state.detail.version_name || '',
+                  rules: [{ required: true, message: '请输入版本名称' }],
+                })(<Input placeholder="请输入版本名称" />)}
+              </FormItem>
+              <FormItem {...formItemLayout} label="是否强制更新" hasFeedback>
+                {getFieldDecorator('is_force_update', {
+                  initialValue: `${this.state.detail.is_force_update || ''}`,
+                  rules: [{ required: true, message: '请选择是否强制更新' }],
+                })(<Select placeholder="请选择是否强制更新" size="large" >
+                  {forceUpdateSelect.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.value}</Option>)}
+                </Select>)}
+              </FormItem>
+              <FormItem {...formItemLayout} label="版本apk" hasFeedback>
+                {getFieldDecorator(
+                  'version_url'
+                  , {
+                    rules: [{ required: true, message: '请上传apk' }],
+                  },
+                )(<Upload {...uploadApp}>
+                  <Button>
+                    <Icon type="upload" /> Click to Upload
+                  </Button>
+                </Upload>)}
+              </FormItem>
+              <FormItem {...formItemLayout} label="更新日志" hasFeedback>
+                {getFieldDecorator('version_log', {
+                  initialValue: this.state.detail.version_log || '',
+                })(<Input placeholder="请输入更新日志" />)}
+              </FormItem>
+            </Form>
+          </div>
+        </Drawer>)
+          : null
+        }
       </div>
     );
   }
 }
+//                    valuePropName: 'fileList',
+//                    getValueFromEvent: (e) => {
+//                      if (Array.isArray(e)) {
+//                        return e;
+//                      }
+//                      return e && e.fileList;
+//                    }

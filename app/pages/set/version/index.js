@@ -5,8 +5,8 @@ import {
 import TableList from '@tableList';
 import Drawer from '@components/draw/draw'
 import {
-  fetchVersion,
-  fetchVersionDetail
+  fetchWithdraw,
+  fetchWithdrawAction
 } from '@apis/manage';
 import { mockURL } from '@config';
 
@@ -48,7 +48,7 @@ export default class app extends Component {
 
   // 获取活动列表数据
   getData(callback) {
-    fetchVersion({ ...this.state.searchKey }, (res) => {
+    fetchWithdraw({ ...this.state.searchKey }, (res) => {
       this.setState({
         listResult: res.data,
       });
@@ -56,8 +56,8 @@ export default class app extends Component {
     });
   }
 
-  handleInfo(id) {
-    fetchVersionDetail({ version_id: id }, (res) => {
+  handleSuccess(id) {
+    fetchWithdrawAction({ withdraw_id: id, action:'success' }, (res) => {
       this.setState({
         detail: res.data,
         showDetail: true,
@@ -66,8 +66,14 @@ export default class app extends Component {
     });
   }
 
-  add() {
-    this.setState({ detail: {}, showDetail: true, detailId: 0 });
+  handleFailed(id) {
+    fetchWithdrawAction({ withdraw_id: id, action:'failed' }, (res) => {
+      this.setState({
+        detail: res.data,
+        showDetail: true,
+        detailId: id,
+      });
+    });
   }
 
   handleSubmit() {
@@ -121,31 +127,39 @@ export default class app extends Component {
   renderColumn() {
     return [
       {
-        title: '版本号',
-        dataIndex: 'version_id',
-        key: 'version_id',
+        title: '用户id',
+        dataIndex: 'user_id',
+        key: 'user_id',
       },
       {
-        title: '版本名称',
-        dataIndex: 'version_name',
-        key: 'version_name',
+        title: '提现金币数',
+        dataIndex: 'withdraw_amount',
+        key: 'withdraw_amount',
       },
       {
-        title: '强制更新',
-        dataIndex: 'is_force_update',
-        key: 'force_update',
-        render: (text, record, index) => (text == 1 ? '是' : '否'),
+        title: '提现金额',
+        dataIndex: 'withdraw_gold',
+        key: 'withdraw_gold',
       },
       {
-        title: 'apk地址',
-        dataIndex: 'version_url',
-        key: 'version_url',
-        render: (text, record, index) => <a href={`${mockURL}/${text}`} target="__blank">下载</a>,
+        title: '提现账号',
+        dataIndex: 'alipay_account',
+        key: 'alipay_account',
       },
       {
-        title: '更新日志',
-        dataIndex: 'version_log',
-        key: 'version_log',
+        title: '提现名称',
+        dataIndex: 'alipay_name',
+        key: 'alipay_name',
+      },
+      {
+        title: '提现状态',
+        dataIndex: 'withdraw_status',
+        key: 'withdraw_status',
+      },
+      {
+        title: '备注',
+        dataIndex: 'withdraw_remark',
+        key: 'withdraw_remark',
       },
       {
         title: '创建时间',
@@ -156,14 +170,15 @@ export default class app extends Component {
         title: '操作',
         key: 'operate',
         render: (text, record, index) => (
-          <span>
-            <span>
-              <a onClick={() => this.handleInfo(record.version_id)}>详情</a>
-            </span>
-            <Popconfirm title="删除?" onConfirm={() => this.deleteButton(record.version_id)}>
-              <a>删除</a>
+                'pending' == record.withdraw_status ? 
+          (<span>
+            <Popconfirm title="通过?" onConfirm={() => this.handleSuccess(record.withdraw_id)}>
+              <a>通过</a>
             </Popconfirm>
-          </span>
+            <Popconfirm title="拒绝?" onConfirm={() => this.handleFailed(record.withdraw_id)}>
+              <a>拒绝</a>
+            </Popconfirm>
+          </span>) : null
         ),
       },
     ];
@@ -188,7 +203,7 @@ export default class app extends Component {
     const uploadApp = {
       accept: '.apk',
       name: 'file',
-      action: `${mockURL}/admin-base/test`,
+      action: `${mockURL}/admin-base/upload`,
       //        headers: {
       //          authorization: 'authorization-text',
       //        },
@@ -222,18 +237,6 @@ export default class app extends Component {
                   onShowSizeChange={this.pageSizeChange}
                   totalCount={listResult.totalCount}
                 />
-              </div>
-              <div className="page-footer">
-                <div className="page-footer-buttons">
-                  <Button
-                    type="primary"
-                    style={{ marginRight: '10px' }}
-                    onClick={() => this.add()}
-                  >
-                    {' '}
-                      添加版本
-                  </Button>
-                </div>
               </div>
             </Content>
           </Layout>
@@ -291,10 +294,3 @@ export default class app extends Component {
     );
   }
 }
-//                    valuePropName: 'fileList',
-//                    getValueFromEvent: (e) => {
-//                      if (Array.isArray(e)) {
-//                        return e;
-//                      }
-//                      return e && e.fileList;
-//                    }
