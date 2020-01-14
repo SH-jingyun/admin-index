@@ -27,9 +27,8 @@ export default class app extends Component {
       },
       listResult: {},
       detail: {},
-      showDetail: false,
-      detailId: 0,
-      forceUpdateSelect: [{ key: 1, value: '是' }, { key: 0, value: '否' }],
+      showReason: false,
+      withdraw_id: 0,
       //      fileList:[]
     };
   }
@@ -58,48 +57,27 @@ export default class app extends Component {
 
   handleSuccess(id) {
     fetchWithdrawAction({ withdraw_id: id, action:'success' }, (res) => {
-      this.setState({
-        detail: res.data,
-        showDetail: true,
-        detailId: id,
-      });
-    });
-  }
-
-  handleFailed(id) {
-    fetchWithdrawAction({ withdraw_id: id, action:'failed' }, (res) => {
-      this.setState({
-        detail: res.data,
-        showDetail: true,
-        detailId: id,
-      });
-    });
-  }
-
-  handleSubmit() {
-    this.props.form.validateFields((error, value) => {
-      if (error) { return false; }
-      fetchVersionDetail({ ...value, version_id: this.state.detailId, action: 'edit' }, () => {
-        message.success('操作成功');
-        // 新增成功
-        let curpage = this.state.searchKey.pageNo;
-        if (this.state.detailId == 0 && this.state.listResult && this.state.listResult.totalCount > 0) {
-          curpage = Math.floor(this.state.listResult.totalCount / this.state.searchKey.pageSize) + 1;
-        }
-        this.setState({
-          showDetail: false,
-          searchKey: {
-            ...this.state.searchKey,
-            pageNo: curpage,
-          },
-          detailId: 0,
-          detail: {},
-        }, () => {
+      this.setState({}, () => {
           this.getData();
         });
-      }, (res) => {
-        message.warning(res.msg)
-      });
+    });
+  }
+  
+  handleReson(id){
+      this.setState({showReason:true, withdraw_id:id});
+  }
+
+  handleFailed() {
+    this.props.form.validateFields((error, value) => {
+        if (error) { return false; }
+        fetchWithdrawAction({...value, withdraw_id: this.state.withdraw_id, action:'failed' }, (res) => {
+          this.setState({
+            showReason:false,
+            withdraw_id:0
+          }, () => {
+          this.getData();
+        });
+        });
     })
   }
 
@@ -115,13 +93,6 @@ export default class app extends Component {
     this.state.searchKey.pageSize = pageSize;
     this.getData();
   };
-  
-  deleteButton = (id) => {
-    fetchVersionDetail({ version_id: id, action: 'delete'}, () => {
-      message.success('删除成功')
-        this.getData();
-    })
-  }
 
   // 生成表格头部信息
   renderColumn() {
@@ -132,12 +103,12 @@ export default class app extends Component {
         key: 'user_id',
       },
       {
-        title: '提现金币数',
+        title: '提现金额',
         dataIndex: 'withdraw_amount',
         key: 'withdraw_amount',
       },
       {
-        title: '提现金额',
+        title: '提现金币数',
         dataIndex: 'withdraw_gold',
         key: 'withdraw_gold',
       },
@@ -175,9 +146,9 @@ export default class app extends Component {
             <Popconfirm title="通过?" onConfirm={() => this.handleSuccess(record.withdraw_id)}>
               <a>通过</a>
             </Popconfirm>
-            <Popconfirm title="拒绝?" onConfirm={() => this.handleFailed(record.withdraw_id)}>
-              <a>拒绝</a>
-            </Popconfirm>
+            <span>
+              <a onClick={() => this.handleReson(record.withdraw_id)}>拒绝</a>
+            </span>
           </span>) : null
         ),
       },
@@ -221,6 +192,26 @@ export default class app extends Component {
             </Content>
           </Layout>
         </Layout>
+        {this.state.showReason ? (<Drawer
+          visible
+          title={'拒绝原因'}
+          onCancel={() => { this.setState({ showReason: false }) }}
+          footer={
+            <div>
+              <Button type="primary" onClick={this.handleFailed.bind(this)}>确定</Button>
+              <Button onClick={() => { this.setState({ showDetail: false }) }}>取消</Button>
+            </div>}
+          className="modal-header modal-body"
+        >
+          <div className="modalcontent">
+            <Form layout="horizontal">
+              <FormItem {...formItemLayout} label="拒绝原因" hasFeedback>
+                {getFieldDecorator('withdraw_remark')(<Input placeholder="请输入拒绝原因" />)}
+              </FormItem>
+            </Form>
+          </div>
+        </Drawer>) : null
+        }
       </div>
     );
   }
