@@ -251,6 +251,12 @@ export default class app extends Component {
         >
           <div className="modalcontent">
             <Form layout="horizontal">
+              <FormItem {...formItemLayout} label="版本号" hasFeedback>
+                {getFieldDecorator('version_id', {
+                  initialValue: this.state.detail.version_id || '',
+                  rules: [{ required: true, message: '请输入版本号' }],
+                })(<Input placeholder="请输入版本号" />)}
+              </FormItem>
               <FormItem {...formItemLayout} label="版本名称" hasFeedback>
                 {getFieldDecorator('version_name', {
                   initialValue: this.state.detail.version_name || '',
@@ -280,7 +286,7 @@ export default class app extends Component {
               <FormItem {...formItemLayout} label="更新日志" hasFeedback>
                 {getFieldDecorator('version_log', {
                   initialValue: this.state.detail.version_log || '',
-                })(<Input placeholder="请输入更新日志" />)}
+                })(<TextArea rows={4} placeholder="请输入更新日志" />}
               </FormItem>
             </Form>
           </div>
