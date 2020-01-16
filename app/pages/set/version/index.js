@@ -286,7 +286,7 @@ export default class app extends Component {
               <FormItem {...formItemLayout} label="更新日志" hasFeedback>
                 {getFieldDecorator('version_log', {
                   initialValue: this.state.detail.version_log || '',
-                })(<TextArea rows={4} placeholder="请输入更新日志" />}
+                })(<TextArea rows={4} placeholder="请输入更新日志" />)}
               </FormItem>
             </Form>
           </div>
