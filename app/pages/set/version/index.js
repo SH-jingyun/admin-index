@@ -14,6 +14,8 @@ const FormItem = Form.Item
 
 const { Content } = Layout;
 const { Option } = Select
+const { TextArea } = Input;
+
 @Form.create({})
 // 声明组件  并对外输出
 export default class app extends Component {
@@ -57,7 +59,7 @@ export default class app extends Component {
   }
 
   handleInfo(id) {
-    fetchVersionDetail({ version_id: id }, (res) => {
+    fetchVersionDetail({ id: id }, (res) => {
       this.setState({
         detail: res.data,
         showDetail: true,
@@ -73,7 +75,7 @@ export default class app extends Component {
   handleSubmit() {
     this.props.form.validateFields((error, value) => {
       if (error) { return false; }
-      fetchVersionDetail({ ...value, version_id: this.state.detailId, action: 'edit' }, () => {
+      fetchVersionDetail({ ...value, id: this.state.detailId, action: 'edit' }, () => {
         message.success('操作成功');
         // 新增成功
         let curpage = this.state.searchKey.pageNo;
@@ -111,7 +113,7 @@ export default class app extends Component {
   };
   
   deleteButton = (id) => {
-    fetchVersionDetail({ version_id: id, action: 'delete'}, () => {
+    fetchVersionDetail({ id: id, action: 'delete'}, () => {
       message.success('删除成功')
         this.getData();
     })
@@ -158,9 +160,9 @@ export default class app extends Component {
         render: (text, record, index) => (
           <span>
             <span>
-              <a onClick={() => this.handleInfo(record.version_id)}>详情</a>
+              <a onClick={() => this.handleInfo(record.id)}>详情</a>
             </span>
-            <Popconfirm title="删除?" onConfirm={() => this.deleteButton(record.version_id)}>
+            <Popconfirm title="删除?" onConfirm={() => this.deleteButton(record.id)}>
               <a>删除</a>
             </Popconfirm>
           </span>
@@ -188,7 +190,7 @@ export default class app extends Component {
     const uploadApp = {
       accept: '.apk',
       name: 'file',
-      action: `${mockURL}/admin-base/test`,
+      action: `${mockURL}/admin-base/upload`,
       //        headers: {
       //          authorization: 'authorization-text',
       //        },
@@ -274,9 +276,6 @@ export default class app extends Component {
               <FormItem {...formItemLayout} label="版本apk" hasFeedback>
                 {getFieldDecorator(
                   'version_url'
-                  , {
-                    rules: [{ required: true, message: '请上传apk' }],
-                  },
                 )(<Upload {...uploadApp}>
                   <Button>
                     <Icon type="upload" /> Click to Upload
