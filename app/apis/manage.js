@@ -9,6 +9,8 @@ const option = { baseURL: mockURL }
 // 用户
 export const fetchUserList = createApi(`${mockURL}/admin-user/list`) // 获取用户列表
 export const fetchUserDetail = createApi(`${mockURL}/admin-user/detail`, option) // 获取用户详情
+export const fetchChangeUserGold = createApi(`${mockURL}/admin-user/change-gold`, option) // 获取用户详情
+
 
 // 活动
 export const fetchActivity = createApi(`${mockURL}/admin-activity/list`) // 获取活动列表

@@ -1,7 +1,7 @@
 
 import { browserHistory } from 'react-router'
 import { message } from 'antd'
-import { loginByTicket, staff, nav, login as loginApi, getBtns } from '@apis/common'
+import { loginByTicket, staff, login as loginApi, getBtns } from '@apis/common'
 
 export function parseQueryString(url) {
   const obj = {}
@@ -45,31 +45,6 @@ export const isHasCurrentMenu = (allMenu, pathname) => compare(allMenu, pathname
 /* eslint-enable no-use-before-define */
 
 
-const _fetchNav = pathname => new Promise((resolve) => {
-  // try {
-  //   if (JSON.parse(sessionStorage.getItem('menu')).length > 0) {
-  //     resolve()
-  //     return
-  //   }
-  // } catch (e) { e }
-  nav({}, (response) => {
-    const { list } = response.data
-    if (list.length === 0) {
-      message.info('该账户没有任何菜单权限，请联系管理员')
-      browserHistory.replace('/login')
-      // this.setState({ loading: false })
-      return
-    }
-    sessionStorage.setItem('menu', JSON.stringify(list))
-    // TODO:添加完菜单权限后，需要增加以下代码
-    // if (pathname !== '/' && !isHasCurrentMenu(list, pathname)) {
-    //   if (process.env.NODE_ENV === 'production') {
-    //     browserHistory.replace('/')
-    //   }
-    // }
-    resolve()
-  })
-})
 
 /* 不管是否含有ticket参数都会在顶层组件中调用 */
 export const validateTickit = async function validateTickit({ query, pathname }, callback) {
@@ -89,12 +64,10 @@ export const validateTickit = async function validateTickit({ query, pathname },
     // if (typeof callback === 'function')callback()
     /*
     _fetchStaff()
-    _fetchNav(callback)
     */
   }
 
   const _a = _fetchStaff()
-  const _b = _fetchNav(pathname)
   await _a
   await _b
   if (typeof callback === 'function') callback()
@@ -132,7 +105,6 @@ export const login = (params, success, failure) => {
   loginApi(params, (response) => {
     sessionStorage.setItem('token', response.data.token)
     localStorage.setItem('sessionStorage', JSON.stringify(sessionStorage))
-    // _fetchNav().then(() => { success() })
     if (typeof success === 'function') success(response)
   }, (response) => {
     if (typeof failure === 'function') failure(response)

@@ -7,9 +7,6 @@ import { brandName } from '@config'
 import { logout } from '@apis/common'
 // import User from '@images/user.png'
 
-import EditPassword from './modal/editPassword'
-
-
 const { confirm } = Modal
 
 @connect((state, props) => ({
@@ -22,7 +19,6 @@ export default class Header extends Component {
     super(props)
     this.state = {
       loading: false,
-      editPasswordMadalIsOpen: false,
     }
     this.handleLogout = this.handleLogout.bind(this)
   }
@@ -52,21 +48,6 @@ export default class Header extends Component {
         })
       },
     })
-  }
-
-  // 取消修改密码弹窗
-  cancel = () => {
-    this.setState({ editPasswordMadalIsOpen: false })
-  }
-
-  // 确认修改密码弹窗
-  handleOk = () => {
-    this.setState({ editPasswordMadalIsOpen: false })
-  }
-
-  // 修改密码弹窗显示
-  editPasswordOpen = () => {
-    this.setState({ editPasswordMadalIsOpen: true })
   }
 
   logoClick = () => {
@@ -122,15 +103,6 @@ export default class Header extends Component {
             </Col>
           </Row>
         </div>
-        {
-          this.state.editPasswordMadalIsOpen ?
-            <EditPassword
-              handleOk={this.handleOk}
-              visible={this.state.editPasswordMadalIsOpen}
-              onCancel={this.cancel}
-            />
-            : null
-        }
       </header>
     )
   }

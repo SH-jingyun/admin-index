@@ -173,7 +173,7 @@ export default class Drawer extends Component {
           </div>
         </div>
       </div>,
-      this.popup,
+
     )
   }
 

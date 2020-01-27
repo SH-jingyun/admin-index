@@ -156,33 +156,30 @@ export default class Drawer extends Component {
     const drawTrasformClass = _class.drawTrasformClass || this.state.drawTrasformClass
     const maskTrasformClass = _class.maskTrasformClass || this.state.maskTrasformClass
 
-    ReactDOM.render(
-      <div className="drawer-wrap">
-        <div className={`${maskTrasformClass} ant-modal-mask`} onClick={() => this.removeDrawer()} />
-        <div className={`${drawTrasformClass} draw ${drawerSizeClass} ${this.props.className}`}>
-          <div className="ant-modal">
-            <div className="ant-modal-content">
-              <button className="ant-modal-close">
-                <span className="ant-modal-close-x" onClick={() => this.removeDrawer()} />
-              </button>
-              <div className="ant-modal-header">
-                <div className="ant-modal-title">{title}</div>
-              </div>
-              <AntModalBody context={this.context}>
-                {this.props.children}
-              </AntModalBody>
-              {
-                footer ?
-                  <div className="ant-modal-footer">
-                    {footer}
-                  </div> : null
-              }
+    ReactDOM.render(<div className="drawer-wrap">
+      <div className={`${maskTrasformClass} ant-modal-mask`} onClick={() => this.removeDrawer()} />
+      <div className={`${drawTrasformClass} draw ${drawerSizeClass} ${this.props.className}`}>
+        <div className="ant-modal">
+          <div className="ant-modal-content">
+            <button className="ant-modal-close">
+              <span className="ant-modal-close-x" onClick={() => this.removeDrawer()} />
+            </button>
+            <div className="ant-modal-header">
+              <div className="ant-modal-title">{title}</div>
             </div>
+            <AntModalBody context={this.context}>
+              {this.props.children}
+            </AntModalBody>
+            {
+              footer ?
+                <div className="ant-modal-footer">
+                  {footer}
+                </div> : null
+            }
           </div>
         </div>
-      </div>,
-      this.popup,
-    )
+      </div>
+    </div>, this.popup)
   }
 
   render() {

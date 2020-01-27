@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {
-  Button, Form, Layout, Input, message, Select, Upload, Icon, Popconfirm
+  Button, Form, Layout, Input, message, Select, Upload, Icon, Popconfirm,
 } from 'antd';
 import TableList from '@tableList';
 import Drawer from '@components/draw/draw'
 import {
   fetchVersion,
-  fetchVersionDetail
+  fetchVersionDetail,
 } from '@apis/manage';
 import { mockURL } from '@config';
 
@@ -111,11 +111,11 @@ export default class app extends Component {
     this.state.searchKey.pageSize = pageSize;
     this.getData();
   };
-  
+
   deleteButton = (id) => {
-    fetchVersionDetail({ id: id, action: 'delete'}, () => {
+    fetchVersionDetail({ id: id, action: 'delete' }, () => {
       message.success('删除成功')
-        this.getData();
+      this.getData();
     })
   }
 
@@ -136,13 +136,13 @@ export default class app extends Component {
         title: '强制更新',
         dataIndex: 'is_force_update',
         key: 'force_update',
-        render: (text, record, index) => (text == 1 ? '是' : '否'),
+        render: text => (text === '1' ? '是' : '否'),
       },
       {
         title: 'apk地址',
         dataIndex: 'version_url',
         key: 'version_url',
-        render: (text, record, index) => <a href={`${mockURL}/${text}`} target="__blank">下载</a>,
+        render: text => <a href={`${mockURL}/${text}`} target="__blank">下载</a>,
       },
       {
         title: '更新日志',
@@ -175,9 +175,7 @@ export default class app extends Component {
 
   render() {
     const {
-      userDeptResult,
       listResult,
-      detailResult,
       forceUpdateSelect,
       //      userRoleSetResult,
     } = this.state;
@@ -274,9 +272,7 @@ export default class app extends Component {
                 </Select>)}
               </FormItem>
               <FormItem {...formItemLayout} label="版本apk" hasFeedback>
-                {getFieldDecorator(
-                  'version_url'
-                )(<Upload {...uploadApp}>
+                {getFieldDecorator('version_url')(<Upload {...uploadApp}>
                   <Button>
                     <Icon type="upload" /> Click to Upload
                   </Button>

@@ -14,16 +14,8 @@ import { synUser } from '@apis/common';
 import {
   fetchActivity,
   fetchActivityDetail,
-
-  fetchUserDepttList,
-  fetchUserList,
-  fetchUserDetail,
-  fetchUserDelete,
-  fetchRoleList,
-  fetchChangeUserStatus,
 } from '@apis/manage';
 import Detail from './modal/detail';
-import SelectRole from './modal/selectRole';
 
 const FormItem = Form.Item;
 const { Content, Sider } = Layout;
@@ -58,9 +50,6 @@ export default class app extends Component {
 
   // 组件即将加载
   componentWillMount() {
-    //    fetchRoleList({}, (res) => {
-    //      this.setState({ userRoleSetResult: res.data });
-    //    });
     this.setState(() => {
       this.getData();
     });
