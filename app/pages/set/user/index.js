@@ -122,9 +122,24 @@ export default class app extends Component {
       },
       {
         title: '金币总数',
+        dataIndex: 'totalGold',
+        key: 'totalGold',
+        render: (text, record) => (<a onClick={() => browserHistory.push(`/gold/${record.user_id}`)}>{text}</a>),
+      },
+      {
+        title: '冻结金币数',
+        dataIndex: 'bolckedGold',
+        key: 'bolckedGold',
+      },
+      {
+        title: '当前金币数',
         dataIndex: 'currentGold',
         key: 'current_gold',
-        render: (text, record) => (<a onClick={() => browserHistory.push(`/gold/${record.user_id}`)}>{text}</a>),
+      },
+      {
+        title: '创建时间',
+        dataIndex: 'create_time',
+        key: 'create_time',
       },
       {
         title: '操作',
@@ -232,13 +247,18 @@ export default class app extends Component {
                 })(<Input disabled />)}
               </FormItem>
               <FormItem {...formItemLayout} label="金币总数" >
-                {getFieldDecorator('currentGold', {
-                  initialValue: this.state.detail.currentGold,
+                {getFieldDecorator('totalGold', {
+                  initialValue: this.state.detail.totalGold,
                 })(<Input disabled />)}
               </FormItem>
               <FormItem {...formItemLayout} label="冻结金币数" >
                 {getFieldDecorator('bolckedGold', {
                   initialValue: this.state.detail.bolckedGold,
+                })(<Input disabled />)}
+              </FormItem>
+              <FormItem {...formItemLayout} label="当前金币数" >
+                {getFieldDecorator('currentGold', {
+                  initialValue: this.state.detail.currentGold,
                 })(<Input disabled />)}
               </FormItem>
               <FormItem {...formItemLayout} label="支付宝账号" >
@@ -340,6 +360,11 @@ export default class app extends Component {
               <FormItem {...formItemLayout} label="MAC" >
                 {getFieldDecorator('MAC', {
                   initialValue: this.state.detail.MAC,
+                })(<Input disabled />)}
+              </FormItem>
+              <FormItem {...formItemLayout} label="创建时间" >
+                {getFieldDecorator('create_time', {
+                  initialValue: this.state.detail.create_time,
                 })(<Input disabled />)}
               </FormItem>
             </Form>
