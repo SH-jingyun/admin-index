@@ -1,24 +1,17 @@
 import React, { Component } from 'react';
 import {
-  Spin,
-  notification,
   Button,
-  Popconfirm,
   Form,
-  Input,
-  message,
   Layout,
 } from 'antd';
 import TableList from '@tableList';
-import { synUser } from '@apis/common';
 import {
   fetchActivity,
   fetchActivityDetail,
 } from '@apis/manage';
 import Detail from './modal/detail';
 
-const FormItem = Form.Item;
-const { Content, Sider } = Layout;
+const { Content } = Layout;
 
 @Form.create({})
 // 声明组件  并对外输出
@@ -49,16 +42,16 @@ export default class app extends Component {
   }
 
   // 组件即将加载
-  componentWillMount() {
+  componentWillMount = () => {
     this.setState(() => {
       this.getData();
     });
-  }
+  };
 
   // 组件已经加载到dom中
-  componentDidMount() {
+  componentDidMount = () => {
     this.props.form.setFieldsValue({ key: '' });
-  }
+  };
 
   // 获取活动列表数据
   getData(callback) {
@@ -81,27 +74,6 @@ export default class app extends Component {
         currPeopleId: id,
       });
     });
-  };
-
-  // 搜索
-  handleSearch = (e) => {
-    e.preventDefault();
-    const keyword = this.props.form.getFieldValue('key');
-    this.setState(
-      {
-        spinloading: true,
-        searchKey: {
-          ...this.state.searchKey,
-          keyword: keyword,
-          pageNo: 1,
-        },
-      },
-      () => {
-        this.getData(() => {
-          this.setState({ spinloading: false });
-        });
-      },
-    );
   };
 
   // 新增或编辑用户保存
@@ -183,24 +155,28 @@ export default class app extends Component {
         dataIndex: 'activity_award_min',
         key: 'activity_award_min',
         width: '15%',
+        render: (text, record) => (['sign', 'walk', 'walk_stage'].indexOf(record.activity_type) !== -1 ? '-' : text),
       },
       {
         title: '活动奖励最大值',
         dataIndex: 'activity_award_max',
         key: 'activity_award_max',
         width: '15%',
+        render: (text, record) => (['sign', 'walk', 'walk_stage'].indexOf(record.activity_type) !== -1 ? '-' : text),
       },
       {
         title: '活动最大次数（每日）',
         dataIndex: 'activity_max',
         key: 'activity_max',
         width: '15%',
+        render: (text, record) => (['sign', 'walk', 'walk_stage'].indexOf(record.activity_type) !== -1 ? '-' : text),
       },
       {
         title: '活动间隔时间（分钟）',
         dataIndex: 'activity_duration',
         key: 'activity_duration',
         width: '15%',
+        render: (text, record) => (['sign', 'walk', 'walk_stage'].indexOf(record.activity_type) !== -1 ? '-' : text),
       },
       {
         title: '创建时间',
@@ -227,14 +203,11 @@ export default class app extends Component {
 
   render() {
     const {
-      userDeptResult,
       listResult,
       detailResult,
-      //      userRoleSetResult,
     } = this.state;
     const { getFieldDecorator } = this.props.form;
     const thevalue = this.state.moduletype === 'add' ? '' : detailResult;
-    console.log(listResult);
 
     return (
       <div className="page page-scrollfix page-usermanage">

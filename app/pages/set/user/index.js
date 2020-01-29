@@ -11,6 +11,7 @@ import {
   fetchChangeUserGold,
 } from '@apis/manage';
 import { mockURL } from '@config';
+import {browserHistory} from "react-router";
 
 const FormItem = Form.Item
 
@@ -123,6 +124,7 @@ export default class app extends Component {
         title: '金币总数',
         dataIndex: 'currentGold',
         key: 'current_gold',
+        render: (text, record) => (<a onClick={() => browserHistory.push(`/gold/${record.user_id}`)}>{text}</a>),
       },
       {
         title: '操作',

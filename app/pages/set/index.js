@@ -5,5 +5,7 @@ import version from './version'
 import ad from './ad'
 import withdraw from './withdraw'
 import user from './user'
+import config from './config'
+import gold from './gold'
 
-export { activity, version, ad, withdraw, user }
+export { activity, version, ad, withdraw, user, config, gold }

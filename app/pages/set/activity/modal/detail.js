@@ -65,6 +65,7 @@ export default class Index extends Component {
       labelCol: { span: 10 },
       wrapperCol: { span: 12 },
     };
+    const isSpecial = (['sign', 'walk', 'walk_stage'].indexOf(values.activity_type) !== -1);
     (values.roleIds || []).map((item, index) => (values.roleIds.splice(index, 1, String(item))));
     return (
       <Drawer
@@ -93,51 +94,53 @@ export default class Index extends Component {
                 initialValue: values.activity_desc || '',
               })(<Input placeholder="请输入活动描述" />)}
             </FormItem>
-            <FormItem {...formItemLayout} label="活动奖励最小值" hasFeedback>
-              {getFieldDecorator('activity_award_min', {
-                initialValue: values.activity_award_min || '',
-                rules: [
-                  { required: true, message: '请输入活动奖励最小值' },
-                  { pattern: /^\d+$/, message: '请输入整数' },
-                ],
-              })(<Input placeholder="请输入活动奖励最小值" />)}
-            </FormItem>
-            <FormItem {...formItemLayout} label="活动奖励最大值" hasFeedback>
-              {getFieldDecorator('activity_award_max', {
-                initialValue: values.activity_award_max || '',
-                rules: [
-                  { required: true, message: '请输入活动奖励最大值' },
-                  { pattern: /^\d+$/, message: '请输入整数' },
-                ],
-              })(<Input placeholder="请输入活动奖励最大值" />)}
-            </FormItem>
-            <FormItem {...formItemLayout} label="活动最大次数（每日）" hasFeedback>
-              {getFieldDecorator('activity_max', {
-                initialValue: values.activity_max || '',
-                rules: [
-                  { required: true, message: '请输入活动最大次数' },
-                  { pattern: /^\d+$/, message: '请输入整数' },
-                ],
-              })(<Input placeholder="请输入活动最大次数" />)}
-            </FormItem>
-            <FormItem {...formItemLayout} label="活动间隔时间（分钟）" hasFeedback>
-              {getFieldDecorator('activity_duration', {
-                initialValue: values.activity_duration || '',
-                rules: [
-                  { required: true, message: '请输入活动间隔时间' },
-                  { pattern: /^\d+$/, message: '请输入整数' },
-                ],
-              })(<Input placeholder="请输入活动间隔时间" />)}
-            </FormItem>
-            {values.activity_type == 'sign' ?
+            { isSpecial ?
               <Button
                 type="primary"
                 style={{ marginRight: '10px' }}
-                onClick={() => browserHistory.push('/list')}
+                onClick={() => browserHistory.push(`/config/${values.activity_type}`)}
               >
                 {' '}
                       规则详情
-              </Button> : ''}
+              </Button> :
+              (<div>
+                <FormItem {...formItemLayout} label="活动奖励最小值" hasFeedback>
+                  {getFieldDecorator('activity_award_min', {
+                    initialValue: values.activity_award_min || '',
+                    rules: [
+                      { required: true, message: '请输入活动奖励最小值' },
+                      { pattern: /^\d+$/, message: '请输入整数' },
+                    ],
+                  })(<Input placeholder="请输入活动奖励最小值" />)}
+                </FormItem>
+                <FormItem {...formItemLayout} label="活动奖励最大值" hasFeedback>
+                  {getFieldDecorator('activity_award_max', {
+                    initialValue: values.activity_award_max || '',
+                    rules: [
+                      { required: true, message: '请输入活动奖励最大值' },
+                      { pattern: /^\d+$/, message: '请输入整数' },
+                    ],
+                  })(<Input placeholder="请输入活动奖励最大值" />)}
+                </FormItem>
+                <FormItem {...formItemLayout} label="活动最大次数（每日）" hasFeedback>
+                  {getFieldDecorator('activity_max', {
+                    initialValue: values.activity_max || '',
+                    rules: [
+                      { required: true, message: '请输入活动最大次数' },
+                      { pattern: /^\d+$/, message: '请输入整数' },
+                    ],
+                  })(<Input placeholder="请输入活动最大次数" />)}
+                </FormItem>
+                <FormItem {...formItemLayout} label="活动间隔时间（分钟）" hasFeedback>
+                  {getFieldDecorator('activity_duration', {
+                    initialValue: values.activity_duration || '',
+                    rules: [
+                      { required: true, message: '请输入活动间隔时间' },
+                      { pattern: /^\d+$/, message: '请输入整数' },
+                    ],
+                  })(<Input placeholder="请输入活动间隔时间" />)}
+                </FormItem></div>)
+            }
           </Form>
         </div>
       </Drawer>
