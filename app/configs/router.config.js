@@ -9,7 +9,8 @@ import * as sysSet from '@pages/set' // 设置中心-系统设置
 export default () => (
   <Router history={browserHistory}>
     <Route path="/" component={base.app} onEnter={isLogin}>
-      <IndexRoute component={sysSet.user} />
+      <IndexRoute component={sysSet.report} />
+      <Route path="/index" component={sysSet.report} />
       <Route path="/list" component={sysSet.user} />
       <Route path="/activity" component={sysSet.activity} />
       <Route path="/version" component={sysSet.version} />

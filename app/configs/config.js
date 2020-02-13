@@ -6,7 +6,7 @@ export const brandName = 'jingYun' // slogan
 let _serverIp = 'http://react.com'
 let _port = '80'
 let _baseURL = `${_serverIp}:${_port}`
-let _mockURL = 'http://api.demo'
+let _mockURL = 'http://phpapi.demo'
 
 if (process.env.NODE_ENV === 'production') {
   _serverIp = 'http://121.41.71.1'

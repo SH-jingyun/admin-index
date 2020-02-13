@@ -7,5 +7,6 @@ import withdraw from './withdraw'
 import user from './user'
 import config from './config'
 import gold from './gold'
+import report from './report'
 
-export { activity, version, ad, withdraw, user, config, gold }
+export { activity, version, ad, withdraw, user, config, gold, report }
