@@ -8,7 +8,7 @@ import {
   fetchVersion,
   fetchVersionDetail,
 } from '@apis/manage';
-import { mockURL } from '@config';
+import { httpsUrl } from '@config';
 
 const FormItem = Form.Item
 
@@ -142,7 +142,7 @@ export default class app extends Component {
         title: 'apk地址',
         dataIndex: 'version_url',
         key: 'version_url',
-        render: text => <a href={`${mockURL}/${text}`} target="__blank">下载</a>,
+        render: text => <a href={`${httpsUrl}/${text}`} target="__blank">下载</a>,
       },
       {
         title: '更新日志',
