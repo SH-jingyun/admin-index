@@ -8,7 +8,7 @@ import {
   fetchVersion,
   fetchVersionDetail,
 } from '@apis/manage';
-import { httpsUrl } from '@config';
+import { httpsUrl, mockURL } from '@config';
 
 const FormItem = Form.Item
 
