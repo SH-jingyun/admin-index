@@ -14,12 +14,10 @@ const FormItem = Form.Item
 
 const { Content } = Layout;
 const { Option } = Select
-//change
 @Form.create({})
 // 声明组件  并对外输出
 export default class app extends Component {
   // 初始化页面常量 绑定事件方法
-  //change
   constructor(props) {
     super(props);
     this.state = {
@@ -32,6 +30,7 @@ export default class app extends Component {
       showDetail: false,
       detailId: 0,
       forceUpdateSelect: [{ key: 1, value: '上线' }, { key: 0, value: '下线' }],
+      validityTypeSelect: [{ key: 'fixed', value: '固定' }, { key: 'limit', value: '限时' }],
       //      fileList:[]
     };
   }
@@ -113,13 +112,18 @@ export default class app extends Component {
   };
 
   // 生成表格头部信息
-  //change
+  // change
   renderColumn() {
     return [
       {
         title: '名称',
         dataIndex: 'advertise_name',
         key: 'advertise_name',
+      },
+      {
+        title: '副标题',
+        dataIndex: 'advertise_subtitle',
+        key: 'advertise_subtitle',
       },
       {
         title: '类型',
@@ -130,13 +134,13 @@ export default class app extends Component {
         title: '图片',
         dataIndex: 'advertise_image',
         key: 'advertise_image',
-        render: (text) => (text ? <img class="auto_img" src={mockURL + "/" + text} /> : ""),
+        render: text => (text ? <img className="auto_img" src={`${mockURL}/${text}`} /> : ''),
       },
       {
         title: '跳转链接',
         dataIndex: 'advertise_url',
         key: 'advertise_url',
-        render: (text, record) => (record.advertise_type == 'web' ? <a href={text} target='__blank'>{text}</a> : ""),
+        render: (text, record) => (record.advertise_type === 'web' ? <a href={text} target="__blank">{text}</a> : ''),
       },
       {
         title: '显示位置',
@@ -147,17 +151,23 @@ export default class app extends Component {
         title: '状态',
         dataIndex: 'advertise_status',
         key: 'advertise_status',
-        render: (text) => (text == 1 ? '在线' : '下线'),
+        render: text => (text === '1' ? '在线' : '下线'),
       },
       {
-        title: '创建时间',
-        dataIndex: 'create_time',
-        key: 'create_time',
+        title: '有效期',
+        dataIndex: 'advertise_validity_type',
+        key: 'advertise_validity_type',
+        render: (text, record) => (text === 'fixed' ? <span>{record.advertise_validity_start}<br />{record.advertise_validity_end}</span> : <span>{record.advertise_validity_length}天</span>),
+      },
+      {
+        title: '排序（从大到小显示）',
+        dataIndex: 'advertise_sort',
+        key: 'advertise_sort',
       },
       {
         title: '操作',
         key: 'operate',
-        render: (text, record, index) => (
+        render: (text, record) => (
           <span>
             <span>
               <a onClick={() => this.handleInfo(record.advertise_id)}>详情</a>
@@ -168,15 +178,11 @@ export default class app extends Component {
     ];
   }
 
-  // #endregion
-
   render() {
     const {
-      userDeptResult,
       listResult,
-      detailResult,
       forceUpdateSelect,
-      //      userRoleSetResult,
+      validityTypeSelect,
     } = this.state;
     // for detail
     const { getFieldDecorator } = this.props.form
@@ -188,9 +194,6 @@ export default class app extends Component {
       accept: '.jpg,.png,.gif',
       name: 'file',
       action: `${mockURL}/admin-base/upload`,
-      //        headers: {
-      //          authorization: 'authorization-text',
-      //        },
       onChange(info) {
         console.log(info);
         if (info.file.status !== 'uploading') {
@@ -203,7 +206,6 @@ export default class app extends Component {
         }
       },
     };
-    //    let {fileList} = this.state;
 
     return (
       <div className="page page-scrollfix page-usermanage">
@@ -256,18 +258,19 @@ export default class app extends Component {
                   rules: [{ required: true, message: '请输入名称' }],
                 })(<Input placeholder="请输入名称" />)}
               </FormItem>
+              <FormItem {...formItemLayout} label="副标题" hasFeedback>
+                {getFieldDecorator('advertise_subtitle', {
+                  initialValue: this.state.detail.advertise_subtitle || '',
+                })(<Input placeholder="请输入副标题" />)}
+              </FormItem>
               <FormItem {...formItemLayout} label="类型" hasFeedback>
                 {getFieldDecorator('advertise_type', {
-                  initialValue: `${this.state.detail.advertise_type || ''}`,
+                  initialValue: this.state.detail.advertise_type || '',
                   rules: [{ required: true, message: '请输入类型' }],
                 })(<Input placeholder="请输入类型" />)}
               </FormItem>
               <FormItem {...formItemLayout} label="图片" hasFeedback>
-                {getFieldDecorator(
-                  'advertise_image', {
-//                  rules: [{ required: true, message: '请上传图片' }],
-                }
-                )(<Upload {...uploadImg}>
+                {getFieldDecorator('advertise_image')(<Upload {...uploadImg}>
                   <Button>
                     <Icon type="upload" /> Click to Upload
                   </Button>
@@ -282,8 +285,36 @@ export default class app extends Component {
               <FormItem {...formItemLayout} label="显示位置" hasFeedback>
                 {getFieldDecorator('advertise_location', {
                   initialValue: `${this.state.detail.advertise_location || ''}`,
-                  rules: [{ required: true, message: '请选择显示位置' }],
-                })(<Input placeholder="请输入链接" />)}
+                  rules: [{ required: true, message: '请输入显示位置' }],
+                })(<Input placeholder="请输入显示位置" />)}
+              </FormItem>
+              <FormItem {...formItemLayout} label="排序" hasFeedback>
+                {getFieldDecorator('advertise_sort', {
+                  initialValue: `${this.state.detail.advertise_sort || ''}`,
+                })(<Input placeholder="请输入排序" />)}
+              </FormItem>
+              <FormItem {...formItemLayout} label="有效期类型" hasFeedback>
+                {getFieldDecorator('advertise_validity_type', {
+                  initialValue: `${this.state.detail.advertise_validity_type || ''}`,
+                  rules: [{ required: true, message: '请选择有效期类型' }],
+                })(<Select placeholder="请选择有效期类型" size="large" >
+                  {validityTypeSelect.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.value}</Option>)}
+                </Select>)}
+              </FormItem>
+              <FormItem {...formItemLayout} label="开始日期（固定）" hasFeedback>
+                {getFieldDecorator('advertise_validity_start', {
+                  initialValue: `${this.state.detail.advertise_validity_start || ''}`,
+                })(<Input placeholder="请输入有效期开始日期" />)}
+              </FormItem>
+              <FormItem {...formItemLayout} label="结束日期（固定）" hasFeedback>
+                {getFieldDecorator('advertise_validity_end', {
+                  initialValue: `${this.state.detail.advertise_validity_end || ''}`,
+                })(<Input placeholder="请输入有效期结束日期" />)}
+              </FormItem>
+              <FormItem {...formItemLayout} label="天数（限时）" hasFeedback>
+                {getFieldDecorator('advertise_validity_length', {
+                  initialValue: `${this.state.detail.advertise_validity_length || ''}`,
+                })(<Input placeholder="请输入有效期天数" />)}
               </FormItem>
               <FormItem {...formItemLayout} label="状态" hasFeedback>
                 {getFieldDecorator('advertise_status', {

@@ -8,5 +8,6 @@ import user from './user'
 import config from './config'
 import gold from './gold'
 import report from './report'
+import versionAd from './version-ad'
 
-export { activity, version, ad, withdraw, user, config, gold, report }
+export { activity, version, ad, withdraw, user, config, gold, report, versionAd }

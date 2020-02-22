@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import {
-  Button, Form, Layout, Input, message, Select, Upload, Icon, Popconfirm
+  Button, Form, Layout, Input, Popconfirm,
 } from 'antd';
 import TableList from '@tableList';
 import Drawer from '@components/draw/draw'
 import {
   fetchWithdraw,
-  fetchWithdrawAction
+  fetchWithdrawAction,
 } from '@apis/manage';
-import { mockURL } from '@config';
+import {browserHistory} from "react-router";
 
 const FormItem = Form.Item
 
 const { Content } = Layout;
-const { Option } = Select
 @Form.create({})
 // 声明组件  并对外输出
 export default class app extends Component {
@@ -29,7 +28,6 @@ export default class app extends Component {
       detail: {},
       showReason: false,
       withdraw_id: 0,
-      //      fileList:[]
     };
   }
 
@@ -39,11 +37,6 @@ export default class app extends Component {
       this.getData();
     });
   }
-
-  // 组件已经加载到dom中
-  //  componentDidMount() {
-  //    this.props.form.setFieldsValue({ key: '' });
-  //  }
 
   // 获取活动列表数据
   getData(callback) {
@@ -56,28 +49,28 @@ export default class app extends Component {
   }
 
   handleSuccess(id) {
-    fetchWithdrawAction({ withdraw_id: id, action:'success' }, (res) => {
+    fetchWithdrawAction({ withdraw_id: id, action: 'success' }, (res) => {
       this.setState({}, () => {
-          this.getData();
-        });
+        this.getData();
+      });
     });
   }
-  
-  handleReson(id){
-      this.setState({showReason:true, withdraw_id:id});
+
+  handleReson(id) {
+    this.setState({ showReason: true, withdraw_id: id });
   }
 
   handleFailed() {
     this.props.form.validateFields((error, value) => {
-        if (error) { return false; }
-        fetchWithdrawAction({...value, withdraw_id: this.state.withdraw_id, action:'failed' }, (res) => {
-          this.setState({
-            showReason:false,
-            withdraw_id:0
-          }, () => {
+      if (error) { return false; }
+      fetchWithdrawAction({ ...value, withdraw_id: this.state.withdraw_id, action: 'failed' }, (res) => {
+        this.setState({
+          showReason: false,
+          withdraw_id: 0,
+        }, () => {
           this.getData();
         });
-        });
+      });
     })
   }
 
@@ -128,28 +121,57 @@ export default class app extends Component {
         key: 'withdraw_status',
       },
       {
+        title: '用户手机品牌',
+        dataIndex: 'brand',
+        key: 'brand',
+      },
+      {
+        title: '用户手机型号',
+        dataIndex: 'model',
+        key: 'model',
+      },
+      {
+        title: '用户历史提现金额（元）',
+        dataIndex: 'total',
+        key: 'total',
+      },
+      {
+        title: '用户历史提现次数',
+        dataIndex: 'count',
+        key: 'count',
+      },
+      {
+        title: '用户创建时间',
+        dataIndex: 'user_time',
+        key: 'user_time',
+      },
+      {
         title: '备注',
         dataIndex: 'withdraw_remark',
         key: 'withdraw_remark',
       },
       {
-        title: '创建时间',
+        title: '提现申请时间',
         dataIndex: 'create_time',
         key: 'create_time',
       },
       {
         title: '操作',
         key: 'operate',
-        render: (text, record, index) => (
-                'pending' == record.withdraw_status ? 
-          (<span>
-            <Popconfirm title="通过?" onConfirm={() => this.handleSuccess(record.withdraw_id)}>
-              <a>通过</a>
-            </Popconfirm>
-            <span>
-              <a onClick={() => this.handleReson(record.withdraw_id)}>拒绝</a>
-            </span>
-          </span>) : null
+        render: (text, record) => (
+          <span>
+            <a onClick={() => browserHistory.push(`/gold/${record.user_id}`)}>金币明细</a>
+            <br />
+            {record.withdraw_status === 'pending' ?
+              (<span>
+                <Popconfirm title="通过?" onConfirm={() => this.handleSuccess(record.withdraw_id)}>
+                  <a>通过</a>
+                </Popconfirm>
+                <span>
+                  <a onClick={() => this.handleReson(record.withdraw_id)}>拒绝</a>
+                </span>
+              </span>) : null}
+          </span>
         ),
       },
     ];
@@ -159,11 +181,7 @@ export default class app extends Component {
 
   render() {
     const {
-      userDeptResult,
       listResult,
-      detailResult,
-      forceUpdateSelect,
-      //      userRoleSetResult,
     } = this.state;
     // for detail
     const { getFieldDecorator } = this.props.form
@@ -194,7 +212,7 @@ export default class app extends Component {
         </Layout>
         {this.state.showReason ? (<Drawer
           visible
-          title={'拒绝原因'}
+          title="拒绝原因"
           onCancel={() => { this.setState({ showReason: false }) }}
           footer={
             <div>

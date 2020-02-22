@@ -19,6 +19,7 @@ export default () => (
       <Route path="/user" component={sysSet.user} />
       <Route path="/config/:type" component={sysSet.config} />
       <Route path="/gold/:id" component={sysSet.gold} />
+      <Route path="/version-ad" component={sysSet.versionAd} />
     </Route>
     <Route path="/login" component={base.login} />
     <Route path="*" component={base.notfound} />

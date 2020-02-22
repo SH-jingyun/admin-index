@@ -9,9 +9,10 @@ import {
   fetchUserList,
   fetchUserDetail,
   fetchChangeUserGold,
+  fetchChangeUserStatus,
 } from '@apis/manage';
 import { mockURL } from '@config';
-import {browserHistory} from "react-router";
+import { browserHistory } from 'react-router';
 
 const FormItem = Form.Item
 
@@ -83,6 +84,15 @@ export default class app extends Component {
     })
   }
 
+  handleStatus(id) {
+    fetchChangeUserStatus({user_id: id }, () => {
+      message.success('操作成功');
+      this.getData();
+    }, (res) => {
+      message.warning(res.msg)
+    });
+  }
+
   // 页数改变事件
   pageChange = (newPage) => {
     this.state.searchKey.pageNo = newPage;
@@ -137,6 +147,17 @@ export default class app extends Component {
         key: 'current_gold',
       },
       {
+        title: '用户状态',
+        dataIndex: 'user_status',
+        key: 'user_status',
+        render: text => (text === '1' ? '正常' : '冻结'),
+      },
+      {
+        title: '最后登陆时间',
+        dataIndex: 'last_login_time',
+        key: 'last_login_time',
+      },
+      {
         title: '创建时间',
         dataIndex: 'create_time',
         key: 'create_time',
@@ -152,6 +173,10 @@ export default class app extends Component {
             <span>
               <a onClick={() => this.handleChangeGold(record.user_id)}>修改金币</a>
             </span>
+            <br />
+            <Popconfirm title={`确认${record.user_status === '1' ? '冻结' : '解冻'}用户`} onConfirm={() => this.handleStatus(record.user_id)}>
+              <a>{record.user_status === '1' ? '冻结' : '解冻'}用户</a>
+            </Popconfirm>
           </span>
         ),
       },
@@ -168,26 +193,6 @@ export default class app extends Component {
       labelCol: { span: 8 },
       wrapperCol: { span: 16 },
     };
-    const uploadApp = {
-      accept: '.apk',
-      name: 'file',
-      action: `${mockURL}/admin-base/upload`,
-      //        headers: {
-      //          authorization: 'authorization-text',
-      //        },
-      onChange(info) {
-        console.log(info);
-        if (info.file.status !== 'uploading') {
-          console.log(info.file, info.fileList);
-        }
-        if (info.file.status === 'done') {
-          message.success(`${info.file.name} file uploaded successfully`);
-        } else if (info.file.status === 'error') {
-          message.error(`${info.file.name} file upload failed.`);
-        }
-      },
-    };
-    //    let {fileList} = this.state;
 
     return (
       <div className="page page-scrollfix page-usermanage">
@@ -360,6 +365,16 @@ export default class app extends Component {
               <FormItem {...formItemLayout} label="MAC" >
                 {getFieldDecorator('MAC', {
                   initialValue: this.state.detail.MAC,
+                })(<Input disabled />)}
+              </FormItem>
+              <FormItem {...formItemLayout} label="邀请码" >
+                {getFieldDecorator('invited_code', {
+                  initialValue: this.state.detail.invited_code,
+                })(<Input disabled />)}
+              </FormItem>
+              <FormItem {...formItemLayout} label="最后登陆时间" >
+                {getFieldDecorator('last_login_time', {
+                  initialValue: this.state.detail.last_login_time,
                 })(<Input disabled />)}
               </FormItem>
               <FormItem {...formItemLayout} label="创建时间" >
