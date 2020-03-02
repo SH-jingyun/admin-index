@@ -94,21 +94,21 @@ export default class app extends Component {
         dataIndex: 'image1',
         key: 'image1',
         // eslint-disable-next-line eqeqeq,jsx-a11y/alt-text
-        render: text => (text != '' ? <img className="auto_img" src={`${mockURL}/${text}`} /> : ''),
+        render: text => (text ? <img className="auto_img" src={`${mockURL}/${text}`} /> : ''),
       },
       {
         title: '反馈图片2',
         dataIndex: 'image2',
         key: 'image2',
         // eslint-disable-next-line eqeqeq,jsx-a11y/alt-text
-        render: text => (text != '' ? <img className="auto_img" src={`${mockURL}/${text}`} /> : ''),
+        render: text => (text ? <img className="auto_img" src={`${mockURL}/${text}`} /> : ''),
       },
       {
         title: '反馈图片3',
         dataIndex: 'image3',
         key: 'image3',
         // eslint-disable-next-line eqeqeq,jsx-a11y/alt-text
-        render: text => (text != '' ? <img className="auto_img" src={`${mockURL}/${text}`} /> : ''),
+        render: text => (text ? <img className="auto_img" src={`${mockURL}/${text}`} /> : ''),
       },
       {
         title: '发生时间',

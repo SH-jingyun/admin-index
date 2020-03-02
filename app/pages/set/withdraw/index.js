@@ -121,6 +121,11 @@ export default class app extends Component {
         key: 'withdraw_status',
       },
       {
+        title: '用户手机号',
+        dataIndex: 'phone_number',
+        key: 'phone_number',
+      },
+      {
         title: '用户手机品牌',
         dataIndex: 'brand',
         key: 'brand',
