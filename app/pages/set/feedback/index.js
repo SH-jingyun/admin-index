@@ -91,23 +91,20 @@ export default class app extends Component {
       },
       {
         title: '反馈图片1',
-        dataIndex: 'image1',
-        key: 'image1',
-        // eslint-disable-next-line eqeqeq,jsx-a11y/alt-text
+        dataIndex: 'image_1',
+        key: 'image_1',
         render: text => (text ? <img className="auto_img" src={`${mockURL}/${text}`} /> : ''),
       },
       {
         title: '反馈图片2',
-        dataIndex: 'image2',
-        key: 'image2',
-        // eslint-disable-next-line eqeqeq,jsx-a11y/alt-text
+        dataIndex: 'image_2',
+        key: 'image_2',
         render: text => (text ? <img className="auto_img" src={`${mockURL}/${text}`} /> : ''),
       },
       {
         title: '反馈图片3',
-        dataIndex: 'image3',
-        key: 'image3',
-        // eslint-disable-next-line eqeqeq,jsx-a11y/alt-text
+        dataIndex: 'image_3',
+        key: 'image_3',
         render: text => (text ? <img className="auto_img" src={`${mockURL}/${text}`} /> : ''),
       },
       {
@@ -132,7 +129,7 @@ export default class app extends Component {
             <Content>
               <div className="page-content has-pagination table-flex table-scrollfix">
                 <TableList
-                  rowKey="version_id"
+                  rowKey="create_time"
                   columns={this.renderColumn()}
                   dataSource={listResult.list}
                   currentPage={this.state.searchKey.pageNo}
