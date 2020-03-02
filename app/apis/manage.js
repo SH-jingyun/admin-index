@@ -8,12 +8,15 @@ const option = { baseURL: mockURL }
 
 export const fetchReport = createApi(`${mockURL}/admin-index/list`); // 获取报表数据
 
+
 // 用户
 export const fetchUserList = createApi(`${mockURL}/admin-user/list`); // 获取用户列表
 export const fetchUserDetail = createApi(`${mockURL}/admin-user/detail`, option); // 获取用户详情
 export const fetchChangeUserGold = createApi(`${mockURL}/admin-user/change-gold`, option); // 修改用户金币
 export const fetchGold = createApi(`${mockURL}/admin-user/gold`, option); // 获取用户金币明细
 export const fetchChangeUserStatus = createApi(`${mockURL}/admin-user/change-status`, option); // 获取用户金币明细
+export const fetchFeedback = createApi(`${mockURL}/admin-user/feedback`); // 获取用户反馈
+export const fetchsdkError = createApi(`${mockURL}/admin-sdk/list`); // 获取三方错误码
 
 
 // 活动

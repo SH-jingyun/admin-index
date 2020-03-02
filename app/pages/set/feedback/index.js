@@ -4,8 +4,9 @@ import {
 } from 'antd';
 import TableList from '@tableList';
 import {
-  fetchReport,
+  fetchFeedback,
 } from '@apis/manage';
+import { mockURL } from '@config';
 
 const { Content } = Layout;
 
@@ -34,7 +35,7 @@ export default class app extends Component {
 
   // 获取活动列表数据
   getData(callback) {
-    fetchReport({ ...this.state.searchKey, id: this.props.params.id }, (res) => {
+    fetchFeedback({ ...this.state.searchKey, id: this.props.params.id }, (res) => {
       this.setState({
         listResult: res.data,
       });
@@ -59,39 +60,60 @@ export default class app extends Component {
   renderColumn() {
     return [
       {
-        title: '日期',
-        dataIndex: 'report_date',
-        key: 'report_date',
+        title: '用户Id',
+        dataIndex: 'user_id',
+        key: 'user_id',
       },
       {
-        title: '新用户数',
-        dataIndex: 'new_user',
-        key: 'new_user',
+        title: '手机品牌',
+        dataIndex: 'brand',
+        key: 'brand',
       },
       {
-        title: '发放金币数',
-        dataIndex: 'new_gold',
-        key: 'new_gold',
+        title: '手机型号',
+        dataIndex: 'model',
+        key: 'model',
       },
       {
-        title: '登陆用户数',
-        dataIndex: 'login_user',
-        key: 'login_user',
+        title: '手机号',
+        dataIndex: 'phone_number',
+        key: 'phone_number',
       },
       {
-        title: '提现金额',
-        dataIndex: 'withdraw_value',
-        key: 'withdraw_value',
+        title: '反馈内容',
+        dataIndex: 'content',
+        key: 'content',
       },
       {
-        title: '提现用户数',
-        dataIndex: 'withdraw_count',
-        key: 'withdraw_count',
+        title: '反馈手机号',
+        dataIndex: 'phone',
+        key: 'phone',
       },
       {
-        title: '分享用户数',
-        dataIndex: 'share_count',
-        key: 'share_count',
+        title: '反馈图片1',
+        dataIndex: 'image1',
+        key: 'image1',
+        // eslint-disable-next-line eqeqeq,jsx-a11y/alt-text
+        render: text => (text != '' ? <img className="auto_img" src={`${mockURL}/${text}`} /> : ''),
+      },
+      {
+        title: '反馈图片2',
+        dataIndex: 'image2',
+        key: 'image2',
+        // eslint-disable-next-line eqeqeq,jsx-a11y/alt-text
+        render: text => (text != '' ? <img className="auto_img" src={`${mockURL}/${text}`} /> : ''),
+      },
+      {
+        title: '反馈图片3',
+        dataIndex: 'image3',
+        key: 'image3',
+        // eslint-disable-next-line eqeqeq,jsx-a11y/alt-text
+        render: text => (text != '' ? <img className="auto_img" src={`${mockURL}/${text}`} /> : ''),
+      },
+      {
+        title: '发生时间',
+        dataIndex: 'create_time',
+        key: 'create_time',
       },
     ];
   }

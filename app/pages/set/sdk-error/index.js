@@ -4,7 +4,7 @@ import {
 } from 'antd';
 import TableList from '@tableList';
 import {
-  fetchReport,
+  fetchsdkError,
 } from '@apis/manage';
 
 const { Content } = Layout;
@@ -34,7 +34,7 @@ export default class app extends Component {
 
   // 获取活动列表数据
   getData(callback) {
-    fetchReport({ ...this.state.searchKey, id: this.props.params.id }, (res) => {
+    fetchsdkError({ ...this.state.searchKey, id: this.props.params.id }, (res) => {
       this.setState({
         listResult: res.data,
       });
@@ -59,39 +59,44 @@ export default class app extends Component {
   renderColumn() {
     return [
       {
-        title: '日期',
-        dataIndex: 'report_date',
-        key: 'report_date',
+        title: '错误来源',
+        dataIndex: 'sdk_source',
+        key: 'sdk_source',
       },
       {
-        title: '新用户数',
-        dataIndex: 'new_user',
-        key: 'new_user',
+        title: '版本号',
+        dataIndex: 'version_id',
+        key: 'version_id',
       },
       {
-        title: '发放金币数',
-        dataIndex: 'new_gold',
-        key: 'new_gold',
+        title: '错误代码',
+        dataIndex: 'error_code',
+        key: 'error_code',
       },
       {
-        title: '登陆用户数',
-        dataIndex: 'login_user',
-        key: 'login_user',
+        title: '代码位',
+        dataIndex: 'adpos_id',
+        key: 'adpos_id',
       },
       {
-        title: '提现金额',
-        dataIndex: 'withdraw_value',
-        key: 'withdraw_value',
+        title: '用户Id',
+        dataIndex: 'user_id',
+        key: 'user_id',
       },
       {
-        title: '提现用户数',
-        dataIndex: 'withdraw_count',
-        key: 'withdraw_count',
+        title: '手机品牌',
+        dataIndex: 'brand',
+        key: 'brand',
       },
       {
-        title: '分享用户数',
-        dataIndex: 'share_count',
-        key: 'share_count',
+        title: '手机型号',
+        dataIndex: 'model',
+        key: 'model',
+      },
+      {
+        title: '发生时间',
+        dataIndex: 'create_time',
+        key: 'create_time',
       },
     ];
   }

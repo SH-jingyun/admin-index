@@ -20,6 +20,8 @@ export default () => (
       <Route path="/config/:type" component={sysSet.config} />
       <Route path="/gold/:id" component={sysSet.gold} />
       <Route path="/version-ad" component={sysSet.versionAd} />
+      <Route path="/feedback" component={sysSet.feedback} />
+      <Route path="/sdk-error" component={sysSet.sdkError} />
     </Route>
     <Route path="/login" component={base.login} />
     <Route path="*" component={base.notfound} />

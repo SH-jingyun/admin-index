@@ -134,6 +134,7 @@ export default class app extends Component {
         title: '图片',
         dataIndex: 'advertise_image',
         key: 'advertise_image',
+        // eslint-disable-next-line jsx-a11y/alt-text
         render: text => (text ? <img className="auto_img" src={`${mockURL}/${text}`} /> : ''),
       },
       {
