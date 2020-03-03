@@ -129,7 +129,7 @@ export default class app extends Component {
             <Content>
               <div className="page-content has-pagination table-flex table-scrollfix">
                 <TableList
-                  rowKey="create_time"
+                  rowKey={(record, index) => index}
                   columns={this.renderColumn()}
                   dataSource={listResult.list}
                   currentPage={this.state.searchKey.pageNo}
