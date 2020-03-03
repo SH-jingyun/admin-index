@@ -8,7 +8,6 @@ import {
   fetchConfig,
   fetchConfigDetail,
 } from '@apis/manage';
-import { mockURL } from '@config';
 
 const FormItem = Form.Item
 
