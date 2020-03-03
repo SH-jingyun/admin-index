@@ -8,7 +8,7 @@ import {
   fetchWithdraw,
   fetchWithdrawAction,
 } from '@apis/manage';
-import {browserHistory} from "react-router";
+import { browserHistory } from 'react-router';
 
 const FormItem = Form.Item
 

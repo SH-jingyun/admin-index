@@ -22,6 +22,7 @@ export default () => (
       <Route path="/version-ad" component={sysSet.versionAd} />
       <Route path="/feedback" component={sysSet.feedback} />
       <Route path="/sdk-error" component={sysSet.sdkError} />
+      <Route path="/invited" component={sysSet.invited} />
     </Route>
     <Route path="/login" component={base.login} />
     <Route path="*" component={base.notfound} />

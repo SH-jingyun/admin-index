@@ -16,6 +16,7 @@ export const fetchChangeUserGold = createApi(`${mockURL}/admin-user/change-gold`
 export const fetchGold = createApi(`${mockURL}/admin-user/gold`, option); // 获取用户金币明细
 export const fetchChangeUserStatus = createApi(`${mockURL}/admin-user/change-status`, option); // 获取用户金币明细
 export const fetchFeedback = createApi(`${mockURL}/admin-user/feedback`); // 获取用户反馈
+export const fetchInvited = createApi(`${mockURL}/admin-user/invited`); // 获取用户邀请明细
 export const fetchsdkError = createApi(`${mockURL}/admin-sdk/list`); // 获取三方错误码
 
 
