@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Button, Form, Layout, Input, Popconfirm,
+  Button, Form, Layout, Input, Popconfirm, Select,
 } from 'antd';
 import TableList from '@tableList';
 import Drawer from '@components/draw/draw'
@@ -13,6 +13,7 @@ import { browserHistory } from 'react-router';
 const FormItem = Form.Item
 
 const { Content } = Layout;
+const { Option } = Select;
 @Form.create({})
 // 声明组件  并对外输出
 export default class app extends Component {
@@ -21,6 +22,7 @@ export default class app extends Component {
     super(props);
     this.state = {
       searchKey: {
+        status: '',
         pageSize: 10,
         pageNo: 1,
       },
@@ -28,6 +30,7 @@ export default class app extends Component {
       detail: {},
       showReason: false,
       withdraw_id: 0,
+      statusSelect: [{ key: 'pending', value: '未审核' }, { key: 'success', value: '审核通过' }, { key: 'failure', value: '审核未通过' }],
     };
   }
 
@@ -73,6 +76,24 @@ export default class app extends Component {
       });
     })
   }
+
+  // 搜索
+  handleSearch = (e) => {
+    e.preventDefault();
+    const status = this.props.form.getFieldValue('status');
+    this.setState(
+      {
+        searchKey: {
+          ...this.state.searchKey,
+          status: status,
+          pageNo: 1,
+        },
+      },
+      () => {
+        this.getData();
+      },
+    );
+  };
 
   // 页数改变事件
   pageChange = (newPage) => {
@@ -187,6 +208,7 @@ export default class app extends Component {
   render() {
     const {
       listResult,
+      statusSelect,
     } = this.state;
     // for detail
     const { getFieldDecorator } = this.props.form
@@ -200,6 +222,20 @@ export default class app extends Component {
         <Layout>
           <Layout className="page-body">
             <Content>
+              <div className="page-header">
+                <div className="layout-between">
+                  <Form className="flexrow" onSubmit={this.handleSearch}>
+                    <FormItem labelCol={{ span: 12 }} wrapperCol={{ span: 12 }} label="提现状态" style={{ width: '200px' }}>
+                      {getFieldDecorator('status')(<Select placeholder="All" size="large" >
+                        {statusSelect.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.key}</Option>)}
+                      </Select>)}
+                    </FormItem>
+                    <Button type="primary" htmlType="submit">
+                      搜索
+                    </Button>
+                  </Form>
+                </div>
+              </div>
               <div className="page-content has-pagination table-flex table-scrollfix">
                 <TableList
                   rowKey={(record, index) => index}

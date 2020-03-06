@@ -411,7 +411,7 @@ body{
   }
   .page-content{ padding:@space-big @space-big 0 @space-big;.flexcolumn; flex: auto;
     .page-content{padding:0;} // 如果已经有了content，那么下面的content就去除padding样式
-    .ant-table-wrapper{.flexcolumn; overflow-y: auto;max-height: 65vh; }
+    .ant-table-wrapper{.flexcolumn; overflow-y: auto;max-height: calc(~"100vh - 220px"); }
     .ant-pagination{ padding: @space-big 0 @space-big @space-big; display: flex; justify-content: flex-end; min-height: 28px;
       .ant-pagination-options-size-changer{ margin-right: 0;}
     }
