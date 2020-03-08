@@ -11,7 +11,6 @@ import {
   fetchChangeUserGold,
   fetchChangeUserStatus,
 } from '@apis/manage';
-import { mockURL } from '@config';
 import { browserHistory } from 'react-router';
 
 const FormItem = Form.Item
@@ -30,6 +29,7 @@ export default class app extends Component {
       searchKey: {
         pageSize: 10,
         pageNo: 1,
+        user_id: 0,
       },
       listResult: {},
       detail: {},
@@ -84,8 +84,27 @@ export default class app extends Component {
     })
   }
 
+  // 搜索
+  handleSearch = (e) => {
+    e.preventDefault();
+    // eslint-disable-next-line camelcase
+    const userId = this.props.form.getFieldValue('user_id');
+    this.setState(
+      {
+        searchKey: {
+          ...this.state.searchKey,
+          user_id: userId,
+          pageNo: 1,
+        },
+      },
+      () => {
+        this.getData();
+      },
+    );
+  };
+
   handleStatus(id) {
-    fetchChangeUserStatus({user_id: id }, () => {
+    fetchChangeUserStatus({ user_id: id }, () => {
       message.success('操作成功');
       this.getData();
     }, (res) => {
@@ -199,6 +218,18 @@ export default class app extends Component {
         <Layout>
           <Layout className="page-body">
             <Content>
+              <div className="page-header">
+                <div className="layout-between">
+                  <Form className="flexrow" onSubmit={this.handleSearch}>
+                    <FormItem labelCol={{ span: 12 }} wrapperCol={{ span: 12 }} label="用户Id" style={{ width: '200px' }}>
+                      {getFieldDecorator('user_id')(<Input />)}
+                    </FormItem>
+                    <Button type="primary" htmlType="submit">
+                      搜索
+                    </Button>
+                  </Form>
+                </div>
+              </div>
               <div className="page-content has-pagination table-flex table-scrollfix">
                 <TableList
                   rowKey={(record, index) => index}

@@ -42,7 +42,7 @@ export default class LeftNav extends Component {
     menu.map((item, index) => {
       arr.push(`sub${index + 1}`)
     })
-    this.setState({ rootSubmenuKeys: arr })
+    this.setState({ rootSubmenuKeys: arr, menuStyle: this.props.menuStyle })
   }
 
   // 确认当前要打开的菜单
