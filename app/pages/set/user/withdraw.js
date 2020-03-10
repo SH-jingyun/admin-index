@@ -22,6 +22,7 @@ export default class app extends Component {
     super(props);
     this.state = {
       searchKey: {
+        method: '',
         status: '',
         pageSize: 10,
         pageNo: 1,
@@ -31,6 +32,7 @@ export default class app extends Component {
       showReason: false,
       withdraw_id: 0,
       statusSelect: [{ key: 'pending', value: '未审核' }, { key: 'success', value: '审核通过' }, { key: 'failure', value: '审核未通过' }],
+      methodSelect: [{ key: 'alipay', value: '支付宝' }, { key: 'wechat', value: '微信' }],
     };
   }
 
@@ -81,11 +83,13 @@ export default class app extends Component {
   handleSearch = (e) => {
     e.preventDefault();
     const status = this.props.form.getFieldValue('status');
+    const mothod = this.props.form.getFieldValue('mothod');
     this.setState(
       {
         searchKey: {
           ...this.state.searchKey,
           status: status,
+          method: mothod,
           pageNo: 1,
         },
       },
@@ -215,6 +219,7 @@ export default class app extends Component {
     const {
       listResult,
       statusSelect,
+      methodSelect
     } = this.state;
     // for detail
     const { getFieldDecorator } = this.props.form
@@ -234,6 +239,11 @@ export default class app extends Component {
                     <FormItem labelCol={{ span: 12 }} wrapperCol={{ span: 12 }} label="提现状态" style={{ width: '200px' }}>
                       {getFieldDecorator('status')(<Select placeholder="All" size="large" >
                         {statusSelect.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.key}</Option>)}
+                      </Select>)}
+                    </FormItem>
+                    <FormItem labelCol={{ span: 12 }} wrapperCol={{ span: 12 }} label="提现渠道" style={{ width: '200px' }}>
+                      {getFieldDecorator('method')(<Select placeholder="All" size="large" >
+                        {methodSelect.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.key}</Option>)}
                       </Select>)}
                     </FormItem>
                     <Button type="primary" htmlType="submit">
