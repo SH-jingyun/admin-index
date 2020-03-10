@@ -83,13 +83,13 @@ export default class app extends Component {
   handleSearch = (e) => {
     e.preventDefault();
     const status = this.props.form.getFieldValue('status');
-    const mothod = this.props.form.getFieldValue('mothod');
+    const method = this.props.form.getFieldValue('method');
     this.setState(
       {
         searchKey: {
           ...this.state.searchKey,
           status: status,
-          method: mothod,
+          method: method,
           pageNo: 1,
         },
       },
