@@ -127,9 +127,15 @@ export default class app extends Component {
         key: 'withdraw_gold',
       },
       {
+        title: '提现渠道',
+        dataIndex: 'withdraw_method',
+        key: 'withdraw_method',
+      },
+      {
         title: '提现账号',
-        dataIndex: 'alipay_account',
-        key: 'alipay_account',
+        dataIndex: 'account',
+        key: 'account',
+        render: (text, record) => (record.withdraw_method === 'alipay' ? 'alipay_account' : 'wechat_openid'),
       },
       {
         title: '提现名称',
