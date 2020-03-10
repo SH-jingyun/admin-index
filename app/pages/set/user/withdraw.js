@@ -135,7 +135,7 @@ export default class app extends Component {
         title: '提现账号',
         dataIndex: 'account',
         key: 'account',
-        render: (text, record) => (record.withdraw_method === 'alipay' ? 'alipay_account' : 'wechat_openid'),
+        render: (text, record) => (record.withdraw_method === 'alipay' ? record.alipay_account : record.wechat_openid),
       },
       {
         title: '提现名称',
