@@ -16,11 +16,11 @@ if (process.env.NODE_ENV === 'production') {
   _mockURL = 'http://121.41.71.1:8020'
   _httpsUrl = 'https://www.stepcounter.cn:4420'
 } else if (process.env.NODE_ENV === 'qa') {
-  _serverIp = 'http://121.41.71.1'
-  _port = '8082'
+  _serverIp = 'http://jytest.darkness.ltd'
+  _port = '8002'
   _baseURL = `${_serverIp}:${_port}`
-  _mockURL = 'http://121.41.71.1:8081'
-  _httpsUrl = 'https://www.stepcounter.cn:4481'
+  _mockURL = 'http://121.41.71.1:8001'
+  _httpsUrl = _mockURL
 }
 
 export const serverIp = _serverIp
