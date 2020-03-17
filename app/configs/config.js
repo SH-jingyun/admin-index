@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === 'production') {
   _serverIp = 'http://jytest.darkness.ltd'
   _port = '8002'
   _baseURL = `${_serverIp}:${_port}`
-  _mockURL = 'http://121.41.71.1:8001'
+  _mockURL = 'http://jytest.darkness.ltd:8001'
   _httpsUrl = _mockURL
 }
 
