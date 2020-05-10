@@ -5,6 +5,7 @@ import { isLogin } from '@configs/common'
 
 import * as base from '@pages/base' // 基础
 import * as sysSet from '@pages/set' // 设置中心-系统设置
+import * as dogs from '@pages/dogs' // 设置中心-系统设置
 
 export default () => (
   <Router history={browserHistory}>
@@ -23,6 +24,8 @@ export default () => (
       <Route path="/feedback" component={sysSet.feedback} />
       <Route path="/sdk-error" component={sysSet.sdkError} />
       <Route path="/invited" component={sysSet.invited} />
+      <Route path="/dogs-version" component={dogs.version} />
+      <Route path="/dogs-version-ad" component={dogs.versionAd} />
     </Route>
     <Route path="/login" component={base.login} />
     <Route path="*" component={base.notfound} />

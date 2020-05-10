@@ -1,8 +1,7 @@
 
 import { createApi } from '@ajax'
-import { mockURL, /* baseURL, */ path } from '@config'
+import { mockURL, dogsUrl } from '@config'
 
-const prefix = ''
 const option = { baseURL: mockURL }
 
 
@@ -41,4 +40,11 @@ export const fetchAdDetail = createApi(`${mockURL}/admin-ad/detail`)
 // 提现管理
 export const fetchWithdraw = createApi(`${mockURL}/admin-withdraw/list`)
 export const fetchWithdrawAction = createApi(`${mockURL}/admin-withdraw/action`)
+
+// 狗狗世界
+// 版本信息
+export const dogsVersion = createApi(`${dogsUrl}/admin/version/list`) // 获取版本列表
+export const dogsVersionDetail = createApi(`${dogsUrl}/admin/version/detail`) // 获取版本列表
+export const dogsVersionAd = createApi(`${dogsUrl}/admin/version/adList`) // 获取版本列表
+export const dogsVersionAdDetail = createApi(`${dogsUrl}/admin/version/adDetail`) // 获取版本列表
 
