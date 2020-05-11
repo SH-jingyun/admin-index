@@ -33,3 +33,4 @@ export const baseURL = _baseURL
 export const mockURL = _mockURL
 export const httpsUrl = _httpsUrl
 export const dogsUrl = _dogsUrl
+export const walksOss = 'https://oss.stepcounter.cn/'
