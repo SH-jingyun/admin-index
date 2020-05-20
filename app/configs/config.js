@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'production') {
   _baseURL = `${_serverIp}:${_port}`
   _mockURL = 'http://121.41.71.1:8020'
   _httpsUrl = 'https://www.stepcounter.cn:4420'
-  _dogsUrl = 'http://localhost:8003'
+  _dogsUrl = 'https://www.dogsworld.top:4420'
 } else if (process.env.NODE_ENV === 'qa') {
   _serverIp = 'http://jytest.darkness.ltd'
   _port = '8002'
