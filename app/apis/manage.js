@@ -48,3 +48,6 @@ export const dogsVersionDetail = createApi(`${dogsUrl}/admin/version/detail`) //
 export const dogsVersionAd = createApi(`${dogsUrl}/admin/version/adList`) // 获取版本列表
 export const dogsVersionAdDetail = createApi(`${dogsUrl}/admin/version/adDetail`) // 获取版本列表
 
+export const fetchInterior = createApi(`${dogsUrl}/admin/user/interior`) // 获取内部用户列表
+export const fetchInteriorAdd = createApi(`${dogsUrl}/admin/user/interiorAdd`) // 添加内部用户
+

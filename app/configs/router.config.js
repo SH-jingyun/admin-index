@@ -26,6 +26,7 @@ export default () => (
       <Route path="/invited" component={sysSet.invited} />
       <Route path="/dogs-version" component={dogs.version} />
       <Route path="/dogs-version-ad" component={dogs.versionAd} />
+      <Route path="/dogs-interior" component={dogs.interior} />
     </Route>
     <Route path="/login" component={base.login} />
     <Route path="*" component={base.notfound} />
