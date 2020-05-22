@@ -229,8 +229,7 @@ export default class app extends Component {
                 <FormItem {...formItemLayout} label="余额" hasFeedback>
                   {getFieldDecorator('bonus', {
                     initialValue: `${this.state.detail.bonus || ''}`,
-                    rules: [{ required: true, message: '请输入余额' }],
-                  })(<Input placeholder="请输入余额" />)}
+                  })(<Input placeholder="余额1000-2000" />)}
                 </FormItem>
                 <FormItem {...formItemLayout} label="是否有分红狗" hasFeedback>
                   {getFieldDecorator('has_dogs', {
