@@ -30,6 +30,7 @@ export default class app extends Component {
         pageSize: 10,
         pageNo: 1,
         user_id: 0,
+        invited_code: 0,
       },
       listResult: {},
       detail: {},
@@ -89,11 +90,13 @@ export default class app extends Component {
     e.preventDefault();
     // eslint-disable-next-line camelcase
     const userId = this.props.form.getFieldValue('user_id');
+    const invitedCode = this.props.form.getFieldValue('invited_code');
     this.setState(
       {
         searchKey: {
           ...this.state.searchKey,
           user_id: userId,
+          invited_code: invitedCode,
           pageNo: 1,
         },
       },
@@ -223,6 +226,9 @@ export default class app extends Component {
                   <Form className="flexrow" onSubmit={this.handleSearch}>
                     <FormItem labelCol={{ span: 12 }} wrapperCol={{ span: 12 }} label="用户Id" style={{ width: '200px' }}>
                       {getFieldDecorator('user_id')(<Input />)}
+                    </FormItem>
+                    <FormItem labelCol={{ span: 12 }} wrapperCol={{ span: 12 }} label="用户邀请码" style={{ width: '200px' }}>
+                      {getFieldDecorator('invited_code')(<Input />)}
                     </FormItem>
                     <Button type="primary" htmlType="submit">
                       搜索

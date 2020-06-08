@@ -52,4 +52,5 @@ export const fetchInterior = createApi(`${dogsUrl}/admin/user/interior`) // 获�
 export const fetchInteriorAdd = createApi(`${dogsUrl}/admin/user/interiorAdd`) // 添加内部用户
 export const dogsWithdraw = createApi(`${dogsUrl}/admin/user/withdraw`) // 获取内部用户列表
 export const dogsWithdrawAction = createApi(`${dogsUrl}/admin/user/withdrawAction`) // 添加内部用户
+export const dogsUserList = createApi(`${dogsUrl}/admin/user/list`) // 获取用户列表
 

@@ -182,14 +182,19 @@ export default class app extends Component {
         key: 'user_time',
       },
       {
-        title: '备注',
-        dataIndex: 'withdraw_remark',
-        key: 'withdraw_remark',
-      },
-      {
         title: '提现申请时间',
         dataIndex: 'create_time',
         key: 'create_time',
+      },
+      {
+        title: '友盟分值',
+        dataIndex: 'umeng_score',
+        key: 'umeng_score',
+      },
+      {
+        title: '备注',
+        dataIndex: 'withdraw_remark',
+        key: 'withdraw_remark',
       },
       {
         title: '操作',
