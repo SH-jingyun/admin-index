@@ -28,7 +28,7 @@ export default () => (
       <Route path="/dogs-version-ad" component={dogs.versionAd} />
       <Route path="/dogs-interior" component={dogs.interior} />
       <Route path="/dogs-withdraw" component={dogs.withdraw} />
-      <Route path="/dogs-list" component={dogs.user} />
+      <Route path="/dogs-user" component={dogs.user} />
     </Route>
     <Route path="/login" component={base.login} />
     <Route path="*" component={base.notfound} />

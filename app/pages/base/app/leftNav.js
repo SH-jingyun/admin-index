@@ -54,35 +54,65 @@ export default class LeftNav extends Component {
     const curPath = `${pathname.split('$')[0]}`.replace('/', '')
     if (curPath === '') { // 如果是默认首页，那么就不用往下计算了
       this.setState({
-        openKeys: ['sub1'],
+        openKeys: [],
       })
       return
     }
-    let count = 0
+    // let count = 0
 
     // 定义一个标签语句
     // eslint-disable-next-line
-      jumpOut1: 
+    //   jumpOut1:
+    // for (let i = 0; i < menu.length; i += 1) {
+    //   const item = menu[i]
+    //   count += 1
+    //   if (item.resKey && curPath === item.resKey.split('$')[0].replace('/', '')) {
+    //     // eslint-disable-next-line
+    //       break jumpOut1
+    //   } else if (item.children && item.children.length > 0) {
+    //     // eslint-disable-next-line
+    //       jumpOut2:
+    //     for (let j = 0; j < item.children.length; j += 1) {
+    //       const record = item.children[j]
+    //       if (item.resKey && curPath === record.resKey.split('$')[0].replace('/', '')) {
+    //         // eslint-disable-next-line
+    //           break jumpOut1
+    //       }
+    //     }
+    //   }
+    // }
+
+    const open = [];
+    // eslint-disable-next-line no-labels,no-restricted-syntax
+    jumpOut1:
     for (let i = 0; i < menu.length; i += 1) {
       const item = menu[i]
-      count += 1
-      if (item.resKey && curPath === item.resKey.split('$')[0].replace('/', '')) {
-        // eslint-disable-next-line
-          break jumpOut1
+      if (item.resKey && curPath === item.resKey) {
+        open.push(`sub${item.id}`)
+        break
       } else if (item.children && item.children.length > 0) {
-        // eslint-disable-next-line
-          jumpOut2: 
-        for (let j = 0; j < item.children.length; j += 1) {
-          const record = item.children[j]
-          if (item.resKey && curPath === record.resKey.split('$')[0].replace('/', '')) {
+        const child = item.children
+        for (let j = 0; j < child.length; j += 1) {
+          const record = child[j]
+          if (record.resKey && curPath === record.resKey) {
+            open.push(`sub${item.id}`)
             // eslint-disable-next-line
-              break jumpOut1
+            break jumpOut1
+          } else if (record.children && record.children.length > 0) {
+            const child2 = record.children
+            for (let n = 0; n < child2.length; n++) {
+              const record2 = child2[n]
+              if (record2.resKey && curPath === record2.resKey) {
+                open.push(`sub${item.id}`)
+                open.push(`sub${record.id}`)
+              }
+            }
           }
         }
       }
     }
     this.setState({
-      openKeys: [`sub${count - 1}`],
+      openKeys: open,
     })
   }
 
@@ -115,38 +145,31 @@ export default class LeftNav extends Component {
   // 二级菜单的生成
   renderLeftNav = (options) => {
     const { menu } = this.state
-    return menu.map((item, index) => {
-      if (!item.children || item.children.length === 0) {
-        return (
-          <Menu.Item key={item.resKey ? item.resKey : item.id} name={item.resName} style={{ paddingLeft: 0 }}>
-            <i className={`qqbicon qqbicon-${item.resIcon}`} title={item.resName} />
-            <span className="menu-name">{item.resName}</span>
-          </Menu.Item>
-        )
-      }
-      const key = `sub${index}`
-      return (
-        <SubMenu key={key}
-          title={
-            <span>
-              <i className={`qqbicon qqbicon-${item.resIcon}`} title={item.resName} />
-              <span className="menu-name">{item.resName}</span>
-            </span>
-          }
-        >
-          {
-            item.children.map((child, _index) =>
-              (
-                <Menu.Item key={child.resKey ? child.resKey : child.id} name={child.resName}>
-                  <i className={`qqbicon qqbicon-${child.resIcon}`} title={child.resName} />
-                  <span className="menu-name">{child.resName}</span>
-                </Menu.Item>
-              ))
-          }
-        </SubMenu>
-      )
-    })
+    return menu.map((item, index) =>
+      ((!item.children || item.children.length === 0) ? this.renderMenuItem(item) : this.renderSubMenu(item)))
   }
+
+
+  renderMenuItem = item => (
+    <Menu.Item key={item.resKey}>
+      {item.resIcon && <i className={`qqbicon qqbicon-${item.resIcon}`} title={item.resName} />}
+      <span className="menu-name">{item.resName}</span>
+    </Menu.Item>
+  )
+
+  renderSubMenu = (item) => {
+    return (<Menu.SubMenu
+      key={`sub${item.id}`}
+      title={
+        <span>
+          {item.resIcon && <i className={`qqbicon qqbicon-${item.resIcon}`} title={item.resName} />}
+          <span className="nav-text">{item.resName}</span>
+        </span>
+      }
+    >
+      {item.children.map(child => ((!child.children || child.children.length === 0) ? this.renderMenuItem(child) : this.renderSubMenu(child)))}
+    </Menu.SubMenu>)
+  };
 
   // 左侧菜单高亮的控制
   leftMenuHighLight = () => {
