@@ -4,8 +4,9 @@ import { Router, Route, IndexRoute, browserHistory/* , Redirect */ } from 'react
 import { isLogin } from '@configs/common'
 
 import * as base from '@pages/base' // 基础
-import * as sysSet from '@pages/set' // 设置中心-系统设置
-import * as dogs from '@pages/dogs' // 设置中心-系统设置
+import * as sysSet from '@pages/set' // 计步宝
+import * as dogs from '@pages/dogs' // 狗狗世界
+import * as ad from '@pages/ad' // 广告系统
 
 export default () => (
   <Router history={browserHistory}>
@@ -29,6 +30,11 @@ export default () => (
       <Route path="/dogs-interior" component={dogs.interior} />
       <Route path="/dogs-withdraw" component={dogs.withdraw} />
       <Route path="/dogs-user" component={dogs.user} />
+      <Route path="/ad-app" component={ad.app} />
+      <Route path="/ad-position" component={ad.position} />
+      <Route path="/ad-user-group" component={ad.userGroup} />
+      <Route path="/ad-strategy" component={ad.strategy} />
+      <Route path="/ad-code" component={ad.code} />
     </Route>
     <Route path="/login" component={base.login} />
     <Route path="*" component={base.notfound} />
