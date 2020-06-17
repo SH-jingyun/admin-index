@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'production') {
   _baseURL = 'http://jytest.darkness.ltd:8002'
   _walksURL = 'http://jytest.darkness.ltd:8001'
   _dogsUrl = 'http://jytest.darkness.ltd:8003'
-  _adUrl = 'http://localhost:8004'
+  _adUrl = 'http://jytest.darkness.ltd:8004'
 }
 
 export const path = ''
