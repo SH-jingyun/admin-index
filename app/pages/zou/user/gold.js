@@ -6,7 +6,6 @@ import TableList from '@tableList';
 import {
   zouGold,
 } from '@apis/manage';
-import { mockURL } from '@config';
 
 const FormItem = Form.Item
 

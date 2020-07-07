@@ -8,7 +8,7 @@ import {
   zouVersion,
   zouVersionDetail,
 } from '@apis/manage';
-import { mockURL, walksOss } from '@config';
+import { zouUrl, zouOss } from '@config';
 
 const FormItem = Form.Item
 
@@ -142,7 +142,7 @@ export default class app extends Component {
         title: 'apk地址',
         dataIndex: 'version_url',
         key: 'version_url',
-        render: text => <a href={`${walksOss}${text}`} target="__blank">下载</a>,
+        render: text => <a href={`${zouOss}${text}`} target="__blank">下载</a>,
       },
       {
         title: '需要更新的版本号',
@@ -192,7 +192,7 @@ export default class app extends Component {
     const uploadApp = {
       accept: '.apk',
       name: 'file',
-      action: `${mockURL}/admin-base/upload`,
+      action: `${zouUrl}/admin-base/upload`,
       onChange(info) {
         console.log(info);
         if (info.file.status !== 'uploading') {

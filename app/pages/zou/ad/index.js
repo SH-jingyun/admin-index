@@ -8,7 +8,7 @@ import {
   zouAd,
   zouAdDetail,
 } from '@apis/manage';
-import { mockURL } from '@config';
+import { zouUrl } from '@config';
 
 const FormItem = Form.Item
 
@@ -135,7 +135,7 @@ export default class app extends Component {
         dataIndex: 'advertise_image',
         key: 'advertise_image',
         // eslint-disable-next-line jsx-a11y/alt-text
-        render: text => (text ? <img className="auto_img" src={`${mockURL}/${text}`} /> : ''),
+        render: text => (text ? <img className="auto_img" src={`${zouUrl}/${text}`} /> : ''),
       },
       {
         title: '跳转链接',
@@ -194,7 +194,7 @@ export default class app extends Component {
     const uploadImg = {
       accept: '.jpg,.png,.gif',
       name: 'file',
-      action: `${mockURL}/admin-base/upload`,
+      action: `${zouUrl}/admin-base/upload`,
       onChange(info) {
         console.log(info);
         if (info.file.status !== 'uploading') {

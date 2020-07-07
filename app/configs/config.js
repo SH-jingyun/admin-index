@@ -37,3 +37,5 @@ export const adUrl = _adUrl
 export const zouUrl = _zouUrl
 // 计步宝oss
 export const walksOss = 'https://oss.stepcounter.cn/'
+// 走路多多oss
+export const zouOss = 'https://oss.zouluoduoduo.cn/'
