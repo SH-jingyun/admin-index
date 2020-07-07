@@ -7,11 +7,13 @@ import * as base from '@pages/base' // 基础
 import * as sysSet from '@pages/set' // 计步宝
 import * as dogs from '@pages/dogs' // 狗狗世界
 import * as ad from '@pages/ad' // 广告系统
+import * as zou from '@pages/zou' // 广告系统
 
 export default () => (
   <Router history={browserHistory}>
     <Route path="/" component={base.app} onEnter={isLogin}>
       <IndexRoute component={sysSet.report} />
+      {/* 计步宝 */}
       <Route path="/index" component={sysSet.report} />
       <Route path="/list" component={sysSet.user} />
       <Route path="/activity" component={sysSet.activity} />
@@ -25,16 +27,33 @@ export default () => (
       <Route path="/feedback" component={sysSet.feedback} />
       <Route path="/sdk-error" component={sysSet.sdkError} />
       <Route path="/invited" component={sysSet.invited} />
+      {/* 狗狗世界 */}
       <Route path="/dogs-version" component={dogs.version} />
       <Route path="/dogs-version-ad" component={dogs.versionAd} />
       <Route path="/dogs-interior" component={dogs.interior} />
       <Route path="/dogs-withdraw" component={dogs.withdraw} />
       <Route path="/dogs-user" component={dogs.user} />
+      {/* 后台系统 */}
       <Route path="/ad-app" component={ad.app} />
       <Route path="/ad-position" component={ad.position} />
       <Route path="/ad-user-group" component={ad.userGroup} />
       <Route path="/ad-strategy" component={ad.strategy} />
       <Route path="/ad-code" component={ad.code} />
+      <Route path="/ad-strategy-details/:id" component={ad.strategyDetails} />
+      {/* 走路多多 */}
+      <Route path="/zou-index" component={zou.report} />
+      <Route path="/zou-list" component={zou.user} />
+      <Route path="/zou-activity" component={zou.activity} />
+      <Route path="/zou-version" component={zou.version} />
+      <Route path="/zou-ad" component={zou.ad} />
+      <Route path="/zou-withdraw" component={zou.withdraw} />
+      <Route path="/zou-user" component={zou.user} />
+      <Route path="/zou-config/:type" component={zou.config} />
+      <Route path="/zou-gold/:id" component={zou.gold} />
+      <Route path="/zou-version-ad" component={zou.versionAd} />
+      <Route path="/zou-feedback" component={zou.feedback} />
+      <Route path="/zou-sdk-error" component={zou.sdkError} />
+      <Route path="/zou-invited" component={zou.invited} />
     </Route>
     <Route path="/login" component={base.login} />
     <Route path="*" component={base.notfound} />

@@ -3,11 +3,11 @@ import {
   Button, Form, Layout, Input, message, Select, Upload, Icon, Popconfirm,
 } from 'antd';
 import TableList from '@tableList';
+import Drawer from '@components/draw/draw'
 import {
-  adStrategy,
-  adStrategyDetail,
+  zouVersionAd,
+  zouVersionAdDetail,
 } from '@apis/manage';
-import { browserHistory } from 'react-router';
 
 const FormItem = Form.Item
 
@@ -48,7 +48,7 @@ export default class app extends Component {
 
   // 获取活动列表数据
   getData(callback) {
-    adStrategy({ ...this.state.searchKey }, (res) => {
+    zouVersionAd({ ...this.state.searchKey }, (res) => {
       this.setState({
         listResult: res.data,
       });
@@ -57,33 +57,18 @@ export default class app extends Component {
   }
 
   add() {
-    this.setState({ detail: {}, showDetail: true });
+    this.setState({ detail: {}, showDetail: true});
   }
-
-  // 点击详情
-  handleInfo = (id) => {
-    adStrategyDetail({ strategr_id: id }, (res) => {
-      this.setState({
-        detail: res.data,
-        showDetail: true,
-        detailId: id,
-      });
-    });
-  };
-
 
   handleSubmit() {
     this.props.form.validateFields((error, value) => {
       if (error) { return false; }
-      adStrategyDetail({ ...value, id: this.state.detailId, action: 'edit' }, () => {
+      zouVersionAdDetail({ ...value, action: 'add' }, () => {
         message.success('操作成功');
         // 新增成功
         let curpage = this.state.searchKey.pageNo;
-        // eslint-disable-next-line eqeqeq
-        if (this.state.detailId == 0) {
-          if (this.state.listResult && this.state.listResult.totalCount > 0) {
-            curpage = Math.floor(this.state.listResult.totalCount / this.state.searchKey.pageSize) + 1;
-          }
+        if (this.state.listResult && this.state.listResult.totalCount > 0) {
+          curpage = Math.floor(this.state.listResult.totalCount / this.state.searchKey.pageSize) + 1;
         }
         this.setState({
           showDetail: false,
@@ -91,7 +76,6 @@ export default class app extends Component {
             ...this.state.searchKey,
             pageNo: curpage,
           },
-          detailId: 0,
           detail: {},
         }, () => {
           this.getData();
@@ -103,7 +87,7 @@ export default class app extends Component {
   }
 
   handleChange(id, name) {
-    adStrategy({ version_id: id, app_name: name, action: 'change' }, () => {
+    zouVersionAdDetail({ version_id: id, app_name: name, action: 'change' }, () => {
       message.success('操作成功');
       this.getData();
     }, (res) => {
@@ -128,43 +112,23 @@ export default class app extends Component {
   renderColumn() {
     return [
       {
-        title: '广告策略名称',
-        dataIndex: 'strategy_name',
-        key: 'strategy_name',
+        title: '版本号',
+        dataIndex: 'version_id',
+        key: 'version_id',
       },
       {
-        title: '应用名称',
+        title: '渠道号',
         dataIndex: 'app_name',
         key: 'app_name',
       },
       {
-        title: '广告位名称',
-        dataIndex: 'position_name',
-        key: 'position_name',
-      },
-      {
-        title: '广告位类型',
-        dataIndex: 'position_type_name',
-        key: 'position_type_name',
-      },
-      {
-        title: '用户群组名称',
-        dataIndex: 'group_name',
-        key: 'group_name',
-      },
-      {
-        title: '创建时间',
-        dataIndex: 'create_time',
-        key: 'create_time',
-      },
-      {
-        title: '操作',
-        key: 'operate',
-        width: '15%',
+        title: '是否屏蔽广告（点击修改）',
+        dataIndex: 'ad_status',
+        key: 'ad_status',
         render: (text, record) => (
           <span>
             <span>
-              <a onClick={() => browserHistory.push(`/ad-strategy-details/${record.strategy_id}`)}>详情</a>
+              <a onClick={() => this.handleChange(record.version_id, record.app_name)}>{text === '1' ? '开启' : '关闭'}</a>
             </span>
           </span>
         ),
@@ -177,8 +141,8 @@ export default class app extends Component {
   render() {
     const {
       listResult,
+      adStatusList,
     } = this.state;
-    console.log(listResult)
     // for detail
     const { getFieldDecorator } = this.props.form
     const formItemLayout = {
@@ -208,16 +172,54 @@ export default class app extends Component {
                   <Button
                     type="primary"
                     style={{ marginRight: '10px' }}
-                    onClick={() => browserHistory.push('/ad-strategy-details/0')}
+                    onClick={() => this.add()}
                   >
                     {' '}
-                      添加策略
+                      添加版本
                   </Button>
                 </div>
               </div>
             </Content>
           </Layout>
         </Layout>
+        {this.state.showDetail ? (<Drawer
+          visible
+          title="新增"
+          onCancel={() => { this.setState({ showDetail: false }) }}
+          footer={
+            <div>
+              <Button type="primary" onClick={this.handleSubmit.bind(this)}>确定</Button>
+              <Button onClick={() => { this.setState({ showDetail: false }) }}>取消</Button>
+            </div>}
+          className="modal-header modal-body"
+        >
+          <div className="modalcontent">
+            <Form layout="horizontal">
+              <FormItem {...formItemLayout} label="版本号" hasFeedback>
+                {getFieldDecorator('version_id', {
+                  initialValue: this.state.detail.version_id || '',
+                  rules: [{ required: true, message: '请输入版本号' }],
+                })(<Input placeholder="请输入版本号" />)}
+              </FormItem>
+              <FormItem {...formItemLayout} label="渠道号" hasFeedback>
+                {getFieldDecorator('app_name', {
+                  initialValue: this.state.detail.app_name || '',
+                  rules: [{ required: true, message: '请输入渠道号' }],
+                })(<Input placeholder="请输入渠道号" />)}
+              </FormItem>
+              <FormItem {...formItemLayout} label="是否屏蔽广告" hasFeedback>
+                {getFieldDecorator('ad_status', {
+                  initialValue: `${this.state.detail.ad_status || ''}`,
+                  rules: [{ required: true, message: '请选择是否强制更新' }],
+                })(<Select placeholder="请选择是否强制更新" size="large" >
+                  {adStatusList.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.value}</Option>)}
+                </Select>)}
+              </FormItem>
+            </Form>
+          </div>
+        </Drawer>)
+          : null
+        }
       </div>
     );
   }

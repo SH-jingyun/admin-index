@@ -1,6 +1,6 @@
 
 import { createApi } from '@ajax'
-import { mockURL, dogsUrl, adUrl } from '@config'
+import { mockURL, dogsUrl, adUrl, zouUrl } from '@config'
 
 const option = { baseURL: mockURL }
 
@@ -56,5 +56,36 @@ export const adPostionDetail = createApi(`${adUrl}/admin/pos/details`) // 获取
 export const adUserGroup = createApi(`${adUrl}/admin/user/group`) // 获取app列表
 export const adCode = createApi(`${adUrl}/admin/code/list`) // 获取app列表
 export const adStrategy = createApi(`${adUrl}/admin/strategy/list`) // 获取app列表
+export const adStrategyDetail = createApi(`${adUrl}/admin/strategy/details`) // 获取app列表
 
 // 广告系统 结束
+
+// 走路多多 开始
+export const zouReport = createApi(`${zouUrl}/admin-index/list`); // 获取报表数据
+// 用户
+export const zouUserList = createApi(`${zouUrl}/admin-user/list`); // 获取用户列表
+export const zouUserDetail = createApi(`${zouUrl}/admin-user/detail`, option); // 获取用户详情
+export const zouChangeUserGold = createApi(`${zouUrl}/admin-user/change-gold`, option); // 修改用户金币
+export const zouGold = createApi(`${zouUrl}/admin-user/gold`, option); // 获取用户金币明细
+export const zouChangeUserStatus = createApi(`${zouUrl}/admin-user/change-status`, option); // 获取用户金币明细
+export const zouFeedback = createApi(`${zouUrl}/admin-user/feedback`); // 获取用户反馈
+export const zouInvited = createApi(`${zouUrl}/admin-user/invited`); // 获取用户邀请明细
+export const zousdkError = createApi(`${zouUrl}/admin-sdk/list`); // 获取三方错误码
+// 活动
+export const zouActivity = createApi(`${zouUrl}/admin-activity/list`) // 获取活动列表
+export const zouActivityDetail = createApi(`${zouUrl}/admin-activity/detail`) // 获取活动详情
+export const zouActivityDetailUpdate = createApi(`${zouUrl}/admin-activity/detail`) // 添加，更新活动详情
+export const zouConfig = createApi(`${zouUrl}/admin-activity/config`)
+export const zouConfigDetail = createApi(`${zouUrl}/admin-activity/config-detail`)
+// 版本管理
+export const zouVersion = createApi(`${zouUrl}/admin-version/list`) // 获取版本列表
+export const zouVersionDetail = createApi(`${zouUrl}/admin-version/detail`) // 获取版本列表
+export const zouVersionAd = createApi(`${zouUrl}/admin-version/ad-list`) // 获取版本列表
+export const zouVersionAdDetail = createApi(`${zouUrl}/admin-version/ad-detail`) // 获取版本列表
+// 运营位管理
+export const zouAd = createApi(`${zouUrl}/admin-ad/list`)
+export const zouAdDetail = createApi(`${zouUrl}/admin-ad/detail`)
+// 提现管理
+export const zouWithdraw = createApi(`${zouUrl}/admin-withdraw/list`)
+export const zouWithdrawAction = createApi(`${zouUrl}/admin-withdraw/action`)
+// 走路多多 结束
