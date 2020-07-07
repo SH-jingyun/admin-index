@@ -201,7 +201,7 @@ export default class app extends Component {
         key: 'operate',
         render: (text, record) => (
           <span>
-            <a onClick={() => browserHistory.push(`/gold/${record.user_id}`)}>金币明细</a>
+            <a onClick={() => browserHistory.push(`/zou-gold/${record.user_id}`)}>金币明细</a>
             <br />
             {record.withdraw_status === 'pending' ?
               (<span>
