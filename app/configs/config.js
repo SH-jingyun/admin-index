@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === 'production') {
   _baseURL = 'http://www.stepcounter.cn:8010'
   _walksURL = 'http://121.41.71.1:8020'
   _dogsUrl = 'http://www.dogsworld.top:8020'
-  _adUrl = 'http://localhost:8004'
+  _adUrl = 'http://ad.stepcounter.cn:8020'
   _zouUrl = 'http://www.zouluduoduo.cn:8020'
 } else if (process.env.NODE_ENV === 'qa') {
   _baseURL = 'http://jytest.darkness.ltd:8002'
