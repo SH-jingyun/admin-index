@@ -8,7 +8,6 @@ import {
   dogsWithdraw,
   dogsWithdrawAction,
 } from '@apis/manage';
-import { browserHistory } from 'react-router';
 
 const FormItem = Form.Item
 

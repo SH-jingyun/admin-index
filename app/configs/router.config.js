@@ -8,6 +8,7 @@ import * as sysSet from '@pages/set' // 计步宝
 import * as dogs from '@pages/dogs' // 狗狗世界
 import * as ad from '@pages/ad' // 广告系统
 import * as zou from '@pages/zou' // 广告系统
+import * as report from '@pages/report' // 广告系统
 
 export default () => (
   <Router history={browserHistory}>
@@ -54,6 +55,8 @@ export default () => (
       <Route path="/zou-feedback" component={zou.feedback} />
       <Route path="/zou-sdk-error" component={zou.sdkError} />
       <Route path="/zou-invited" component={zou.invited} />
+      {/* 报表 */}
+      <Route path="/report-roi" component={report.roi} />
     </Route>
     <Route path="/login" component={base.login} />
     <Route path="*" component={base.notfound} />

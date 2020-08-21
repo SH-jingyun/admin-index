@@ -1,6 +1,6 @@
 
 import { createApi } from '@ajax'
-import { mockURL, dogsUrl, adUrl, zouUrl } from '@config'
+import { mockURL, dogsUrl, adUrl, zouUrl, reportUrl } from '@config'
 
 const option = { baseURL: mockURL }
 
@@ -89,3 +89,7 @@ export const zouAdDetail = createApi(`${zouUrl}/admin-ad/detail`)
 export const zouWithdraw = createApi(`${zouUrl}/admin-withdraw/list`)
 export const zouWithdrawAction = createApi(`${zouUrl}/admin-withdraw/action`)
 // 走路多多 结束
+
+// 系统报表 开始
+export const reportRoi = createApi(`${reportUrl}/admin/report/roi`)
+// 系统报表 结束
