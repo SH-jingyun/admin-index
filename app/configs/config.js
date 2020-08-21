@@ -22,14 +22,14 @@ if (process.env.NODE_ENV === 'production') {
   _dogsUrl = 'http://www.dogsworld.top:8020'
   _adUrl = 'http://ad.stepcounter.cn:8020'
   _zouUrl = 'http://www.zouluduoduo.cn:8020'
-  _reportUrl = 'http://report.shpizarro.com:8080'
+  _reportUrl = 'http://121.196.24.226:8080'
 } else if (process.env.NODE_ENV === 'qa') {
   _baseURL = 'http://jytest.darkness.ltd:8002'
   _walksURL = 'http://jytest.darkness.ltd:8001'
   _dogsUrl = 'http://jytest.darkness.ltd:8003'
   _adUrl = 'http://jytest.darkness.ltd:8004'
   _zouUrl = 'http://jytest.darkness.ltd:8005'
-  _reportUrl = 'http://report.shpizarro.com:8080'
+  _reportUrl = 'http://121.196.24.226:8080'
 }
 
 export const path = ''
