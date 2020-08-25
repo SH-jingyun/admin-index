@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   Button,
-  Form, Input, Layout, Select,
+  Form, Input, Layout, DatePicker, Space, Select,
 } from 'antd';
 import TableList from '@tableList';
 import {
@@ -10,6 +10,7 @@ import {
 
 const FormItem = Form.Item
 const { Content } = Layout;
+const { Option } = Select;
 
 @Form.create({})
 // 声明组件  并对外输出
@@ -23,8 +24,13 @@ export default class app extends Component {
         ad_id: 0,
         pageSize: 10,
         pageNo: 1,
+        ad_roi: '',
+        ad_roi_val: 0,
+        dateRange: [],
       },
       listResult: {},
+      rioList: [{ key: 'roi_1' }, { key: 'roi_2' }, { key: 'roi_3' }, { key: 'roi_4' }, { key: 'roi_5' }, { key: 'roi_6' }, { key: 'roi_7' }, { key: 'roi_14' }, { key: 'roi_30' }],
+      rioListVal: [{ key: 0.3 }, { key: 0.5 }, { key: 0.7 }, { key: 1 }],
     };
   }
 
@@ -39,12 +45,16 @@ export default class app extends Component {
       e.preventDefault();
       const advertiserId = this.props.form.getFieldValue('advertiser_id');
       const adId = this.props.form.getFieldValue('ad_id');
+      const adRoi = this.props.form.getFieldValue('ad_roi');
+      const adRoiVal = this.props.form.getFieldValue('ad_roi_val');
       this.setState(
         {
           searchKey: {
             ...this.state.searchKey,
             advertiser_id: advertiserId,
             ad_id: adId,
+            ad_roi: adRoi,
+            ad_roi_val: adRoiVal,
             pageNo: 1,
           },
         },
@@ -77,6 +87,10 @@ export default class app extends Component {
       this.getData();
     };
 
+    dateChange = (dates, dateStrings) => {
+      this.state.searchKey.dateRange = dateStrings;
+    };
+
     // 生成表格头部信息
     renderColumn() {
       return [
@@ -104,6 +118,12 @@ export default class app extends Component {
           title: '新增（变现）',
           dataIndex: 'new_user_topon',
           key: 'new_user_topon',
+        },
+        {
+          title: '流失率',
+          dataIndex: 'rate',
+          key: 'rate',
+          render: text => `${text}%`,
         },
         {
           title: 'roi1',
@@ -156,12 +176,12 @@ export default class app extends Component {
           key: 'roi_10',
         },
         {
-          title: 'roi_14',
+          title: 'roi14',
           dataIndex: 'roi_14',
           key: 'roi_14',
         },
         {
-          title: 'roi_30',
+          title: 'roi30',
           dataIndex: 'roi_30',
           key: 'roi_30',
         },
@@ -171,8 +191,12 @@ export default class app extends Component {
     render() {
       const {
         listResult,
+        rioList,
+        rioListVal,
       } = this.state;
       const { getFieldDecorator } = this.props.form
+
+      const { RangePicker } = DatePicker;
 
       return (
         <div className="page page-scrollfix page-usermanage">
@@ -187,6 +211,19 @@ export default class app extends Component {
                       </FormItem>
                       <FormItem labelCol={{ span: 12 }} wrapperCol={{ span: 12 }} label="广告计划id" style={{ width: '200px' }}>
                         {getFieldDecorator('ad_id')(<Input />)}
+                      </FormItem>
+                      <FormItem labelCol={{ span: 4 }} wrapperCol={{ span: 18 }} label="日期" style={{ width: '380px' }}>
+                        {getFieldDecorator('ad_date')(<RangePicker onChange={this.dateChange} />)}
+                      </FormItem>
+                      <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="roi" style={{ width: '250px' }}>
+                        {getFieldDecorator('ad_roi')(<Select placeholder="请选择roi" size="large" >
+                          {rioList.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.key}</Option>)}
+                        </Select>)}
+                      </FormItem>
+                      <FormItem labelCol={{ span: 10 }} wrapperCol={{ span: 14 }} label="大于等于" style={{ width: '250px' }}>
+                        {getFieldDecorator('ad_roi_val')(<Select placeholder="请选择roi数值" size="large" >
+                          {rioListVal.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.key}</Option>)}
+                        </Select>)}
                       </FormItem>
                       {/* <FormItem labelCol={{ span: 12 }} wrapperCol={{ span: 12 }} label="日期" style={{ width: '200px' }}> */}
                       {/*  {getFieldDecorator('invited_code')(<Input />)} */}
