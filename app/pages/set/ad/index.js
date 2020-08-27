@@ -8,7 +8,7 @@ import {
   fetchAd,
   fetchAdDetail,
 } from '@apis/manage';
-import { mockURL } from '@config';
+import { mockURL, walksOss } from '@config';
 
 const FormItem = Form.Item
 
@@ -135,7 +135,7 @@ export default class app extends Component {
         dataIndex: 'advertise_image',
         key: 'advertise_image',
         // eslint-disable-next-line jsx-a11y/alt-text
-        render: text => (text ? <img className="auto_img" src={`${mockURL}/${text}`} /> : ''),
+        render: text => (text ? <img className="auto_img" src={`${walksOss}/${text}`} /> : ''),
       },
       {
         title: '跳转链接',
