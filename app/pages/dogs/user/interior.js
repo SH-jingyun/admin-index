@@ -235,7 +235,7 @@ export default class app extends Component {
                   {getFieldDecorator('has_dogs', {
                     initialValue: `${this.state.detail.has_dogs || ''}`,
                     rules: [{ required: true, message: '请选择是否有分红狗' }],
-                  })(<Select placeholder="请选择是否有分红狗" size="large" >
+                  })(<Select placeholder="请选择是否有分红狗" size="large" allowClear >
                     {hasDogs.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.value}</Option>)}
                   </Select>)}
                 </FormItem>

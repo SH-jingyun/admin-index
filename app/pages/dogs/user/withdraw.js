@@ -218,7 +218,7 @@ export default class app extends Component {
                 <div className="layout-between">
                   <Form className="flexrow" onSubmit={this.handleSearch}>
                     <FormItem labelCol={{ span: 12 }} wrapperCol={{ span: 12 }} label="提现状态" style={{ width: '200px' }}>
-                      {getFieldDecorator('status')(<Select placeholder="All" size="large" >
+                      {getFieldDecorator('status')(<Select placeholder="All" size="large" allowClear >
                         {statusSelect.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.key}</Option>)}
                       </Select>)}
                     </FormItem>

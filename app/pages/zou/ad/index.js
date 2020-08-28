@@ -298,7 +298,7 @@ export default class app extends Component {
                 {getFieldDecorator('advertise_validity_type', {
                   initialValue: `${this.state.detail.advertise_validity_type || ''}`,
                   rules: [{ required: true, message: '请选择有效期类型' }],
-                })(<Select placeholder="请选择有效期类型" size="large" >
+                })(<Select placeholder="请选择有效期类型" size="large" allowClear >
                   {validityTypeSelect.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.value}</Option>)}
                 </Select>)}
               </FormItem>
@@ -321,7 +321,7 @@ export default class app extends Component {
                 {getFieldDecorator('advertise_status', {
                   initialValue: `${this.state.detail.advertise_status || ''}`,
                   rules: [{ required: true, message: '请选择状态' }],
-                })(<Select placeholder="请选择状态" size="large" >
+                })(<Select placeholder="请选择状态" size="large" allowClear >
                   {forceUpdateSelect.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.value}</Option>)}
                 </Select>)}
               </FormItem>

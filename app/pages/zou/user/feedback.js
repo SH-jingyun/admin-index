@@ -6,7 +6,7 @@ import TableList from '@tableList';
 import {
   zouFeedback,
 } from '@apis/manage';
-import { zouUrl } from '@config';
+import { zouOss } from '@config';
 
 const { Content } = Layout;
 
@@ -93,19 +93,19 @@ export default class app extends Component {
         title: '反馈图片1',
         dataIndex: 'image_1',
         key: 'image_1',
-        render: text => (text ? <img className="auto_img" src={`${zouUrl}/${text}`} /> : ''),
+        render: text => (text ? <img className="auto_img" src={`${zouOss}/${text}`} /> : ''),
       },
       {
         title: '反馈图片2',
         dataIndex: 'image_2',
         key: 'image_2',
-        render: text => (text ? <img className="auto_img" src={`${zouUrl}/${text}`} /> : ''),
+        render: text => (text ? <img className="auto_img" src={`${zouOss}/${text}`} /> : ''),
       },
       {
         title: '反馈图片3',
         dataIndex: 'image_3',
         key: 'image_3',
-        render: text => (text ? <img className="auto_img" src={`${zouUrl}/${text}`} /> : ''),
+        render: text => (text ? <img className="auto_img" src={`${zouOss}/${text}`} /> : ''),
       },
       {
         title: '发生时间',

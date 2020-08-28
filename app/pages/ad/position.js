@@ -229,7 +229,7 @@ export default class app extends Component {
                 {getFieldDecorator('app_id', {
                   initialValue: `${this.state.detail.app_id || ''}`,
                   rules: [{ required: true, message: '请选择应用' }],
-                })(<Select placeholder="请选择应用" size="large" >
+                })(<Select placeholder="请选择应用" size="large" allowClear >
                   {listResult.app.map(item => <Option value={item.id.toString()} key={item.id.toString()} selected>{item.name}</Option>)}
                 </Select>)}
               </FormItem>
@@ -243,7 +243,7 @@ export default class app extends Component {
                 {getFieldDecorator('position_status', {
                   initialValue: `${this.state.detail.position_status || ''}`,
                   rules: [{ required: true, message: '请选择广告位状态' }],
-                })(<Select placeholder="请选择广告位状态" size="large" >
+                })(<Select placeholder="请选择广告位状态" size="large" allowClear >
                   {positionStatusList.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.value}</Option>)}
                 </Select>)}
               </FormItem>
@@ -251,7 +251,7 @@ export default class app extends Component {
                 {getFieldDecorator('position_type_id', {
                   initialValue: `${this.state.detail.position_type_id || ''}`,
                   rules: [{ required: true, message: '请选择广告位类型' }],
-                })(<Select placeholder="请选择广告位类型" size="large" >
+                })(<Select placeholder="请选择广告位类型" size="large" allowClear >
                   {listResult.type.map(item => <Option value={item.id.toString()} key={item.id.toString()} selected>{item.name}</Option>)}
                 </Select>)}
               </FormItem>

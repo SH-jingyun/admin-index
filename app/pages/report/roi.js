@@ -216,12 +216,12 @@ export default class app extends Component {
                         {getFieldDecorator('ad_date')(<RangePicker onChange={this.dateChange} />)}
                       </FormItem>
                       <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} label="roi" style={{ width: '250px' }}>
-                        {getFieldDecorator('ad_roi')(<Select placeholder="请选择roi" size="large" >
+                        {getFieldDecorator('ad_roi')(<Select placeholder="请选择roi" size="large" allowClear >
                           {rioList.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.key}</Option>)}
                         </Select>)}
                       </FormItem>
                       <FormItem labelCol={{ span: 10 }} wrapperCol={{ span: 14 }} label="大于等于" style={{ width: '250px' }}>
-                        {getFieldDecorator('ad_roi_val')(<Select placeholder="请选择roi数值" size="large" >
+                        {getFieldDecorator('ad_roi_val')(<Select placeholder="请选择roi数值" size="large" allowClear >
                           {rioListVal.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.key}</Option>)}
                         </Select>)}
                       </FormItem>

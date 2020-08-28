@@ -440,7 +440,7 @@ export default class app extends Component {
               {getFieldDecorator('change_type', {
                 initialValue: 'in',
                 rules: [{ required: true, message: '请选择修改类型' }],
-              })(<Select placeholder="请选择修改类型" size="large" >
+              })(<Select placeholder="请选择修改类型" size="large" allowClear >
                 <Option value="in" key="in" >加</Option>
                 <Option value="out" key="out" >减</Option>
               </Select>)}

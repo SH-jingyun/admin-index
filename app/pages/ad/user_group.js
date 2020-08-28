@@ -209,7 +209,7 @@ export default class app extends Component {
                 {getFieldDecorator('ad_status', {
                   initialValue: `${this.state.detail.ad_status || ''}`,
                   rules: [{ required: true, message: '请选择是否强制更新' }],
-                })(<Select placeholder="请选择是否强制更新" size="large" >
+                })(<Select placeholder="请选择是否强制更新" size="large" allowClear >
                   {adStatusList.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.value}</Option>)}
                 </Select>)}
               </FormItem>

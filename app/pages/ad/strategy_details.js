@@ -87,7 +87,7 @@ export default class app extends Component {
               {getFieldDecorator('position_id', {
                 initialValue: `${details.position_id || ''}`,
                 rules: [{ required: true, message: '请选择广告位' }],
-              })(<Select placeholder="请选择广告位" size="large" >
+              })(<Select placeholder="请选择广告位" size="large" allowClear >
                 {position.map(item => <Option value={item.id.toString()} key={item.id.toString()} selected>{item.name}</Option>)}
               </Select>)}
             </FormItem>
@@ -95,7 +95,7 @@ export default class app extends Component {
               {getFieldDecorator('group_id', {
                 initialValue: `${details.group_id || ''}`,
                 rules: [{ required: true, message: '请选择用户分群' }],
-              })(<Select placeholder="请选择用户分群" size="large" >
+              })(<Select placeholder="请选择用户分群" size="large" allowClear >
                 {user.map(item => <Option value={item.id.toString()} key={item.id.toString()} selected>{item.name}</Option>)}
               </Select>)}
             </FormItem>
@@ -103,13 +103,13 @@ export default class app extends Component {
               {getFieldDecorator('source[]', {
                 initialValue: `${details.group_id || ''}`,
                 rules: [{ required: true, message: '请选择用户分群' }],
-              })(<Select placeholder="请选择用户分群" size="large" >
+              })(<Select placeholder="请选择用户分群" size="large" allowClear >
                 {user.map(item => <Option value={item.id.toString()} key={item.id.toString()} selected>{item.name}</Option>)}
               </Select>)}
               {getFieldDecorator('type[]', {
                 initialValue: `${details.group_id || ''}`,
                 rules: [{ required: true, message: '请选择用户分群' }],
-              })(<Select placeholder="请选择用户分群" size="large" >
+              })(<Select placeholder="请选择用户分群" size="large" allowClear >
                 {user.map(item => <Option value={item.id.toString()} key={item.id.toString()} selected>{item.name}</Option>)}
               </Select>)}
             </FormItem>
