@@ -9,11 +9,13 @@ import * as dogs from '@pages/dogs' // 狗狗世界
 import * as ad from '@pages/ad' // 广告系统
 import * as zou from '@pages/zou' // 广告系统
 import * as report from '@pages/report' // 广告系统
+import * as tianqi from '@pages/tianqi' // 广告系统
 
 export default () => (
   <Router history={browserHistory}>
     <Route path="/" component={base.app} onEnter={isLogin}>
-      <IndexRoute component={sysSet.report} />
+      {/* <IndexRoute component={sysSet.report} /> */}
+      <IndexRoute component={sysSet.withdraw} />
       {/* 计步宝 */}
       <Route path="/index" component={sysSet.report} />
       <Route path="/list" component={sysSet.user} />
@@ -57,6 +59,8 @@ export default () => (
       <Route path="/zou-invited" component={zou.invited} />
       {/* 报表 */}
       <Route path="/report-roi" component={report.roi} />
+      {/* 天气 */}
+      <Route path="/tian-img" component={tianqi.img} />
     </Route>
     <Route path="/login" component={base.login} />
     <Route path="*" component={base.notfound} />

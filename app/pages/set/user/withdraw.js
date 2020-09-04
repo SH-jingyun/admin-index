@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Button, Form, Layout, Input, Popconfirm, Select,
+  Button, Form, Layout, Input, Popconfirm, Select, Checkbox,
 } from 'antd';
 import TableList from '@tableList';
 import Drawer from '@components/draw/draw'
@@ -29,6 +29,7 @@ export default class app extends Component {
       },
       listResult: {},
       detail: {},
+      idKeys: [],
       showReason: false,
       withdraw_id: 0,
       statusSelect: [{ key: 'pending', value: '未审核' }, { key: 'success', value: '审核通过' }, { key: 'failure', value: '审核未通过' }],
@@ -112,187 +113,219 @@ export default class app extends Component {
     this.getData();
   };
 
+    handleBatchDel = () => {
+      const ids = this.state.idKeys;
+      fetchWithdrawAction({ action: 'failed', ids: ids }, (res) => {
+        this.setState({ idKeys: [] }, () => {
+          this.getData();
+        });
+      });
+    };
+
   // 生成表格头部信息
-  renderColumn() {
-    return [
-      {
-        title: '用户id',
-        dataIndex: 'user_id',
-        key: 'user_id',
-      },
-      {
-        title: '提现金额',
-        dataIndex: 'withdraw_amount',
-        key: 'withdraw_amount',
-      },
-      {
-        title: '提现金币数',
-        dataIndex: 'withdraw_gold',
-        key: 'withdraw_gold',
-      },
-      {
-        title: '提现渠道',
-        dataIndex: 'withdraw_method',
-        key: 'withdraw_method',
-      },
-      {
-        title: '提现账号',
-        dataIndex: 'account',
-        key: 'account',
-        render: (text, record) => (record.withdraw_method === 'alipay' ? record.alipay_account : record.wechat_openid),
-      },
-      {
-        title: '提现名称',
-        dataIndex: 'alipay_name',
-        key: 'alipay_name',
-      },
-      {
-        title: '提现状态',
-        dataIndex: 'withdraw_status',
-        key: 'withdraw_status',
-      },
-      {
-        title: '用户手机号',
-        dataIndex: 'phone_number',
-        key: 'phone_number',
-      },
-      {
-        title: '用户手机品牌',
-        dataIndex: 'brand',
-        key: 'brand',
-      },
-      {
-        title: '用户手机型号',
-        dataIndex: 'model',
-        key: 'model',
-      },
-      {
-        title: '用户历史提现金额（元）',
-        dataIndex: 'total',
-        key: 'total',
-      },
-      {
-        title: '用户历史提现次数',
-        dataIndex: 'count',
-        key: 'count',
-      },
-      {
-        title: '用户创建时间',
-        dataIndex: 'user_time',
-        key: 'user_time',
-      },
-      {
-        title: '提现申请时间',
-        dataIndex: 'create_time',
-        key: 'create_time',
-      },
-      {
-        title: '友盟分值',
-        dataIndex: 'umeng_score',
-        key: 'umeng_score',
-      },
-      {
-        title: '备注',
-        dataIndex: 'withdraw_remark',
-        key: 'withdraw_remark',
-      },
-      {
-        title: '操作',
-        key: 'operate',
-        render: (text, record) => (
-          <span>
-            <a onClick={() => browserHistory.push(`/gold/${record.user_id}`)}>金币明细</a>
-            <br />
-            {record.withdraw_status === 'pending' ?
-              (<span>
-                <Popconfirm title="通过?" onConfirm={() => this.handleSuccess(record.withdraw_id)}>
-                  <a>通过</a>
-                </Popconfirm>
-                <span>
-                  <a onClick={() => this.handleReson(record.withdraw_id)}>拒绝</a>
-                </span>
-              </span>) : null}
-          </span>
-        ),
-      },
-    ];
-  }
+    renderColumn() {
+      return [
+        {
+          title: '用户id',
+          dataIndex: 'user_id',
+          key: 'user_id',
+        },
+        {
+          title: '提现金额',
+          dataIndex: 'withdraw_amount',
+          key: 'withdraw_amount',
+        },
+        {
+          title: '提现金币数',
+          dataIndex: 'withdraw_gold',
+          key: 'withdraw_gold',
+        },
+        {
+          title: '提现渠道',
+          dataIndex: 'withdraw_method',
+          key: 'withdraw_method',
+        },
+        {
+          title: '提现账号',
+          dataIndex: 'account',
+          key: 'account',
+          render: (text, record) => (record.withdraw_method === 'alipay' ? record.alipay_account : record.wechat_openid),
+        },
+        {
+          title: '提现名称',
+          dataIndex: 'alipay_name',
+          key: 'alipay_name',
+        },
+        {
+          title: '提现状态',
+          dataIndex: 'withdraw_status',
+          key: 'withdraw_status',
+        },
+        {
+          title: '用户手机号',
+          dataIndex: 'phone_number',
+          key: 'phone_number',
+        },
+        {
+          title: '用户手机品牌',
+          dataIndex: 'brand',
+          key: 'brand',
+        },
+        {
+          title: '用户手机型号',
+          dataIndex: 'model',
+          key: 'model',
+        },
+        {
+          title: '用户历史提现金额（元）',
+          dataIndex: 'total',
+          key: 'total',
+        },
+        {
+          title: '用户历史提现次数',
+          dataIndex: 'count',
+          key: 'count',
+        },
+        {
+          title: '用户创建时间',
+          dataIndex: 'user_time',
+          key: 'user_time',
+        },
+        {
+          title: '提现申请时间',
+          dataIndex: 'create_time',
+          key: 'create_time',
+        },
+        {
+          title: '友盟分值',
+          dataIndex: 'umeng_score',
+          key: 'umeng_score',
+        },
+        {
+          title: '备注',
+          dataIndex: 'withdraw_remark',
+          key: 'withdraw_remark',
+        },
+        {
+          title: '操作',
+          key: 'operate',
+          render: (text, record) => (
+            <span>
+              <a onClick={() => browserHistory.push(`/gold/${record.user_id}`)}>金币明细</a>
+              <br />
+              {record.withdraw_status === 'pending' ?
+                (<span>
+                  <Popconfirm title="通过?" onConfirm={() => this.handleSuccess(record.withdraw_id)}>
+                    <a>通过</a>
+                  </Popconfirm>
+                  <span>
+                    <a onClick={() => this.handleReson(record.withdraw_id)}>拒绝</a>
+                  </span>
+                </span>) : null}
+            </span>
+          ),
+        },
+      ];
+    }
 
   // #endregion
 
-  render() {
-    const {
-      listResult,
-      statusSelect,
-      methodSelect
-    } = this.state;
-    // for detail
-    const { getFieldDecorator } = this.props.form
-    const formItemLayout = {
-      labelCol: { span: 10 },
-      wrapperCol: { span: 12 },
-    };
+    render() {
+      const {
+        listResult,
+        statusSelect,
+        methodSelect,
+      } = this.state;
+      // for detail
+      const { getFieldDecorator } = this.props.form
+      const formItemLayout = {
+        labelCol: { span: 10 },
+        wrapperCol: { span: 12 },
+      };
+      const rowSelection = {
+        onChange: (selectedRowKeys) => {
+          this.setState({
+            idKeys: selectedRowKeys,
+          })
+        },
+        getCheckboxProps: record => ({
+          disabled: record.withdraw_status !== 'pending',
+        }),
+      };
 
-    return (
-      <div className="page page-scrollfix page-usermanage">
-        <Layout>
-          <Layout className="page-body">
-            <Content>
-              <div className="page-header">
-                <div className="layout-between">
-                  <Form className="flexrow" onSubmit={this.handleSearch}>
-                    <FormItem labelCol={{ span: 12 }} wrapperCol={{ span: 12 }} label="提现状态" style={{ width: '200px' }}>
-                      {getFieldDecorator('status')(<Select placeholder="All" size="large" allowClear >
-                        {statusSelect.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.key}</Option>)}
-                      </Select>)}
-                    </FormItem>
-                    <FormItem labelCol={{ span: 12 }} wrapperCol={{ span: 12 }} label="提现渠道" style={{ width: '200px' }}>
-                      {getFieldDecorator('method')(<Select placeholder="All" size="large" allowClear >
-                        {methodSelect.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.key}</Option>)}
-                      </Select>)}
-                    </FormItem>
-                    <Button type="primary" htmlType="submit">
+      return (
+        <div className="page page-scrollfix page-usermanage">
+          <Layout>
+            <Layout className="page-body">
+              <Content>
+                <div className="page-header">
+                  <div className="layout-between">
+                    <Form className="flexrow" onSubmit={this.handleSearch}>
+                      <FormItem labelCol={{ span: 12 }} wrapperCol={{ span: 12 }} label="提现状态" style={{ width: '200px' }}>
+                        {getFieldDecorator('status')(<Select placeholder="All" size="large" allowClear >
+                          {statusSelect.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.key}</Option>)}
+                        </Select>)}
+                      </FormItem>
+                      <FormItem labelCol={{ span: 12 }} wrapperCol={{ span: 12 }} label="提现渠道" style={{ width: '200px' }}>
+                        {getFieldDecorator('method')(<Select placeholder="All" size="large" allowClear >
+                          {methodSelect.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.key}</Option>)}
+                        </Select>)}
+                      </FormItem>
+                      <Button type="primary" htmlType="submit">
                       搜索
-                    </Button>
-                  </Form>
+                      </Button>
+                    </Form>
+                  </div>
                 </div>
-              </div>
-              <div className="page-content has-pagination table-flex table-scrollfix">
-                <TableList
-                  rowKey={(record, index) => index}
-                  columns={this.renderColumn()}
-                  dataSource={listResult.list}
-                  currentPage={this.state.searchKey.pageNo}
-                  pageSize={this.state.searchKey.pageSize}
-                  onChange={this.pageChange}
-                  onShowSizeChange={this.pageSizeChange}
-                  totalCount={listResult.totalCount}
-                />
-              </div>
-            </Content>
+                <div className="page-content has-pagination table-flex table-scrollfix">
+                  <TableList
+                    rowSelection={rowSelection}
+                    rowKey={record => record.withdraw_id}
+                    columns={this.renderColumn()}
+                    dataSource={listResult.list}
+                    currentPage={this.state.searchKey.pageNo}
+                    pageSize={this.state.searchKey.pageSize}
+                    onChange={this.pageChange}
+                    onShowSizeChange={this.pageSizeChange}
+                    totalCount={listResult.totalCount}
+                  />
+                </div>
+                <div className="page-footer">
+                  <div className="page-footer-buttons">
+                    <Button
+                      type="primary"
+                      style={{ marginRight: '10px' }}
+                      onClick={() => this.handleBatchDel()}
+                    >
+                      {' '}
+                            批量拒绝
+                    </Button>
+                  </div>
+                </div>
+              </Content>
+            </Layout>
           </Layout>
-        </Layout>
-        {this.state.showReason ? (<Drawer
-          visible
-          title="拒绝原因"
-          onCancel={() => { this.setState({ showReason: false }) }}
-          footer={
-            <div>
-              <Button type="primary" onClick={this.handleFailed.bind(this)}>确定</Button>
-              <Button onClick={() => { this.setState({ showDetail: false }) }}>取消</Button>
-            </div>}
-          className="modal-header modal-body"
-        >
-          <div className="modalcontent">
-            <Form layout="horizontal">
-              <FormItem {...formItemLayout} label="拒绝原因" hasFeedback>
-                {getFieldDecorator('withdraw_remark')(<Input placeholder="请输入拒绝原因" />)}
-              </FormItem>
-            </Form>
-          </div>
-        </Drawer>) : null
-        }
-      </div>
-    );
-  }
+          {this.state.showReason ? (<Drawer
+            visible
+            title="拒绝原因"
+            onCancel={() => { this.setState({ showReason: false }) }}
+            footer={
+              <div>
+                <Button type="primary" onClick={this.handleFailed.bind(this)}>确定</Button>
+                <Button onClick={() => { this.setState({ showDetail: false }) }}>取消</Button>
+              </div>}
+            className="modal-header modal-body"
+          >
+            <div className="modalcontent">
+              <Form layout="horizontal">
+                <FormItem {...formItemLayout} label="拒绝原因" hasFeedback>
+                  {getFieldDecorator('withdraw_remark')(<Input placeholder="请输入拒绝原因" />)}
+                </FormItem>
+              </Form>
+            </div>
+          </Drawer>) : null
+          }
+        </div>
+      );
+    }
 }
