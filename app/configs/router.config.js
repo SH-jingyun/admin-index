@@ -15,7 +15,7 @@ export default () => (
   <Router history={browserHistory}>
     <Route path="/" component={base.app} onEnter={isLogin}>
       {/* <IndexRoute component={sysSet.report} /> */}
-      <IndexRoute component={sysSet.withdraw} />
+      <IndexRoute component={sysSet.report} />
       {/* 计步宝 */}
       <Route path="/index" component={sysSet.report} />
       <Route path="/list" component={sysSet.user} />
