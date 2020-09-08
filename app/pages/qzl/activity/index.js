@@ -6,8 +6,8 @@ import {
 } from 'antd';
 import TableList from '@tableList';
 import {
-  fetchActivity,
-  fetchActivityDetail,
+  qzlActivity,
+  qzlActivityDetail,
 } from '@apis/manage';
 import Detail from './modal/detail';
 
@@ -55,7 +55,7 @@ export default class app extends Component {
 
   // 获取活动列表数据
   getData(callback) {
-    fetchActivity({ ...this.state.searchKey }, (res) => {
+    qzlActivity({ ...this.state.searchKey }, (res) => {
       this.setState({
         listResult: res.data,
       });
@@ -65,7 +65,7 @@ export default class app extends Component {
 
   // 点击详情
   handleInfo = (id) => {
-    fetchActivityDetail({ activity_id: id }, (res) => {
+    qzlActivityDetail({ activity_id: id }, (res) => {
       this.setState({
         detailResult: res.data,
         showDetail: true,

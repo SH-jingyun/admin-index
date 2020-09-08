@@ -5,10 +5,10 @@ import {
 import TableList from '@tableList';
 import Drawer from '@components/draw/draw'
 import {
-  fetchAd,
-  fetchAdDetail,
+  qzlAd,
+  qzlAdDetail,
 } from '@apis/manage';
-import { walksOss } from '@config';
+import { qzlUrl, qzlOss } from '@config';
 
 const FormItem = Form.Item
 
@@ -49,7 +49,7 @@ export default class app extends Component {
 
   // 获取活动列表数据
   getData(callback) {
-    fetchAd({ ...this.state.searchKey }, (res) => {
+    qzlAd({ ...this.state.searchKey }, (res) => {
       this.setState({
         listResult: res.data,
       });
@@ -58,7 +58,7 @@ export default class app extends Component {
   }
 
   handleInfo(id) {
-    fetchAdDetail({ id: id }, (res) => {
+    qzlAdDetail({ id: id }, (res) => {
       this.setState({
         detail: res.data,
         showDetail: true,
@@ -74,7 +74,7 @@ export default class app extends Component {
   handleSubmit() {
     this.props.form.validateFields((error, value) => {
       if (error) { return false; }
-      fetchAdDetail({ ...value, id: this.state.detailId, action: 'edit' }, () => {
+      qzlAdDetail({ ...value, id: this.state.detailId, action: 'edit' }, () => {
         message.success('操作成功');
         // 新增成功
         let curpage = this.state.searchKey.pageNo;
@@ -135,7 +135,7 @@ export default class app extends Component {
         dataIndex: 'advertise_image',
         key: 'advertise_image',
         // eslint-disable-next-line jsx-a11y/alt-text
-        render: text => (text ? <img className="auto_img" src={`${walksOss}/${text}`} /> : ''),
+        render: text => (text ? <img className="auto_img" src={`${qzlOss}/${text}`} /> : ''),
       },
       {
         title: '跳转链接',
@@ -194,7 +194,7 @@ export default class app extends Component {
     const uploadImg = {
       accept: '.jpg,.png,.gif',
       name: 'file',
-      action: `${adminUrl}/admin-base/upload`,
+      action: `${qzlUrl}/admin-base/upload`,
       onChange(info) {
         console.log(info);
         if (info.file.status !== 'uploading') {

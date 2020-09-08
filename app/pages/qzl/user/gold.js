@@ -4,7 +4,7 @@ import {
 } from 'antd';
 import TableList from '@tableList';
 import {
-  fetchGold,
+  qzlGold,
 } from '@apis/manage';
 
 const FormItem = Form.Item
@@ -42,7 +42,7 @@ export default class app extends Component {
 
   // 获取活动列表数据
   getData(callback) {
-    fetchGold({ ...this.state.searchKey, id: this.props.params.id }, (res) => {
+    qzlGold({ ...this.state.searchKey, id: this.props.params.id }, (res) => {
       this.setState({
         listResult: res.data,
       });

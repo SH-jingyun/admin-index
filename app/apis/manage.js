@@ -1,6 +1,6 @@
 
 import { createApi } from '@ajax'
-import { walksURL, dogsUrl, adminUrl, zouUrl, reportUrl } from '@config'
+import { walksURL, dogsUrl, adminUrl, zouUrl, qzlUrl } from '@config'
 
 const option = { baseURL: walksURL }
 
@@ -87,8 +87,38 @@ export const zouWithdraw = createApi(`${zouUrl}/admin-withdraw/list`)
 export const zouWithdrawAction = createApi(`${zouUrl}/admin-withdraw/action`)
 // 走路多多 结束
 
+// 趣走路 开始
+export const qzlReport = createApi(`${qzlUrl}/admin-index/list`); // 获取报表数据
+// 用户
+export const qzlUserList = createApi(`${qzlUrl}/admin-user/list`); // 获取用户列表
+export const qzlUserDetail = createApi(`${qzlUrl}/admin-user/detail`, option); // 获取用户详情
+export const qzlChangeUserGold = createApi(`${qzlUrl}/admin-user/change-gold`, option); // 修改用户金币
+export const qzlGold = createApi(`${qzlUrl}/admin-user/gold`, option); // 获取用户金币明细
+export const qzlChangeUserStatus = createApi(`${qzlUrl}/admin-user/change-status`, option); // 获取用户金币明细
+export const qzlFeedback = createApi(`${qzlUrl}/admin-user/feedback`); // 获取用户反馈
+export const qzlInvited = createApi(`${qzlUrl}/admin-user/invited`); // 获取用户邀请明细
+export const qzlsdkError = createApi(`${qzlUrl}/admin-sdk/list`); // 获取三方错误码
+// 活动
+export const qzlActivity = createApi(`${qzlUrl}/admin-activity/list`) // 获取活动列表
+export const qzlActivityDetail = createApi(`${qzlUrl}/admin-activity/detail`) // 获取活动详情
+export const qzlActivityDetailUpdate = createApi(`${qzlUrl}/admin-activity/detail`) // 添加，更新活动详情
+export const qzlConfig = createApi(`${qzlUrl}/admin-activity/config`)
+export const qzlConfigDetail = createApi(`${qzlUrl}/admin-activity/config-detail`)
+// 版本管理
+export const qzlVersion = createApi(`${qzlUrl}/admin-version/list`) // 获取版本列表
+export const qzlVersionDetail = createApi(`${qzlUrl}/admin-version/detail`) // 获取版本列表
+export const qzlVersionAd = createApi(`${qzlUrl}/admin-version/ad-list`) // 获取版本列表
+export const qzlVersionAdDetail = createApi(`${qzlUrl}/admin-version/ad-detail`) // 获取版本列表
+// 运营位管理
+export const qzlAd = createApi(`${qzlUrl}/admin-ad/list`)
+export const qzlAdDetail = createApi(`${qzlUrl}/admin-ad/detail`)
+// 提现管理
+export const qzlWithdraw = createApi(`${qzlUrl}/admin-withdraw/list`)
+export const qzlWithdrawAction = createApi(`${qzlUrl}/admin-withdraw/action`)
+// 趣走路 结束
+
 // 系统报表 开始
-export const reportRoi = createApi(`${reportUrl}/admin/report/roi`)
+export const reportRoi = createApi(`${adminUrl}/admin/report/roi`)
 // 系统报表 结束
 
 // 天气设置 开始

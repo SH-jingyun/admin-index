@@ -23,7 +23,6 @@ let _dogsUrl = ''
 if (process.env.NODE_ENV === 'production') {
   _baseURL = 'http://www.stepcounter.cn:8010'
   _adminUrl = 'http://ad.stepcounter.cn:8020'
-  _reportUrl = 'http://121.196.24.226:8080'
   _walksURL = 'http://www.stepcounter.cn:8020'
   _zouUrl = 'http://www.zouluduoduo.cn:8020'
   _huiyanUrl = ''
@@ -32,7 +31,6 @@ if (process.env.NODE_ENV === 'production') {
 } else if (process.env.NODE_ENV === 'qa') {
   _baseURL = 'http://test.stepcounter.cn:8001'
   _adminUrl = 'http://test.stepcounter.cn:8002'
-  _reportUrl = 'http://121.196.24.226:8080'
   _walksURL = 'http://test.stepcounter.cn:8003'
   _zouUrl = 'http://test.stepcounter.cn:8004'
   _huiyanUrl = 'http://test.stepcounter.cn:8005'
@@ -44,7 +42,6 @@ export const path = ''
 export const timeout = '15000' // 接口超时限制(ms)
 export const baseURL = _baseURL
 export const adminUrl = _adminUrl
-export const reportUrl = _reportUrl
 export const walksURL = _walksURL
 export const zouUrl = _zouUrl
 export const huiyanUrl = _huiyanUrl
@@ -54,3 +51,5 @@ export const dogsUrl = _dogsUrl
 export const walksOss = 'https://oss.stepcounter.cn/'
 // 走路多多oss
 export const zouOss = 'https://oss.zouluduoduo.cn/'
+// 趣走路oss
+export const qzlOss = 'https://oss-qzl.shpizarro.com/'

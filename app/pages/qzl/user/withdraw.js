@@ -5,8 +5,8 @@ import {
 import TableList from '@tableList';
 import Drawer from '@components/draw/draw'
 import {
-  fetchWithdraw,
-  fetchWithdrawAction,
+  qzlWithdraw,
+  qzlWithdrawAction,
 } from '@apis/manage';
 import { browserHistory } from 'react-router';
 
@@ -46,7 +46,7 @@ export default class app extends Component {
 
   // 获取活动列表数据
   getData(callback) {
-    fetchWithdraw({ ...this.state.searchKey }, (res) => {
+    qzlWithdraw({ ...this.state.searchKey }, (res) => {
       this.setState({
         listResult: res.data,
       });
@@ -55,7 +55,7 @@ export default class app extends Component {
   }
 
   handleSuccess(id) {
-    fetchWithdrawAction({ withdraw_id: id, action: 'success' }, (res) => {
+    qzlWithdrawAction({ withdraw_id: id, action: 'success' }, (res) => {
       this.setState({}, () => {
         this.getData();
       });
@@ -69,7 +69,7 @@ export default class app extends Component {
   handleFailed() {
     this.props.form.validateFields((error, value) => {
       if (error) { return false; }
-      fetchWithdrawAction({ ...value, withdraw_id: this.state.withdraw_id, action: 'failed' }, (res) => {
+      qzlWithdrawAction({ ...value, withdraw_id: this.state.withdraw_id, action: 'failed' }, (res) => {
         this.setState({
           showReason: false,
           withdraw_id: 0,
@@ -115,7 +115,7 @@ export default class app extends Component {
 
     handleBatchDel = () => {
       const ids = this.state.idKeys;
-      fetchWithdrawAction({ action: 'failed', ids: ids }, (res) => {
+      qzlWithdrawAction({ action: 'failed', ids: ids }, (res) => {
         this.setState({ idKeys: [] }, () => {
           this.getData();
         });

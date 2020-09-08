@@ -6,10 +6,10 @@ import TableList from '@tableList';
 import { regExpConfig } from '@reg'
 import Drawer from '@components/draw/draw'
 import {
-  fetchUserList,
-  fetchUserDetail,
-  fetchChangeUserGold,
-  fetchChangeUserStatus,
+  qzlUserList,
+  qzlUserDetail,
+  qzlChangeUserGold,
+  qzlChangeUserStatus,
 } from '@apis/manage';
 import { browserHistory } from 'react-router';
 
@@ -48,7 +48,7 @@ export default class app extends Component {
 
   // 获取活动列表数据
   getData(callback) {
-    fetchUserList({ ...this.state.searchKey }, (res) => {
+    qzlUserList({ ...this.state.searchKey }, (res) => {
       this.setState({
         listResult: res.data,
       });
@@ -57,7 +57,7 @@ export default class app extends Component {
   }
 
   handleInfo(id) {
-    fetchUserDetail({ id: id }, (res) => {
+    qzlUserDetail({ id: id }, (res) => {
       this.setState({
         detail: res.data,
         showDetail: true,
@@ -72,7 +72,7 @@ export default class app extends Component {
   handleChange() {
     this.props.form.validateFields((error, value) => {
       if (error) { return false; }
-      fetchChangeUserGold({ ...value, id: this.state.changeUserId }, () => {
+      qzlChangeUserGold({ ...value, id: this.state.changeUserId }, () => {
         message.success('操作成功');
         this.setState({
           changeUserId: 0,
@@ -107,7 +107,7 @@ export default class app extends Component {
   };
 
   handleStatus(id) {
-    fetchChangeUserStatus({ user_id: id }, () => {
+    qzlChangeUserStatus({ user_id: id }, () => {
       message.success('操作成功');
       this.getData();
     }, (res) => {

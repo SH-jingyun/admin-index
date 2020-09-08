@@ -5,8 +5,8 @@ import {
 import TableList from '@tableList';
 import Drawer from '@components/draw/draw'
 import {
-  fetchVersionAd,
-  fetchVersionAdDetail,
+  qzlVersionAd,
+  qzlVersionAdDetail,
 } from '@apis/manage';
 
 const FormItem = Form.Item
@@ -48,7 +48,7 @@ export default class app extends Component {
 
   // 获取活动列表数据
   getData(callback) {
-    fetchVersionAd({ ...this.state.searchKey }, (res) => {
+    qzlVersionAd({ ...this.state.searchKey }, (res) => {
       this.setState({
         listResult: res.data,
       });
@@ -63,7 +63,7 @@ export default class app extends Component {
   handleSubmit() {
     this.props.form.validateFields((error, value) => {
       if (error) { return false; }
-      fetchVersionAdDetail({ ...value, action: 'add' }, () => {
+      qzlVersionAdDetail({ ...value, action: 'add' }, () => {
         message.success('操作成功');
         // 新增成功
         let curpage = this.state.searchKey.pageNo;
@@ -87,7 +87,7 @@ export default class app extends Component {
   }
 
   handleChange(id, name) {
-    fetchVersionAdDetail({ version_id: id, app_name: name, action: 'change' }, () => {
+    qzlVersionAdDetail({ version_id: id, app_name: name, action: 'change' }, () => {
       message.success('操作成功');
       this.getData();
     }, (res) => {
