@@ -97,7 +97,7 @@ export default class Index extends Component {
               <Button
                 type="primary"
                 style={{ marginRight: '10px' }}
-                onClick={() => browserHistory.push(`/config/${values.activity_type}`)}
+                onClick={() => browserHistory.push(`/qzl-config/${values.activity_type}`)}
               >
                 {' '}
                       规则详情

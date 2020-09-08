@@ -156,7 +156,7 @@ export default class app extends Component {
         title: '金币总数',
         dataIndex: 'totalGold',
         key: 'totalGold',
-        render: (text, record) => (<a onClick={() => browserHistory.push(`/gold/${record.user_id}`)}>{text}</a>),
+        render: (text, record) => (<a onClick={() => browserHistory.push(`/qzl-gold/${record.user_id}`)}>{text}</a>),
       },
       {
         title: '冻结金币数',
