@@ -4,7 +4,7 @@ import { Button, Form, Input, message, Select } from 'antd'
 import { browserHistory } from 'react-router'
 import Drawer from '@components/draw/draw'
 import {
-  fzouActivityDetailUpdate,
+  zouActivityDetailUpdate,
 } from '@apis/manage'
 
 const FormItem = Form.Item
@@ -33,7 +33,7 @@ export default class Index extends Component {
         return;
       }
       this.setState({ loading: true }, () => {
-        fzouActivityDetailUpdate({ ...values, id: this.props.currPeopleId, action: this.props.type }, (res) => {
+        zouActivityDetailUpdate({ ...values, id: this.props.currPeopleId, action: this.props.type }, (res) => {
           message.success('Operation success')
           this.state.loading = false
           this.props.handleOk()
