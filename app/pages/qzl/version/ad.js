@@ -5,10 +5,9 @@ import {
 import TableList from '@tableList';
 import Drawer from '@components/draw/draw'
 import {
-  fetchVersion,
-  fetchVersionDetail,
+  fetchVersionAd,
+  fetchVersionAdDetail,
 } from '@apis/manage';
-import { walksURL, walksOss } from '@config';
 
 const FormItem = Form.Item
 
@@ -30,8 +29,7 @@ export default class app extends Component {
       listResult: {},
       detail: {},
       showDetail: false,
-      detailId: 0,
-      forceUpdateSelect: [{ key: 1, value: '是' }, { key: 0, value: '否' }],
+      adStatusList: [{ key: 1, value: '开启' }, { key: 0, value: '关闭' }],
       //      fileList:[]
     };
   }
@@ -50,7 +48,7 @@ export default class app extends Component {
 
   // 获取活动列表数据
   getData(callback) {
-    fetchVersion({ ...this.state.searchKey }, (res) => {
+    fetchVersionAd({ ...this.state.searchKey }, (res) => {
       this.setState({
         listResult: res.data,
       });
@@ -58,28 +56,18 @@ export default class app extends Component {
     });
   }
 
-  handleInfo(id) {
-    fetchVersionDetail({ id: id }, (res) => {
-      this.setState({
-        detail: res.data,
-        showDetail: true,
-        detailId: id,
-      });
-    });
-  }
-
   add() {
-    this.setState({ detail: {}, showDetail: true, detailId: 0 });
+    this.setState({ detail: {}, showDetail: true});
   }
 
   handleSubmit() {
     this.props.form.validateFields((error, value) => {
       if (error) { return false; }
-      fetchVersionDetail({ ...value, id: this.state.detailId, action: 'edit' }, () => {
+      fetchVersionAdDetail({ ...value, action: 'add' }, () => {
         message.success('操作成功');
         // 新增成功
         let curpage = this.state.searchKey.pageNo;
-        if (this.state.detailId == 0 && this.state.listResult && this.state.listResult.totalCount > 0) {
+        if (this.state.listResult && this.state.listResult.totalCount > 0) {
           curpage = Math.floor(this.state.listResult.totalCount / this.state.searchKey.pageSize) + 1;
         }
         this.setState({
@@ -88,7 +76,6 @@ export default class app extends Component {
             ...this.state.searchKey,
             pageNo: curpage,
           },
-          detailId: 0,
           detail: {},
         }, () => {
           this.getData();
@@ -97,6 +84,15 @@ export default class app extends Component {
         message.warning(res.msg)
       });
     })
+  }
+
+  handleChange(id, name) {
+    fetchVersionAdDetail({ version_id: id, app_name: name, action: 'change' }, () => {
+      message.success('操作成功');
+      this.getData();
+    }, (res) => {
+      message.warning(res.msg)
+    });
   }
 
   // 页数改变事件
@@ -112,13 +108,6 @@ export default class app extends Component {
     this.getData();
   };
 
-  deleteButton = (id) => {
-    fetchVersionDetail({ id: id, action: 'delete' }, () => {
-      message.success('删除成功')
-      this.getData();
-    })
-  }
-
   // 生成表格头部信息
   renderColumn() {
     return [
@@ -128,48 +117,19 @@ export default class app extends Component {
         key: 'version_id',
       },
       {
-        title: '版本名称',
-        dataIndex: 'version_name',
-        key: 'version_name',
+        title: '渠道号',
+        dataIndex: 'app_name',
+        key: 'app_name',
       },
       {
-        title: '强制更新',
-        dataIndex: 'is_force_update',
-        key: 'force_update',
-        render: text => (text === '1' ? '是' : '否'),
-      },
-      {
-        title: 'apk地址',
-        dataIndex: 'version_url',
-        key: 'version_url',
-        render: text => <a href={`${walksOss}${text}`} target="__blank">下载</a>,
-      },
-      {
-        title: '需要更新的版本号',
-        dataIndex: 'need_update_id',
-        key: 'need_update_id',
-      },
-      {
-        title: '更新日志',
-        dataIndex: 'version_log',
-        key: 'version_log',
-      },
-      {
-        title: '创建时间',
-        dataIndex: 'create_time',
-        key: 'create_time',
-      },
-      {
-        title: '操作',
-        key: 'operate',
-        render: (text, record, index) => (
+        title: '是否屏蔽广告（点击修改）',
+        dataIndex: 'ad_status',
+        key: 'ad_status',
+        render: (text, record) => (
           <span>
             <span>
-              <a onClick={() => this.handleInfo(record.id)}>详情</a>
+              <a onClick={() => this.handleChange(record.version_id, record.app_name)}>{text === '1' ? '开启' : '关闭'}</a>
             </span>
-            <Popconfirm title="删除?" onConfirm={() => this.deleteButton(record.id)}>
-              <a>删除</a>
-            </Popconfirm>
           </span>
         ),
       },
@@ -181,29 +141,13 @@ export default class app extends Component {
   render() {
     const {
       listResult,
-      forceUpdateSelect,
+      adStatusList,
     } = this.state;
     // for detail
     const { getFieldDecorator } = this.props.form
     const formItemLayout = {
       labelCol: { span: 10 },
       wrapperCol: { span: 12 },
-    };
-    const uploadApp = {
-      accept: '.apk',
-      name: 'file',
-      action: `${walksURL}/admin-base/upload`,
-      onChange(info) {
-        console.log(info);
-        if (info.file.status !== 'uploading') {
-          console.log(info.file, info.fileList);
-        }
-        if (info.file.status === 'done') {
-          message.success(`${info.file.name} file uploaded successfully`);
-        } else if (info.file.status === 'error') {
-          message.error(`${info.file.name} file upload failed.`);
-        }
-      },
     };
 
     return (
@@ -240,7 +184,7 @@ export default class app extends Component {
         </Layout>
         {this.state.showDetail ? (<Drawer
           visible
-          title={this.state.detailId ? '详情' : '新增'}
+          title="新增"
           onCancel={() => { this.setState({ showDetail: false }) }}
           footer={
             <div>
@@ -257,36 +201,19 @@ export default class app extends Component {
                   rules: [{ required: true, message: '请输入版本号' }],
                 })(<Input placeholder="请输入版本号" />)}
               </FormItem>
-              <FormItem {...formItemLayout} label="版本名称" hasFeedback>
-                {getFieldDecorator('version_name', {
-                  initialValue: this.state.detail.version_name || '',
-                  rules: [{ required: true, message: '请输入版本名称' }],
-                })(<Input placeholder="请输入版本名称" />)}
+              <FormItem {...formItemLayout} label="渠道号" hasFeedback>
+                {getFieldDecorator('app_name', {
+                  initialValue: this.state.detail.app_name || '',
+                  rules: [{ required: true, message: '请输入渠道号' }],
+                })(<Input placeholder="请输入渠道号" />)}
               </FormItem>
-              <FormItem {...formItemLayout} label="是否强制更新" hasFeedback>
-                {getFieldDecorator('is_force_update', {
-                  initialValue: `${this.state.detail.is_force_update || ''}`,
+              <FormItem {...formItemLayout} label="是否屏蔽广告" hasFeedback>
+                {getFieldDecorator('ad_status', {
+                  initialValue: `${this.state.detail.ad_status || ''}`,
                   rules: [{ required: true, message: '请选择是否强制更新' }],
                 })(<Select placeholder="请选择是否强制更新" size="large" allowClear >
-                  {forceUpdateSelect.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.value}</Option>)}
+                  {adStatusList.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.value}</Option>)}
                 </Select>)}
-              </FormItem>
-              <FormItem {...formItemLayout} label="版本apk" hasFeedback>
-                {getFieldDecorator('version_url')(<Upload {...uploadApp}>
-                  <Button>
-                    <Icon type="upload" /> Click to Upload
-                  </Button>
-                </Upload>)}
-              </FormItem>
-              <FormItem {...formItemLayout} label="需要更新的版本号" hasFeedback>
-                {getFieldDecorator('need_update_id', {
-                  initialValue: this.state.detail.need_update_id || '',
-                })(<Input placeholder="请输入需要更新的版本号" />)}
-              </FormItem>
-              <FormItem {...formItemLayout} label="更新日志" hasFeedback>
-                {getFieldDecorator('version_log', {
-                  initialValue: this.state.detail.version_log || '',
-                })(<TextArea rows={4} placeholder="请输入更新日志" />)}
               </FormItem>
             </Form>
           </div>

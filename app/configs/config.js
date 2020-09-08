@@ -5,41 +5,51 @@ export const brandName = 'jingYun' // slogan
 // 开发环境默认配置
 // 当前后台地址
 let _baseURL = 'http://react.com'
+// 后台接口
+let _adminUrl = 'http://localhost:8002'
+// 系统报表接口
+let _reportUrl = 'http://localhost:8002'
 // 计步宝接口
-let _walksURL = 'http://localhost:8001'
-// 狗狗世界接口
-let _dogsUrl = 'http://localhost:8003'
-// 广告系统接口
-let _adUrl = 'http://localhost:8004'
+let _walksURL = 'http://localhost:8003'
 // 走路多多接口
-let _zouUrl = 'http://localhost:8005'
-// report接口
-let _reportUrl = 'http://localhost:8006'
+let _zouUrl = 'http://localhost:8004'
+// 慧眼探探接口
+let _huiyanUrl = 'http://localhost:8005'
+// 趣走路接口
+let _qzlUrl = 'http://localhost:8006'
+// 狗狗世界接口 弃用
+let _dogsUrl = ''
 
 if (process.env.NODE_ENV === 'production') {
   _baseURL = 'http://www.stepcounter.cn:8010'
+  _adminUrl = 'http://ad.stepcounter.cn:8020'
+  _reportUrl = 'http://121.196.24.226:8080'
   _walksURL = 'http://www.stepcounter.cn:8020'
-  _dogsUrl = 'http://www.dogsworld.top:8020'
-  _adUrl = 'http://ad.stepcounter.cn:8020'
   _zouUrl = 'http://www.zouluduoduo.cn:8020'
-  _reportUrl = 'http://121.196.24.226:8080'
+  _huiyanUrl = ''
+  _qzlUrl = ''
+  _dogsUrl = 'http://www.dogsworld.top:8020'
 } else if (process.env.NODE_ENV === 'qa') {
-  _baseURL = 'http://jytest.darkness.ltd:8002'
-  _walksURL = 'http://jytest.darkness.ltd:8001'
-  _dogsUrl = 'http://jytest.darkness.ltd:8003'
-  _adUrl = 'http://jytest.darkness.ltd:8004'
-  _zouUrl = 'http://jytest.darkness.ltd:8005'
+  _baseURL = 'http://jytest.darkness.ltd:8001'
+  _adminUrl = 'http://jytest.darkness.ltd:8002'
   _reportUrl = 'http://121.196.24.226:8080'
+  _walksURL = 'http://jytest.darkness.ltd:8003'
+  _zouUrl = 'http://jytest.darkness.ltd:8004'
+  _huiyanUrl = 'http://jytest.darkness.ltd:8005'
+  _qzlUrl = 'http://jytest.darkness.ltd:8006'
+  // _dogsUrl = 'http://jytest.darkness.ltd:8003'
 }
 
 export const path = ''
 export const timeout = '15000' // 接口超时限制(ms)
 export const baseURL = _baseURL
-export const mockURL = _walksURL
-export const dogsUrl = _dogsUrl
-export const adUrl = _adUrl
-export const zouUrl = _zouUrl
+export const adminUrl = _adminUrl
 export const reportUrl = _reportUrl
+export const mockURL = _walksURL
+export const zouUrl = _zouUrl
+export const huiyanUrl = _huiyanUrl
+export const qzlUrl = _qzlUrl
+export const dogsUrl = _dogsUrl
 // 计步宝oss
 export const walksOss = 'https://oss.stepcounter.cn/'
 // 走路多多oss

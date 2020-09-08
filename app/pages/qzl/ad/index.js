@@ -8,7 +8,7 @@ import {
   fetchAd,
   fetchAdDetail,
 } from '@apis/manage';
-import { walksURL, walksOss } from '@config';
+import { walksOss } from '@config';
 
 const FormItem = Form.Item
 
@@ -194,7 +194,7 @@ export default class app extends Component {
     const uploadImg = {
       accept: '.jpg,.png,.gif',
       name: 'file',
-      action: `${walksURL}/admin-base/upload`,
+      action: `${adminUrl}/admin-base/upload`,
       onChange(info) {
         console.log(info);
         if (info.file.status !== 'uploading') {

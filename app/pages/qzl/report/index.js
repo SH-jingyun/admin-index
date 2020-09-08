@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import {
-  Button, Form, Layout, Input, message, Select, Upload, Icon, Popconfirm,
+  Form, Layout,
 } from 'antd';
 import TableList from '@tableList';
 import {
-  fetchGold,
+  fetchReport,
 } from '@apis/manage';
 
-const FormItem = Form.Item
-
 const { Content } = Layout;
-const { Option } = Select
-const { TextArea } = Input;
 
 @Form.create({})
 // 声明组件  并对外输出
@@ -25,10 +21,6 @@ export default class app extends Component {
         pageNo: 1,
       },
       listResult: {},
-      detail: {},
-      showDetail: false,
-      detailId: 0,
-      forceUpdateSelect: [{ key: 1, value: '是' }, { key: 0, value: '否' }],
       //      fileList:[]
     };
   }
@@ -42,7 +34,7 @@ export default class app extends Component {
 
   // 获取活动列表数据
   getData(callback) {
-    fetchGold({ ...this.state.searchKey, id: this.props.params.id }, (res) => {
+    fetchReport({ ...this.state.searchKey, id: this.props.params.id }, (res) => {
       this.setState({
         listResult: res.data,
       });
@@ -67,19 +59,39 @@ export default class app extends Component {
   renderColumn() {
     return [
       {
-        title: '金币金额',
-        dataIndex: 'value',
-        key: 'value',
+        title: '日期',
+        dataIndex: 'report_date',
+        key: 'report_date',
       },
       {
-        title: '金币来源',
-        dataIndex: 'gSource',
-        key: 'gSource',
+        title: '新用户数',
+        dataIndex: 'new_user',
+        key: 'new_user',
       },
       {
-        title: '明细时间',
-        dataIndex: 'create_time',
-        key: 'create_time',
+        title: '发放金币数',
+        dataIndex: 'new_gold',
+        key: 'new_gold',
+      },
+      {
+        title: '登陆用户数',
+        dataIndex: 'login_user',
+        key: 'login_user',
+      },
+      {
+        title: '提现金额',
+        dataIndex: 'withdraw_value',
+        key: 'withdraw_value',
+      },
+      {
+        title: '提现用户数',
+        dataIndex: 'withdraw_count',
+        key: 'withdraw_count',
+      },
+      {
+        title: '分享用户数',
+        dataIndex: 'share_count',
+        key: 'share_count',
       },
     ];
   }
@@ -90,12 +102,6 @@ export default class app extends Component {
     const {
       listResult,
     } = this.state;
-    // for detail
-    const { getFieldDecorator } = this.props.form
-    const formItemLayout = {
-      labelCol: { span: 10 },
-      wrapperCol: { span: 12 },
-    };
 
     return (
       <div className="page page-scrollfix page-usermanage">

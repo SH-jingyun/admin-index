@@ -8,7 +8,7 @@ import {
   fetchVersion,
   fetchVersionDetail,
 } from '@apis/manage';
-import { walksURL, walksOss } from '@config';
+import { qzlUrl, walksOss } from '@config';
 
 const FormItem = Form.Item
 
@@ -192,7 +192,7 @@ export default class app extends Component {
     const uploadApp = {
       accept: '.apk',
       name: 'file',
-      action: `${walksURL}/admin-base/upload`,
+      action: `${qzlUrl}/admin-base/upload`,
       onChange(info) {
         console.log(info);
         if (info.file.status !== 'uploading') {

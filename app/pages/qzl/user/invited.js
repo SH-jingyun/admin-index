@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import {
-  Button, Form, Layout, Input, message, Select, Upload, Icon, Popconfirm,
+  Form, Layout,
 } from 'antd';
 import TableList from '@tableList';
 import {
-  fetchGold,
+  fetchInvited,
 } from '@apis/manage';
 
-const FormItem = Form.Item
-
 const { Content } = Layout;
-const { Option } = Select
-const { TextArea } = Input;
 
 @Form.create({})
 // 声明组件  并对外输出
@@ -25,10 +21,6 @@ export default class app extends Component {
         pageNo: 1,
       },
       listResult: {},
-      detail: {},
-      showDetail: false,
-      detailId: 0,
-      forceUpdateSelect: [{ key: 1, value: '是' }, { key: 0, value: '否' }],
       //      fileList:[]
     };
   }
@@ -42,7 +34,7 @@ export default class app extends Component {
 
   // 获取活动列表数据
   getData(callback) {
-    fetchGold({ ...this.state.searchKey, id: this.props.params.id }, (res) => {
+    fetchInvited({ ...this.state.searchKey, id: this.props.params.id }, (res) => {
       this.setState({
         listResult: res.data,
       });
@@ -67,17 +59,27 @@ export default class app extends Component {
   renderColumn() {
     return [
       {
-        title: '金币金额',
-        dataIndex: 'value',
-        key: 'value',
+        title: '用户Id',
+        dataIndex: 'user_id',
+        key: 'user_id',
       },
       {
-        title: '金币来源',
-        dataIndex: 'gSource',
-        key: 'gSource',
+        title: '用户昵称',
+        dataIndex: 'u_name',
+        key: 'u_name',
       },
       {
-        title: '明细时间',
+        title: '被邀请用户Id',
+        dataIndex: 'invited_id',
+        key: 'invited_id',
+      },
+      {
+        title: '被邀请用户昵称',
+        dataIndex: 'i_name',
+        key: 'i_name',
+      },
+      {
+        title: '邀请时间',
         dataIndex: 'create_time',
         key: 'create_time',
       },
@@ -90,12 +92,6 @@ export default class app extends Component {
     const {
       listResult,
     } = this.state;
-    // for detail
-    const { getFieldDecorator } = this.props.form
-    const formItemLayout = {
-      labelCol: { span: 10 },
-      wrapperCol: { span: 12 },
-    };
 
     return (
       <div className="page page-scrollfix page-usermanage">

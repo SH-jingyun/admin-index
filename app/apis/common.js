@@ -1,14 +1,14 @@
 
 import { createApi } from '@ajax'
-import { mockURL, /* baseURL, */ path, adUrl } from '@config'
+import { baseURL, /* baseURL, */ path, adminUrl } from '@config'
 
 const prefix = 'usercenter'
-const option = { baseURL: mockURL }
+const option = { baseURL: baseURL }
 
-export const login = createApi(`${mockURL}/admin-base/login`) // 登陆
-export const logout = createApi(`${adUrl}/admin/base/logout`) // 登出
-export const staff = createApi(`${adUrl}/admin/base/userInfo`) // 用户信息
-export const menu = createApi(`${adUrl}/admin/base/menu`) // 菜单
+export const login = createApi(`${adminUrl}/admin-base/login`) // 登陆
+export const logout = createApi(`${adminUrl}/admin/base/logout`) // 登出
+export const staff = createApi(`${adminUrl}/admin/base/userInfo`) // 用户信息
+export const menu = createApi(`${adminUrl}/admin/base/menu`) // 菜单
 
 export const loginByTicket = createApi(`${path}/${prefix}/loginByTicket`, option) // 通过ticket登陆
 export const loginByKey = createApi(`${path}/service/pagerservice/checkKey`, option) // 通过key进入项目

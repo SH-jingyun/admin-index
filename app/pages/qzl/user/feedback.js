@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import {
-  Button, Form, Layout, Input, message, Select, Upload, Icon, Popconfirm,
+  Form, Layout,
 } from 'antd';
 import TableList from '@tableList';
 import {
-  fetchGold,
+  fetchFeedback,
 } from '@apis/manage';
-
-const FormItem = Form.Item
+import { walksOss } from '@config';
 
 const { Content } = Layout;
-const { Option } = Select
-const { TextArea } = Input;
 
 @Form.create({})
 // 声明组件  并对外输出
@@ -25,10 +22,6 @@ export default class app extends Component {
         pageNo: 1,
       },
       listResult: {},
-      detail: {},
-      showDetail: false,
-      detailId: 0,
-      forceUpdateSelect: [{ key: 1, value: '是' }, { key: 0, value: '否' }],
       //      fileList:[]
     };
   }
@@ -42,7 +35,7 @@ export default class app extends Component {
 
   // 获取活动列表数据
   getData(callback) {
-    fetchGold({ ...this.state.searchKey, id: this.props.params.id }, (res) => {
+    fetchFeedback({ ...this.state.searchKey, id: this.props.params.id }, (res) => {
       this.setState({
         listResult: res.data,
       });
@@ -67,17 +60,55 @@ export default class app extends Component {
   renderColumn() {
     return [
       {
-        title: '金币金额',
-        dataIndex: 'value',
-        key: 'value',
+        title: '用户Id',
+        dataIndex: 'user_id',
+        key: 'user_id',
       },
       {
-        title: '金币来源',
-        dataIndex: 'gSource',
-        key: 'gSource',
+        title: '手机品牌',
+        dataIndex: 'brand',
+        key: 'brand',
       },
       {
-        title: '明细时间',
+        title: '手机型号',
+        dataIndex: 'model',
+        key: 'model',
+      },
+      {
+        title: '手机号',
+        dataIndex: 'phone_number',
+        key: 'phone_number',
+      },
+      {
+        title: '反馈内容',
+        dataIndex: 'content',
+        key: 'content',
+      },
+      {
+        title: '反馈手机号',
+        dataIndex: 'phone',
+        key: 'phone',
+      },
+      {
+        title: '反馈图片1',
+        dataIndex: 'image_1',
+        key: 'image_1',
+        render: text => (text ? <img className="auto_img" src={`${walksOss}/${text}`} /> : ''),
+      },
+      {
+        title: '反馈图片2',
+        dataIndex: 'image_2',
+        key: 'image_2',
+        render: text => (text ? <img className="auto_img" src={`${walksOss}/${text}`} /> : ''),
+      },
+      {
+        title: '反馈图片3',
+        dataIndex: 'image_3',
+        key: 'image_3',
+        render: text => (text ? <img className="auto_img" src={`${walksOss}/${text}`} /> : ''),
+      },
+      {
+        title: '发生时间',
         dataIndex: 'create_time',
         key: 'create_time',
       },
@@ -90,12 +121,6 @@ export default class app extends Component {
     const {
       listResult,
     } = this.state;
-    // for detail
-    const { getFieldDecorator } = this.props.form
-    const formItemLayout = {
-      labelCol: { span: 10 },
-      wrapperCol: { span: 12 },
-    };
 
     return (
       <div className="page page-scrollfix page-usermanage">

@@ -4,9 +4,10 @@ import {
   Form, Layout, Select, message, Upload, Icon, Input, Checkbox,
 } from 'antd';
 import {
-  reportRoi,
+  tqwUploadImg,
 } from '@apis/manage';
-import { mockURL } from '@config';
+import { adminUrl } from '@config';
+import { browserHistory } from "react-router";
 
 const FormItem = Form.Item
 const { Content } = Layout;
@@ -29,40 +30,6 @@ export default class app extends Component {
     //   this.getData();
     // });
   }
-    // 搜索
-    handleSearch = (e) => {
-      e.preventDefault();
-      const advertiserId = this.props.form.getFieldValue('advertiser_id');
-      const adId = this.props.form.getFieldValue('ad_id');
-      const adRoi = this.props.form.getFieldValue('ad_roi');
-      const adRoiVal = this.props.form.getFieldValue('ad_roi_val');
-      this.setState(
-        {
-          searchKey: {
-            ...this.state.searchKey,
-            advertiser_id: advertiserId,
-            ad_id: adId,
-            ad_roi: adRoi,
-            ad_roi_val: adRoiVal,
-            pageNo: 1,
-          },
-        },
-        () => {
-          this.getData();
-        },
-      );
-    };
-
-  // 获取活动列表数据
-    getData(callback) {
-      reportRoi({ ...this.state.searchKey }, (res) => {
-        this.setState({
-          listResult: res.data,
-        });
-        callback && callback();
-      });
-    }
-
     // 页数改变事件
     pageChange = (newPage) => {
       this.state.searchKey.pageNo = newPage;
@@ -98,7 +65,7 @@ export default class app extends Component {
       const uploadApp = {
         accept: '.jpg,.png,.gif,.jfif,.jpeg',
         name: 'file',
-        action: `${mockURL}/admin-base/upload`,
+        action: `${adminUrl}/admin/base/upload`,
         onChange(info) {
           console.log(info);
           if (info.file.status !== 'uploading') {
@@ -115,13 +82,9 @@ export default class app extends Component {
         e.preventDefault();
         this.props.form.validateFields((error, values) => {
           if (error) { return false; }
-          fetchTqwUploadImg({ ...values }, (res) => {
-            this.setState({
-              showReason: false,
-              withdraw_id: 0,
-            }, () => {
-              this.getData();
-            });
+          tqwUploadImg({ ...values }, () => {
+            message.success('操作成功');
+            // browserHistory.push('/');
           });
         });
       }
