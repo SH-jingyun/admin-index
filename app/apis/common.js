@@ -5,7 +5,7 @@ import { baseURL, /* baseURL, */ path, adminUrl } from '@config'
 const prefix = 'usercenter'
 const option = { baseURL: baseURL }
 
-export const login = createApi(`${adminUrl}/admin-base/login`) // 登陆
+export const login = createApi(`${adminUrl}/admin/base/login`) // 登陆
 export const logout = createApi(`${adminUrl}/admin/base/logout`) // 登出
 export const staff = createApi(`${adminUrl}/admin/base/userInfo`) // 用户信息
 export const menu = createApi(`${adminUrl}/admin/base/menu`) // 菜单
