@@ -30,14 +30,14 @@ if (process.env.NODE_ENV === 'production') {
   _qzlUrl = ''
   _dogsUrl = 'http://www.dogsworld.top:8020'
 } else if (process.env.NODE_ENV === 'qa') {
-  _baseURL = 'http://jytest.darkness.ltd:8001'
-  _adminUrl = 'http://jytest.darkness.ltd:8002'
+  _baseURL = 'http://test.stepcounter.cn:8001'
+  _adminUrl = 'http://test.stepcounter.cn:8002'
   _reportUrl = 'http://121.196.24.226:8080'
-  _walksURL = 'http://jytest.darkness.ltd:8003'
-  _zouUrl = 'http://jytest.darkness.ltd:8004'
-  _huiyanUrl = 'http://jytest.darkness.ltd:8005'
-  _qzlUrl = 'http://jytest.darkness.ltd:8006'
-  // _dogsUrl = 'http://jytest.darkness.ltd:8003'
+  _walksURL = 'http://test.stepcounter.cn:8003'
+  _zouUrl = 'http://test.stepcounter.cn:8004'
+  _huiyanUrl = 'http://test.stepcounter.cn:8005'
+  _qzlUrl = 'http://test.stepcounter.cn:8006'
+  // _dogsUrl = 'http://test.stepcounter.cn:8003'
 }
 
 export const path = ''
