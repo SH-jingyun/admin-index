@@ -8,7 +8,7 @@ import {
   zouAd,
   zouAdDetail,
 } from '@apis/manage';
-import { zouUrl } from '@config';
+import { zouUrl, zouOss } from '@config';
 
 const FormItem = Form.Item
 
@@ -135,7 +135,7 @@ export default class app extends Component {
         dataIndex: 'advertise_image',
         key: 'advertise_image',
         // eslint-disable-next-line jsx-a11y/alt-text
-        render: text => (text ? <img className="auto_img" src={`${zouUrl}/${text}`} /> : ''),
+        render: text => (text ? <img className="auto_img" src={`${zouOss}${text}`} /> : ''),
       },
       {
         title: '跳转链接',

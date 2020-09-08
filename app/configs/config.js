@@ -7,8 +7,6 @@ export const brandName = 'jingYun' // slogan
 let _baseURL = 'http://react.com'
 // 后台接口
 let _adminUrl = 'http://localhost:8002'
-// 系统报表接口
-let _reportUrl = 'http://localhost:8002'
 // 计步宝接口
 let _walksURL = 'http://localhost:8003'
 // 走路多多接口
