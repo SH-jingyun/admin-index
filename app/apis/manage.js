@@ -92,5 +92,5 @@ export const reportRoi = createApi(`${reportUrl}/admin/report/roi`)
 // 系统报表 结束
 
 // 天气设置 开始
-export const tqwUploadImg = createApi(`${adUrl}/admin/tqw/img`) 
+export const tqwUploadImg = createApi(`${adminUrl}/admin/tqw/img`)
 // 天气设置 结束
