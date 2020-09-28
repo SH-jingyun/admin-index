@@ -24,6 +24,7 @@ export default class app extends Component {
       searchKey: {
         method: '',
         status: '',
+        userId: '',
         pageSize: 10,
         pageNo: 1,
       },
@@ -84,12 +85,14 @@ export default class app extends Component {
     e.preventDefault();
     const status = this.props.form.getFieldValue('status');
     const method = this.props.form.getFieldValue('method');
+    const userId = this.props.form.getFieldValue('user_id');
     this.setState(
       {
         searchKey: {
           ...this.state.searchKey,
           status: status,
           method: method,
+          userId: userId,
           pageNo: 1,
         },
       },
@@ -241,6 +244,9 @@ export default class app extends Component {
               <div className="page-header">
                 <div className="layout-between">
                   <Form className="flexrow" onSubmit={this.handleSearch}>
+                    <FormItem labelCol={{ span: 12 }} wrapperCol={{ span: 12 }} label="用户Id" style={{ width: '200px' }}>
+                      {getFieldDecorator('user_id')(<Input />)}
+                    </FormItem>
                     <FormItem labelCol={{ span: 12 }} wrapperCol={{ span: 12 }} label="提现状态" style={{ width: '200px' }}>
                       {getFieldDecorator('status')(<Select placeholder="All" size="large" allowClear >
                         {statusSelect.map(item => <Option value={item.key.toString()} key={item.key.toString()} selected>{item.key}</Option>)}
