@@ -21,7 +21,7 @@ let _dogsUrl = ''
 if (process.env.NODE_ENV === 'production') {
   _baseURL = 'http://www.stepcounter.cn:8010'
   _adminUrl = 'https://ad.stepcounter.cn:4420'
-  _walksURL = 'http://www.stepcounter.cn:8020'
+  _walksURL = 'https://www.stepcounter.cn:4420'
   _zouUrl = 'http://www.zouluduoduo.cn:8020'
   _huiyanUrl = ''
   _qzlUrl = ''
